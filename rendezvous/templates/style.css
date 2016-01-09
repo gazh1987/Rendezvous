@@ -1,0 +1,29 @@
+body
+{
+    padding: 0;
+    margin: 0;
+}
+
+html, body
+{
+    height: 100%;
+}
+
+h3
+{
+	color: #ffffff;
+}
+
+.navbar
+{
+	background-color:#257dc9;
+	color:#ffffff;
+	border:none;
+}
+
+#map
+{
+	margin-top:-20px;
+    height: 100%;
+}
+

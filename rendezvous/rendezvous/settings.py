@@ -39,6 +39,9 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = 'restApi.RendezvousUsers'
 
+#TODO: change this to whitelist for full version
+CORS_ORIGIN_ALLOW_ALL = True
+
 #Email settings
 #TODO: create a proper email e.g. rendezvous@gmail.com
 DEFAULT_EMAIL_FROM = 'gazh1987@gmail.com'
@@ -52,6 +55,8 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 SERVER_EMAIL = 'gazh1987@gmail.com'
 
+
+
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.gis',
@@ -62,6 +67,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.gis.db.backends.postgis',
     'rest_framework',
+    'corsheaders',
     'rest_framework.authtoken',
     'authemail',
     'restApi'
@@ -74,7 +80,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware'
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware'
 )
 
 ROOT_URLCONF = 'rendezvous.urls'

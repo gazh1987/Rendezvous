@@ -10,7 +10,7 @@ class MyUserAdmin(EmailUserAdmin):
                                        'is_superuser', 'is_verified',
                                        'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
-        ('Custom info', {'fields': ('last_known_position',)}),
+        ('Custom info', {'fields': ('last_known_position', 'phone_number')}),
     )
 
 admin.site.unregister(get_user_model())
