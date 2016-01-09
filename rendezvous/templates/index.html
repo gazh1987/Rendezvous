@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+    <script src="loginHandler.js"></script>
+
+    <title>Login Page</title>
+</head>
+
+<body>
+    <div data-role="page" id="login">
+        <div data-role="header">
+            <h1>Rendezvous</h1>
+        </div>
+
+        <div data-role="main" class="ui-content">
+            <form id="login">
+                <label>Enter your email and password to login</label>
+                <input type="text" name="email" id="email" placeholder="Email">
+                <input type="password" name="password" id="password" placeholder="Password">
+                <input type="submit" value="Login">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
