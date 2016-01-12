@@ -56,7 +56,7 @@ EMAIL_HOST_PASSWORD = 'garyanthony'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 SERVER_EMAIL = 'gazh1987@gmail.com'
-
+#TODO: Make it so the either the app is redirected to the users device when user confirms email, or the user recieves a second email saying thank you for registering
 
 
 INSTALLED_APPS = (

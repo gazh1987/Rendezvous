@@ -14,8 +14,7 @@ $(document).ready(function() {
             contentType: "application/json",
             url: "http://localhost:8000/login/",
             success: function(data){
-                document.cookie = data.token;
-                window.location.assign("main.html");
+                setCurrentUserAndRedirect(data.token);
             },
             error: function(data){
                 $("#loginFail").text("Unable to login with details provided. Please try again.");
@@ -59,6 +58,28 @@ $(document).ready(function() {
         });
     });
 });
+
+function setCurrentUserAndRedirect(token)
+{
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        headers: {'Authorization': 'token ' + token},
+        contentType: "application/json",
+        url: "http://localhost:8000/users/me/",
+        success: function(data){
+            //TODO: trying to pass user object to main.html using locationStorage.
+            var user = new User(data.first_name, data.last_name, data.email, token);
+            localStorage.setItem('user', JSON.stringify(user));
+
+            window.location.assign("main.html");
+        },
+        error: function(data){
+            $("#loginFail").text("Unable to login with details provided. Please try again.");
+        }
+    });
+}
+
 
 function validityCheck(firstName, lastName, email, password, passwordCheck)
 {
