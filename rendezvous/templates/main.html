@@ -29,10 +29,9 @@
 		<script>
             $(document).ready(function()
             {
+                //Create a new map
                 var m = new Map();
-
-                var currentuser = JSON.parse(localStorage.getItem('user'));
-                console.log(currentuser);
+                setTimeout(function(){console.log(m.getUser()) }, 3000);
             });
 
 		</script>
