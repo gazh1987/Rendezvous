@@ -4,12 +4,6 @@ var Map = function()
     var loginData = JSON.parse(localStorage.getItem('user'));
     var currentUser = new User(loginData.firstName,  loginData.lastName, loginData.email, loginData.auth_token);
 
-    //Getter
-    this.getUser = function()
-    {
-        return currentUser;
-    }
-
     var map = L.map('map', { zoomControl:false });
 
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -22,6 +16,7 @@ var Map = function()
         L.marker(e.latlng).addTo(map);
         L.circle(e.latlng, radius).addTo(map);
         currentUser.latlng = e.latlng;
+        currentUser.PostLastKnownPosition(currentUser);
     }
 
     function onLocationError(e)

@@ -13,7 +13,7 @@ urlpatterns = format_suffix_patterns([
         name='users-list'),
 
     #/users/pk/
-    url(r'^users/(?P<pk>[0-9]+)/$',
+    url(r'^users/(?P<email>.+)/$',
         views.UsersDetail.as_view(),
         name='users-detail'),
 

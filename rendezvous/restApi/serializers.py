@@ -7,5 +7,5 @@ class UserSerializer(UserSerializer,serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = RendezvousUsers
-        fields = ('id', 'url', 'email', 'first_name', 'last_name', 'last_known_position')
+        fields = ('email', 'first_name', 'last_name', 'last_known_position')
 

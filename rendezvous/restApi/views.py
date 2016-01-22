@@ -21,7 +21,7 @@ class UsersDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = RendezvousUsers.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
-
+    lookup_field = ('email')
 
 #Api Root
 @api_view(('GET',))
