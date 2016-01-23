@@ -48,7 +48,7 @@ var Map = function()
         navigator.geolocation.getCurrentPosition(onSuccess, onError, myOptions);
     }
 
-    map.locate({setView: true, maxZoom: 24, timeout:10000, enableHighAccuracy: true, watch: true});
+    map.locate({setView: true, maxZoom: 24, timeout:600000, enableHighAccuracy: true, watch: true});
     map.on('locationfound', onLocationFound);
     map.on('locationerror', onLocationError);
     map.on('click', onMapClick);
