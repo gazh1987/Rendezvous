@@ -6,6 +6,14 @@ var Map = function()
 
     var map = L.map('map', { zoomControl:false });
 
+    var userMarker = L.icon({
+        iconUrl: 'userMarker.png',
+
+        iconSize: [20, 20],
+        iconAnchor: [10, 10],
+        popupAnchor: [-1, -1]
+    });
+
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18
     }).addTo(map);
@@ -13,7 +21,7 @@ var Map = function()
     function onLocationFound(e)
     {
         var radius = e.accuracy / 2;
-        L.marker(e.latlng).addTo(map);
+        L.marker(e.latlng, {icon: userMarker}).addTo(map);
         L.circle(e.latlng, radius).addTo(map);
         currentUser.latlng = e.latlng;
         currentUser.PostLastKnownPosition(currentUser);
@@ -40,7 +48,7 @@ var Map = function()
         navigator.geolocation.getCurrentPosition(onSuccess, onError, myOptions);
     }
 
-    map.locate({setView: true, maxZoom: 16, timeout:600000, enableHighAccuracy: true});
+    map.locate({setView: true, maxZoom: 24, timeout:10000, enableHighAccuracy: true, watch: true});
     map.on('locationfound', onLocationFound);
     map.on('locationerror', onLocationError);
     map.on('click', onMapClick);

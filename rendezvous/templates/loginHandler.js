@@ -53,6 +53,7 @@ $(document).ready(function() {
                 window.location.assign("#login");
             },
             error: function(data){
+                console.log(data.responseText);
                 $("#registerFail").text(data);
             }
         });
