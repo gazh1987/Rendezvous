@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
-#Rendezous
+#Rendezvous
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -52,7 +52,7 @@ DEFAULT_EMAIL_BCC = ''
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'gazh1987@gmail.com'
-EMAIL_HOST_PASSWORD = '' #Add password when registering new users
+EMAIL_HOST_PASSWORD = 'garyanthony' #Add password when registering new users
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 SERVER_EMAIL = 'gazh1987@gmail.com'

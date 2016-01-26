@@ -24,61 +24,65 @@ $(document).ready(function() {
 
     //registrationHandler
     $("#register").submit(function(event){
-        event.preventDefault();
-        var firstName = $("#firstName").val();
-        var lastName = $("#lastName").val();
-        var email = $("#regEmail").val();
-        var phoneNum = $("#regPhoneNumber").val();
-        var password = $("#regPassword").val();
-        var passwordCheck = $("#passwordCheck").val();
+        var isOffline = 'onLine' in navigator && !navigator.onLine;
 
-        var vCheck = validityCheck(firstName, lastName, email, phoneNum, password, passwordCheck);
-        var pCheck = phoneNumberCheck(phoneNum);
-
-        console.log(pCheck);
-
-        //YOU ARE HERE, pCheck isnt working
-        if (vCheck != "PASSED" || pCheck == "200")
+        //Check if device is online
+        if ( isOffline )
         {
-            $("#registerFail").text("Can not register these details. Please try again.");
-            return false;
+            $("#registerFail").text("Can not register if your device is offline. Please connect to the internet and try again.");
         }
-
-        var parameters = {email : email, password : password, first_name : firstName, last_name : lastName};
-        var phoneNumberParameters = {phone_number : phoneNum, email : email };
-
-        //Post details to phone numbers table, do this synchronously so we can stop the registration process
-        //should the POST fail
-        var client = new XMLHttpRequest();
-        client.open("POST", "http://localhost:8000/rendezvous/phoneNumbers/", false);
-        client.setRequestHeader("Content-Type", "application/json");
-        client.send(JSON.stringify(phoneNumberParameters));
-
-        console.log(client.status);
-        if (client.status != "201")
+        else
         {
-            $("#registerFail").text("Can not register these details. Please try again.");
-            return false;
-        }
+            event.preventDefault();
+            var firstName = $("#firstName").val();
+            var lastName = $("#lastName").val();
+            var email = $("#regEmail").val();
+            var phoneNum = $("#regPhoneNumber").val();
+            var password = $("#regPassword").val();
+            var passwordCheck = $("#passwordCheck").val();
 
-        //Post deatails to rendezvous users table
-        $.ajax({
-            type: "POST",
-            data: JSON.stringify(parameters),
-            dataType: "json",
-            contentType: "application/json",
-            url: "http://localhost:8000/signup/",
-            success: function(data){
-                //registerPass
-                $("#registerPass").text("You have succesfully registered your details. Please go to you email and click the link" +
-                    " to complete your registration. Then, enter your login details here to use the app. Thank you for registering.");
-                window.location.assign("#login");
-            },
-            error: function(data){
-                console.log(data.responseText);
-                $("#registerFail").text(data);
+            var vCheck = validityCheck(firstName, lastName, email, phoneNum, password, passwordCheck);
+            var pCheck = phoneNumberCheck(phoneNum);
+
+            if (vCheck != "PASSED" || pCheck == "200") {
+                $("#registerFail").text("Can not register these details. Please try again.");
+                return false;
             }
-        });
+
+            var parameters = {email: email, password: password, first_name: firstName, last_name: lastName};
+            var phoneNumberParameters = {phone_number: phoneNum, email: email};
+
+            //Post details to phone numbers table, do this synchronously so we can stop the registration process
+            //should the POST fail
+            var client = new XMLHttpRequest();
+            client.open("POST", "http://localhost:8000/rendezvous/phoneNumbers/", false);
+            client.setRequestHeader("Content-Type", "application/json");
+            client.send(JSON.stringify(phoneNumberParameters));
+
+            if (client.status != "201")
+            {
+                $("#registerFail").text("Registration Failed. Please try again.");
+                return false;
+            }
+
+            //Post details to rendezvous users table
+            $.ajax({
+                type: "POST",
+                data: JSON.stringify(parameters),
+                dataType: "json",
+                contentType: "application/json",
+                url: "http://localhost:8000/signup/",
+                success: function (data) {
+                    //registerPass
+                    $("#registerPass").text("You have succesfully registered your details. Please go to you email and click the link" +
+                        " to complete your registration. Then, enter your login details here to use the app. Thank you for registering.");
+                    window.location.assign("#login");
+                },
+                error: function (data) {
+                    $("#registerFail").text("Registration Failed. Please try again.");
+                }
+            });
+        }
     });
 });
 
@@ -144,5 +148,6 @@ function validityCheck(firstName, lastName, email, phoneNum, password, passwordC
     {
         return "Your password and password check does not match. Please try again";
     }
+
     return "PASSED";
 }

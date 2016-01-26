@@ -13,6 +13,7 @@ class RendezvousUsers(EmailAbstractUser):
     objects = EmailUserManager()
 
 
+# A look-up table to easily map phone numbers to email accounts
 class PhoneNumbers(models.Model):
     phone_number = models.CharField(max_length=25, primary_key=True)
     email = models.CharField(max_length=100)

@@ -1,8 +1,6 @@
-﻿DELETE FROM "restApi_rendezvoususers" 
-WHERE id = 9;
+﻿DELETE FROM "restApi_rendezvoususers";
+DELETE FROM "authemail_signupcode";
+DELETE FROM "restApi_phonenumbers";
 
-DELETE FROM "authemail_signupcode"
-WHERE user_id = 9;
-
+select * from "restApi_rendezvoususers";
 select * from "authemail_signupcode";
-select * from "restApi_rendezvoususers"; 
