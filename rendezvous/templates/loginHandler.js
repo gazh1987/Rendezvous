@@ -28,18 +28,40 @@ $(document).ready(function() {
         var firstName = $("#firstName").val();
         var lastName = $("#lastName").val();
         var email = $("#regEmail").val();
+        var phoneNum = $("#regPhoneNumber").val();
         var password = $("#regPassword").val();
         var passwordCheck = $("#passwordCheck").val();
 
-        var vCheck = validityCheck(firstName, lastName, email, password, passwordCheck);
-        if (vCheck != "PASSED")
+        var vCheck = validityCheck(firstName, lastName, email, phoneNum, password, passwordCheck);
+        var pCheck = phoneNumberCheck(phoneNum);
+
+        console.log(pCheck);
+
+        //YOU ARE HERE, pCheck isnt working
+        if (vCheck != "PASSED" || pCheck == "200")
         {
-            $("#registerFail").text(vCheck);
+            $("#registerFail").text("Can not register these details. Please try again.");
             return false;
         }
 
         var parameters = {email : email, password : password, first_name : firstName, last_name : lastName};
+        var phoneNumberParameters = {phone_number : phoneNum, email : email };
 
+        //Post details to phone numbers table, do this synchronously so we can stop the registration process
+        //should the POST fail
+        var client = new XMLHttpRequest();
+        client.open("POST", "http://localhost:8000/rendezvous/phoneNumbers/", false);
+        client.setRequestHeader("Content-Type", "application/json");
+        client.send(JSON.stringify(phoneNumberParameters));
+
+        console.log(client.status);
+        if (client.status != "201")
+        {
+            $("#registerFail").text("Can not register these details. Please try again.");
+            return false;
+        }
+
+        //Post deatails to rendezvous users table
         $.ajax({
             type: "POST",
             data: JSON.stringify(parameters),
@@ -69,7 +91,6 @@ function setCurrentUserAndRedirect(token)
         contentType: "application/json",
         url: "http://localhost:8000/users/me/",
         success: function(data){
-            //TODO: trying to pass user object to main.html using locationStorage.
             var user = new User(data.first_name, data.last_name, data.email, token);
             localStorage.setItem('user', JSON.stringify(user));
 
@@ -81,8 +102,19 @@ function setCurrentUserAndRedirect(token)
     });
 }
 
+function phoneNumberCheck(num)
+{
+    //Synchronous call to check if found number exists and return the request status to check if
+    //the status code is 200. If the code is 200, the number exists and the registration will fail.
+    var request = new XMLHttpRequest();
+    request.open('GET', 'http://localhost:8000/rendezvous/phoneNumbers/' + num + '/', false);
+    request.send(null);
 
-function validityCheck(firstName, lastName, email, password, passwordCheck)
+    return request.status;
+}
+
+
+function validityCheck(firstName, lastName, email, phoneNum, password, passwordCheck)
 {
     if (firstName == "" || firstName == null)
     {
@@ -95,6 +127,10 @@ function validityCheck(firstName, lastName, email, password, passwordCheck)
     if (email == "" || email == null)
     {
         return "You did not enter an email address. Please try again";
+    }
+    if (phoneNum == "" || phoneNum == null)
+    {
+        return "You did not enter a phone number. Please try again";
     }
     if (password == "" || password == null)
     {

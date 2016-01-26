@@ -17,6 +17,16 @@ urlpatterns = format_suffix_patterns([
         views.UsersDetail.as_view(),
         name='users-detail'),
 
+    #/phoneNumbers/
+    url(r'^phoneNumbers/$',
+        views.PhoneNumberList.as_view(),
+        name='phoneNumbers-list'),
+
+    #/phoneNumbers/pk/
+    url(r'^phoneNumbers/(?P<phone_number>.+)/$',
+        views.PhoneNumberDetail.as_view(),
+        name='phoneNumbers-detail')
+
     #POST /login/
     #GET /users/me
     #POST /signup/
