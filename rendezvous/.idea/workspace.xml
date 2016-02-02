@@ -4,24 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/templates/loginHandler.js" description="$(document).ready(function() {" line="0" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35980e39-59a6-40a0-bbdf-637ce62c7ab9" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/www/friendMarker.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/www/userMarker.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/www/Map.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/www/RendezvousUsers.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/www/User.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/www/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/www/loginHandler.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/www/main.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/www/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/Map.js" afterPath="$PROJECT_DIR$/templates/Map.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/RendezvousUsers.js" afterPath="$PROJECT_DIR$/templates/RendezvousUsers.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/main.html" afterPath="$PROJECT_DIR$/templates/main.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../req.txt" afterPath="$PROJECT_DIR$/../req.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/restApi/serializers.py" afterPath="$PROJECT_DIR$/restApi/serializers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rendezvous/settings.py" afterPath="$PROJECT_DIR$/rendezvous/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="35980e39-59a6-40a0-bbdf-637ce62c7ab9" name="Default" comment="" />
     <ignored path="rendezvous.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -1766,9 +1749,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24546827" sideWeight="0.6708229" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24546827" sideWeight="0.6708229" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32482994" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3707483" sideWeight="0.50755286" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
