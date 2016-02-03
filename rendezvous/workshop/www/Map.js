@@ -3,6 +3,8 @@ var Map = function()
     //Create a new User from login details
     var loginData = JSON.parse(localStorage.getItem('user'));
     var currentUser = new User(loginData.firstName,  loginData.lastName, loginData.email, loginData.auth_token);
+    var firstLocationFound = true;
+    var trackFriendsId;
 
     var map = L.map('map', { zoomControl:false });
 
@@ -26,11 +28,23 @@ var Map = function()
         maxZoom: 18
     }).addTo(map);
 
+    var uMkr;
+    var uCir;
     function onLocationFound(e)
     {
         var radius = e.accuracy / 2;
-        L.marker(e.latlng, {icon: userMarker}).bindPopup("<b>You</b><br><p>"+ currentUser.email + "</p>").addTo(map);
-        L.circle(e.latlng, radius).addTo(map);
+
+        if (!uMkr)
+        {
+            console.log("firstLocationFound");
+            uMkr = L.marker(e.latlng, {icon: userMarker}).bindPopup("<b>You</b><br><p>"+ currentUser.email + "</p>").addTo(map);
+            uCir = L.circle(e.latlng, radius).addTo(map);
+        }
+
+        uMkr.setLatLng(e.latlng).update();
+        uCir.setLatLng(e.latlng);
+        /*L.marker(e.latlng, {icon: userMarker}).bindPopup("<b>You</b><br><p>"+ currentUser.email + "</p>").update();
+        L.circle(e.latlng, radius).addTo(map);*/
 
         currentUser.latlng = e.latlng;
         currentUser.PostLastKnownPosition(currentUser);
@@ -74,7 +88,6 @@ var Map = function()
             longitude : lon
         };
         return coords;
-        //return latlng;
     };
 
     //JQuery functions
@@ -82,8 +95,22 @@ var Map = function()
 
         //GetLatKnownLocation Function
         $("#getFriend").click(function(event) {
+            console.log("Preparing to track friends. Wait 10 seconds.")
+            trackFriendsId = setInterval(trackFriends, 10000);
+        });
 
-            $.ajax({type: "GET",
+        $("#untrackFriend").click(function(event){
+            console.log("unTrackFriends")
+            clearInterval(trackFriendsId);
+        });
+
+    });
+
+    function trackFriends()
+    {
+        console.log("trackFriends Function");
+
+        $.ajax({type: "GET",
                 dataType: "json",
                 headers: { 'Authorization': 'Token ' + currentUser.auth_token},
                 contentType: "application/json",
@@ -106,8 +133,7 @@ var Map = function()
                     console.log("unable to retrieve friends location");
                 }
              });
-        });
-    });
+    }
 
     map.locate({setView: true, zoom: 14, timeout:600000, enableHighAccuracy: true, watch: true});
     map.on('locationfound', onLocationFound);

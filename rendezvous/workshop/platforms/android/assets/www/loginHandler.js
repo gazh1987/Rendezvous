@@ -3,9 +3,10 @@ $(document).ready(function() {
     //Login handler
     $("#login").submit(function(event){
         event.preventDefault();
-        var email = $("#email").val();
+        var email = $("#email").val().toLowerCase();
         var password = $("#password").val();
         var parameters = {email : email, password : password};
+        console.log(parameters);
 
         $.ajax({
             type: "POST",
@@ -18,6 +19,7 @@ $(document).ready(function() {
                 setCurrentUserAndRedirect(data.token);
             },
             error: function(data){
+                console.log(data);
                 $("#loginFail").text("Unable to login with details provided. Please try again.");
             }
         });
@@ -37,7 +39,7 @@ $(document).ready(function() {
             event.preventDefault();
             var firstName = $("#firstName").val();
             var lastName = $("#lastName").val();
-            var email = $("#regEmail").val();
+            var email = $("#regEmail").val().toLowerCase();
             var phoneNum = $("#regPhoneNumber").val();
             var password = $("#regPassword").val();
             var passwordCheck = $("#passwordCheck").val();
@@ -90,7 +92,6 @@ $(document).ready(function() {
 
 function setCurrentUserAndRedirect(token)
 {
-    console.log("set user" + token);
     $.ajax({
         type: "GET",
         dataType: "json",
