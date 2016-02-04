@@ -24,4 +24,16 @@ h3
 	background-color: #0480be;
 }
 
+.dropdown
+{
+    margin: 8px;
+}
+
+.ui-header .ui-title
+{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
 

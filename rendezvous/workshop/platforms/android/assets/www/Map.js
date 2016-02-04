@@ -3,7 +3,7 @@ var Map = function()
     //Create a new User from login details
     var loginData = JSON.parse(localStorage.getItem('user'));
     var currentUser = new User(loginData.firstName,  loginData.lastName, loginData.email, loginData.auth_token);
-    var firstLocationFound = true;
+    var postGateOpen = true;
     var trackFriendsId;
 
     var map = L.map('map', { zoomControl:false });
@@ -32,22 +32,24 @@ var Map = function()
     var uCir;
     function onLocationFound(e)
     {
-        var radius = e.accuracy / 2;
+        if (postGateOpen == true) {
+            postGateOpen = false;
+            openPostGate();
 
-        if (!uMkr)
-        {
-            console.log("firstLocationFound");
-            uMkr = L.marker(e.latlng, {icon: userMarker}).bindPopup("<b>You</b><br><p>"+ currentUser.email + "</p>").addTo(map);
-            uCir = L.circle(e.latlng, radius).addTo(map);
+            var radius = e.accuracy / 2;
+
+            if (!uMkr) {
+                console.log("firstLocationFound");
+                uMkr = L.marker(e.latlng, {icon: userMarker}).bindPopup("<b>You</b><br><p>" + currentUser.email + "</p>").addTo(map);
+                uCir = L.circle(e.latlng, radius).addTo(map);
+            }
+
+            uMkr.setLatLng(e.latlng).update();
+            uCir.setLatLng(e.latlng);
+
+            currentUser.latlng = e.latlng;
+            currentUser.PostLastKnownPosition(currentUser);
         }
-
-        uMkr.setLatLng(e.latlng).update();
-        uCir.setLatLng(e.latlng);
-        /*L.marker(e.latlng, {icon: userMarker}).bindPopup("<b>You</b><br><p>"+ currentUser.email + "</p>").update();
-        L.circle(e.latlng, radius).addTo(map);*/
-
-        currentUser.latlng = e.latlng;
-        currentUser.PostLastKnownPosition(currentUser);
     }
 
     function onLocationError(e)
@@ -106,6 +108,8 @@ var Map = function()
 
     });
 
+    var fMkr = [];
+    var tmpMkr;
     function trackFriends()
     {
         console.log("trackFriends Function");
@@ -117,23 +121,64 @@ var Map = function()
                 url: "http://rendezvous-704e3pxx.cloudapp.net/rendezvous/users/",
                 success: function(data){
 
-                    for (i = 0; i < data.count; i ++)
+                    if (fMkr.length == 0)
                     {
-                        if(data.results[i].email != currentUser.email) {
-                            var parsedCoords = parseCoordinates(data.results[i].last_known_position);
+                        console.log("Setup Markers");
+                        for (i = 0; i < data.count; i++)
+                        {
+                            if(data.results[i].email != currentUser.email)
+                            {
+                                console.log(data.results[i].email);
+                                var parsedCoords = parseCoordinates(data.results[i].last_known_position);
 
-                            L.marker([parsedCoords.longitude, parsedCoords.latitude], {icon: friendMarker}).bindPopup("<b>" + data.results[i].first_name + " "
-                                + data.results[i].last_name + "</b><br><p>"+ data.results[i].email + "</p>").addTo(map);
+                                tempMkr = L.marker([parsedCoords.longitude, parsedCoords.latitude], {icon: friendMarker}).bindPopup("<b>" + data.results[i].first_name + " "
+                                    + data.results[i].last_name + "</b><br><p>" + data.results[i].email + "</p>").addTo(map);
 
-                            console.log(data.results[i]);
+                                fMkr.push({
+                                    key: data.results[i].email,
+                                    value: tempMkr
+                                });
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //Update array marker
+                        console.log("Update Markers");
+                        for (i = 0; i < data.count; i++)
+                        {
+                            if(data.results[i].email != currentUser.email)
+                            {
+                                for (j = 0; j < fMkr.length; j++)
+                                {
+                                    if (data.results[i].email == fMkr[j].key)
+                                    {
+                                        console.log(data.results[i].email + " == " + fMkr[j].key);
+                                        var parsedCoords = parseCoordinates(data.results[i].last_known_position);
+                                        fMkr[j].value.setLatLng([parsedCoords.longitude, parsedCoords.latitude]).update();
+                                        console.log(fMkr[j]);
+                                    }
+                                }
+                            }
                         }
                     }
                 },
                 error: function(data){
                     console.log("unable to retrieve friends location");
                 }
-             });
+        });
     }
+
+    function openPostGate()
+    {
+        console.log("Post gate closed");
+
+        setTimeout(function(){
+            console.log("Post gate re-opened");
+            postGateOpen = true;
+        }, 10000);
+    }
+
 
     map.locate({setView: true, zoom: 14, timeout:600000, enableHighAccuracy: true, watch: true});
     map.on('locationfound', onLocationFound);

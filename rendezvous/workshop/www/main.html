@@ -3,6 +3,7 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
         <link rel="stylesheet" href="style.css"/>
@@ -10,6 +11,7 @@
         <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
         <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="RendezvousUsers.js"></script>
         <script src="loginHandler.js"></script>
         <script src="User.js"></script>
@@ -19,10 +21,18 @@
 	<body>
         <div data-role="page" id="main">
             <div data-role="header" id="header">
-                <h1>Rendezvous
-                    <input type="button" id="getFriend" value="Track Friends">
-                    <input type="button" id="untrackFriend" value="Stop Tracking Friends">
-                </h1>
+
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
+                            <li><input type="button" class="btn btn-default" id="getFriend" value="Track Friends"></li>
+                            <li><input type="button" class="btn btn-default" id="untrackFriend" value="Stop Tracking Friends"></li>
+                            <li role="separator" class="divider"></li>
+                            <li><input type="button" class="btn btn-default" id="logout" value="Logout"></li>
+                        </ul>
+                        <h3 style="float:right">Rendezvous</h3>
+                </div>
             </div>
 
             <div id="map" data-role="content">
@@ -34,7 +44,6 @@
             {
                 //Create a new map
                 var m = new Map();
-                //setTimeout(function(){console.log(m.getUser()) }, 3000);
             });
 
 		</script>
