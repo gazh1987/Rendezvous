@@ -25,10 +25,11 @@
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu
                         <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li><input id="getFriend" value="Track Friends"></li>
-                            <li><input id="untrackFriend" value="Stop Tracking Friends"></li>
-
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
+                            <li><input type="button" class="btn btn-default" id="getFriend" value="Track Friends"></li>
+                            <li><input type="button" class="btn btn-default" id="untrackFriend" value="Stop Tracking Friends"></li>
+                            <li role="separator" class="divider"></li>
+                            <li><input type="button" class="btn btn-default" id="logout" value="Logout"></li>
                         </ul>
                         <h3 style="float:right">Rendezvous</h3>
                 </div>

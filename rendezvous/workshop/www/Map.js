@@ -97,20 +97,21 @@ var Map = function()
 
         //GetLatKnownLocation Function
         $("#getFriend").click(function(event) {
+            console.log("Tracking friends")
             trackFriends();
             trackFriendsId = setInterval(trackFriends, 10000);
         });
 
         $("#untrackFriend").click(function(event){
-            console.log("unTrackFriends")
+            console.log("Un-tracking Friends")
             clearInterval(trackFriendsId);
 
             for (i = 0; i < fMkr.length; i++)
             {
                 map.removeLayer(fMkr[i].value);
             }
+
             fMkr = [];
-            console.log(fMkr);
         });
 
         $("#logout").click(function(event){
@@ -129,7 +130,7 @@ var Map = function()
                 error: function(data){
                     console.log("Logout failed.");
                 }
-        });
+            });
         });
     });
 
@@ -145,6 +146,9 @@ var Map = function()
                 contentType: "application/json",
                 url: "http://rendezvous-704e3pxx.cloudapp.net/rendezvous/users/",
                 success: function(data){
+
+                    console.log(fMkr.length);
+                    console.log(fMkr);
 
                     if (fMkr.length == 0)
                     {

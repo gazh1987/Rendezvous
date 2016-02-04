@@ -12,9 +12,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/Map.js" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/Map.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/Map.js" afterPath="$PROJECT_DIR$/workshop/www/Map.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/main.html" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/main.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/main.html" afterPath="$PROJECT_DIR$/workshop/www/main.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/style.css" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/style.css" afterPath="$PROJECT_DIR$/workshop/www/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="rendezvous.iws" />
@@ -49,8 +47,8 @@
       <file leaf-file-name="Map.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/workshop/www/Map.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.74822694">
-              <caret line="125" column="41" selection-start-line="125" selection-start-column="41" selection-end-line="125" selection-end-column="41" />
+            <state vertical-scroll-proportion="0.2712766">
+              <caret line="99" column="22" selection-start-line="99" selection-start-column="22" selection-end-line="99" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -1739,7 +1737,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20392749" sideWeight="0.6708229" order="0" side_tool="false" content_ui="combo" />
@@ -2164,8 +2162,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/workshop/www/Map.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.74822694">
-          <caret line="125" column="41" selection-start-line="125" selection-start-column="41" selection-end-line="125" selection-end-column="41" />
+        <state vertical-scroll-proportion="0.2712766">
+          <caret line="99" column="22" selection-start-line="99" selection-start-column="22" selection-end-line="99" selection-end-column="22" />
           <folding />
         </state>
       </provider>

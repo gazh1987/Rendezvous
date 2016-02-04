@@ -35,5 +35,10 @@ h3
     margin-right: auto;
 }
 
+.btn-default
+{
+    width: 100%;
+    border: 0px;
+}
 
 
