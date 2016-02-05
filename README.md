@@ -1,4 +1,4 @@
-###Headers
+#Headers
 #level one header
 ##level two  header
 ### level 3 header ###
@@ -6,7 +6,7 @@
 ###### level 5 header 
 ######level 6 header
 
-###Quote blocks
+#Quote blocks
 > This is a block quote. This
 paragraph has two lines.
 
@@ -23,3 +23,16 @@ if (a > 3) {
   moveShip(5 * gravity, DOWN);
 }
 ~~~~~~~
+
+~~~~~~{#mycode .python .numberLines }
+# This is a python example
+class MyClass(object):
+    pass
+
+def main():
+    pass
+if __name__ == "__main__":
+   main()
+~~~~~~
+
+
