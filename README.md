@@ -1,4 +1,4 @@
-###___Headers___
+###Headers
 #level one header
 ##level two  header
 ### level 3 header ###
