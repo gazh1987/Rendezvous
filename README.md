@@ -1,3 +1,11 @@
-#Abstract
+#Declaration
 
-The objective of this project is to create a purpose driven mobile phone Geographical Information System that will allow Users to share GPS data in order to simplify the burden of locating friends in a busy or unfamiliar area. The application will primarily use a compass to aid navigation but will also use a map to pin point and track the whereabouts of friends. It is intended that the user will also be able to use the map to set up Events to which the user can invite friends. Rendezvous Friend Locator is a hybrid mobile phone application created using Cordova and uses technologies like JQuery Mobile, Bootstrap, JavaScript and AJAX on the client side and the Django Rest Framework for data retrieval on the server side.
+I hereby declare that the work described in this dissertation is, except where otherwise stated, entirely my own work and has not been submitted as an exercise for a degree at this or any other university.
+
+
+Signed:
+
+
+
+Gary Healy
+6 April 2016
