@@ -47,4 +47,12 @@ if __name__ == "__main__":
 * three
 
 
+  * First paragraph.
+
+    Continued.
+
+  * Second paragraph. With a code block, which must be indented
+    eight spaces:
+
+        { code }
 
