@@ -28,6 +28,11 @@
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
                             <li><input type="button" class="btn btn-default" id="getFriend" value="Track Friends"></li>
                             <li><input type="button" class="btn btn-default" id="untrackFriend" value="Stop Tracking Friends"></li>
+
+                            <li role="separator" class="divider"></li>
+                            <!--<li><input type="button" class="btn btn-default" id="friendsList" value="Friends List"></li>-->
+                            <a href="#friendsList" class="btn btn-default">Friends List</a>
+
                             <li role="separator" class="divider"></li>
                             <li><input type="button" class="btn btn-default" id="logout" value="Logout"></li>
                         </ul>
@@ -38,13 +43,70 @@
             <div id="map" data-role="content">
             </div>
         </div>
-		
+
+        <div data-role="page" id="friendsList">
+            <div data-role="header" id="header">
+
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
+                            <li><input type="button" class="btn btn-default" id="getFriend" value="Track Friends"></li>
+                            <li><input type="button" class="btn btn-default" id="untrackFriend" value="Stop Tracking Friends"></li>
+
+                            <li role="separator" class="divider"></li>
+                            <!--<li><input type="button" class="btn btn-default" id="friendsList" value="Friends List"></li>-->
+                            <a href="#main" class="btn btn-default">Map</a>
+
+                            <li role="separator" class="divider"></li>
+                            <li><input type="button" class="btn btn-default" id="logout" value="Logout"></li>
+                        </ul>
+                        <h3 style="float:right">Rendezvous</h3>
+
+                </div>
+            </div>
+
+            <div data-role="main" class="ui-content">
+                <!--Hook this button up to event handler-->
+                <input type="button" class="btn btn-primary" id="getContacts" value="Get Contacts">
+            </div >
+
+
+        </div>
+
 		<script>
-            $(document).ready(function()
+
+            document.addEventListener("deviceready", onDeviceReady, false);
+
+            function onDeviceReady()
             {
+                console.log("HELLO");
+                console.log("Cordova API's lodaed");
+
+                navigator.contacts.find(
+                [navigator.contacts.fieldType.displayName],
+                gotContacts,
+                errorHandler);
+            }
+
+            function errorHandler(e) {
+                console.log("errorHandler: "+e);
+            }
+
+            function gotContacts(c) {
+                console.log("gotContacts, number of results "+c.length);
+                for(var i=0, len=c.length; i<len; i++) {
+                    console.dir(c[i]);
+                }
+            }
+            /*$(document).ready(function()
+            {
+                console.log("Device ready");
+
                 //Create a new map
                 var m = new Map();
-            });
+            });*/
+
 
 		</script>
 	</body>

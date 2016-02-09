@@ -3,6 +3,7 @@ var Map = function()
     //Create a new User from login details
     var loginData = JSON.parse(localStorage.getItem('user'));
     var currentUser = new User(loginData.firstName,  loginData.lastName, loginData.email, loginData.auth_token);
+    console.log(currentUser.auth_token);
 
     var map = L.map('map', { zoomControl:false });
 

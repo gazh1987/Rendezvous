@@ -13,6 +13,20 @@ class RendezvousUsers(EmailAbstractUser):
     objects = EmailUserManager()
 
 
+"""
+REFERENCE: https://www.packtpub.com/books/content/building-friend-networks-django-10
+"""
+class Friends(models.Model):
+    from_friend = models.ForeignKey(RendezvousUsers, related_name="friend_set")
+    to_friend = models.ForeignKey(RendezvousUsers, related_name="to_friend_set")
+
+    def __unicode__(self):
+        return u'%s, %s' % (self.from_friend.email, self.to_friend.email)
+
+    class Meta:
+        unique_together=(('to_friend', 'from_friend'), )
+
+
 # A look-up table to easily map phone numbers to email accounts
 class PhoneNumbers(models.Model):
     phone_number = models.CharField(max_length=25, primary_key=True)

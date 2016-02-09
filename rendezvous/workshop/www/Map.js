@@ -95,7 +95,7 @@ var Map = function()
     //JQuery functions
     $(document).ready(function() {
 
-        //GetLatKnownLocation Function
+        //GetLastKnownLocation Function
         $("#getFriend").click(function(event) {
             console.log("Tracking friends")
             trackFriends();

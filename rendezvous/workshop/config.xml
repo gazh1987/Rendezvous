@@ -22,5 +22,4 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
-    </platform>
-</widget>
+    </platform></widget>
