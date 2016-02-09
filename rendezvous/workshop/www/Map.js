@@ -1,3 +1,6 @@
+var localHost = "http://localhost:8000/";
+var production = "http://rendezvous-704e3pxx.cloudapp.net/";
+
 var Map = function()
 {
     //Create a new User from login details
@@ -121,7 +124,7 @@ var Map = function()
                 dataType: "json",
                 headers: { 'Authorization': 'Token ' + currentUser.auth_token},
                 contentType: "application/json",
-                url: "http://rendezvous-704e3pxx.cloudapp.net/logout/",
+                url: production + "logout/",
                 success: function(data){
                     console.log("Logout Successful");
                     localStorage.clear();
@@ -144,7 +147,7 @@ var Map = function()
                 dataType: "json",
                 headers: { 'Authorization': 'Token ' + currentUser.auth_token},
                 contentType: "application/json",
-                url: "http://rendezvous-704e3pxx.cloudapp.net/rendezvous/users/",
+                url: production + "rendezvous/users/",
                 success: function(data){
 
                     console.log(fMkr.length);
@@ -153,10 +156,13 @@ var Map = function()
                     if (fMkr.length == 0)
                     {
                         console.log("Setup Markers");
+
+                        //Note: Count does not work outside Cordova
                         for (i = 0; i < data.count; i++)
                         {
                             if(data.results[i].email != currentUser.email)
                             {
+                                //TODO: Bug here. If there is no last known position get request will fail for every data item after that position
                                 console.log(data.results[i].email);
                                 var parsedCoords = parseCoordinates(data.results[i].last_known_position);
 

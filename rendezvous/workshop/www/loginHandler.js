@@ -1,3 +1,6 @@
+var localHost = "http://localhost:8000/";
+var production = "http://rendezvous-704e3pxx.cloudapp.net/";
+
 $(document).ready(function() {
 
     //Login handler
@@ -6,14 +9,14 @@ $(document).ready(function() {
         var email = $("#email").val().toLowerCase();
         var password = $("#password").val();
         var parameters = {email : email, password : password};
-        console.log(parameters);
+        console.log(production);
 
         $.ajax({
             type: "POST",
             data: JSON.stringify(parameters),
             dataType: "json",
             contentType: "application/json",
-            url: "http://rendezvous-704e3pxx.cloudapp.net/login/",
+            url: production + "login/",
             success: function(data){
                 console.log(data.token);
                 setCurrentUserAndRedirect(data.token);
@@ -58,7 +61,7 @@ $(document).ready(function() {
             //Post details to phone numbers table, do this synchronously so we can stop the registration process
             //should the POST fail
             var client = new XMLHttpRequest();
-            client.open("POST", "http://rendezvous-704e3pxx.cloudapp.net/rendezvous/phoneNumbers/", false);
+            client.open("POST", production + "rendezvous/phoneNumbers/", false);
             client.setRequestHeader("Content-Type", "application/json");
             client.send(JSON.stringify(phoneNumberParameters));
 
@@ -74,7 +77,7 @@ $(document).ready(function() {
                 data: JSON.stringify(parameters),
                 dataType: "json",
                 contentType: "application/json",
-                url: "http://rendezvous-704e3pxx.cloudapp.net/signup/",
+                url: production + "signup/",
                 success: function (data) {
                     //registerPass
                     $("#registerPass").text("You have succesfully registered your details. Please go to you email and click the link" +
@@ -97,7 +100,7 @@ function setCurrentUserAndRedirect(token)
         dataType: "json",
         headers: {'Authorization': 'Token ' + token},
         contentType: "application/json",
-        url: "http://rendezvous-704e3pxx.cloudapp.net/users/me/",
+        url: production + "users/me/",
         success: function(data){
             var user = new User(data.first_name, data.last_name, data.email, token);
             localStorage.setItem('user', JSON.stringify(user));
@@ -116,7 +119,7 @@ function phoneNumberCheck(num)
     //Synchronous call to check if found number exists and return the request status to check if
     //the status code is 200. If the code is 200, the number exists and the registration will fail.
     var request = new XMLHttpRequest();
-    request.open('GET', 'http://rendezvous-704e3pxx.cloudapp.net/rendezvous/phoneNumbers/' + num + '/', false);
+    request.open('GET', production + 'rendezvous/phoneNumbers/' + num + '/', false);
     request.send(null);
 
     return request.status;
