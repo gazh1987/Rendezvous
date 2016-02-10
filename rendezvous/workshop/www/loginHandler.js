@@ -102,16 +102,46 @@ function setCurrentUserAndRedirect(token)
         contentType: "application/json",
         url: production + "users/me/",
         success: function(data){
+
+            console.log("Creating User");
+
             var user = new User(data.first_name, data.last_name, data.email, token);
             localStorage.setItem('user', JSON.stringify(user));
 
-            window.location.assign("main.html");
+            getFriends(token, data.email);
         },
         error: function(data){
             console.log(data);
             $("#loginFail").text("Unable to login with details provided. Please try again.");
         }
     });
+}
+
+function getFriends(token, email)
+{
+    $.ajax({
+        type:"GET",
+        dataType: "json",
+        headers: {'Authorization': 'Token '+ token},
+        contentType: "application/json",
+        url: production + "rendezvous/friends/" + email + "/",
+        success: function(data) {
+            console.log("Creating friends list");
+
+            var friendsList = [];
+            for (i = 0; i < data.count; i ++){
+
+                //When using localHost server change "data.results[i].to_friend" to data[i].to_friend
+                friendsList.push(data.results[i].to_friend);
+            }
+
+            localStorage.setItem('friendsList', JSON.stringify(friendsList));
+            window.location.assign("main.html");
+        },
+        error: function(data){
+            console.log(data);
+        }
+    })
 }
 
 function phoneNumberCheck(num)

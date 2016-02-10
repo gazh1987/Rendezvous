@@ -1,5 +1,5 @@
-from restApi.models import RendezvousUsers, PhoneNumbers
-from restApi.serializers import UserSerializer, PhoneNumbersSerializer
+from restApi.models import RendezvousUsers, PhoneNumbers, Friends
+from restApi.serializers import UserSerializer, PhoneNumbersSerializer, FriendsSerializer
 from restApi.permissions import IsOwnerOrReadOnly
 
 from rest_framework import generics
@@ -7,6 +7,8 @@ from rest_framework import permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+
+from django.shortcuts import get_object_or_404
 
 
 class UserList(generics.ListCreateAPIView):
@@ -17,12 +19,28 @@ class UserList(generics.ListCreateAPIView):
 
 class UsersDetail(generics.RetrieveUpdateDestroyAPIView):
     """
-    Retrieve, update or delete a user instance
+    Retrieve, update, delete a user instance
     """
     queryset = RendezvousUsers.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     lookup_field = ('email')
+
+
+class AddFriendship(generics.ListCreateAPIView):
+    queryset = Friends.objects.all()
+    serializer_class = FriendsSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+
+
+class FriendsList(generics.ListCreateAPIView):
+    serializer_class = FriendsSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+
+    def get_queryset(self):
+        #Get the primary key of the email passed in the url
+        pkey = RendezvousUsers.objects.filter(email=self.args[0]).values_list('pk')
+        return Friends.objects.filter(from_friend=pkey)
 
 
 class PhoneNumberList(generics.ListCreateAPIView):
@@ -39,7 +57,6 @@ class PhoneNumberDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PhoneNumbersSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     lookup_field = ('phone_number')
-
 
 
 #Api Root

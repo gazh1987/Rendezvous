@@ -19,7 +19,7 @@ h3
 	color: #ffffff;
 }
 
-#header
+#header, .modal-header
 {
 	background-color: #0480be;
 }

@@ -4,8 +4,13 @@ var production = "http://rendezvous-704e3pxx.cloudapp.net/";
 var Map = function()
 {
     //Create a new User from login details
-    var loginData = JSON.parse(localStorage.getItem('user'));
-    var currentUser = new User(loginData.firstName,  loginData.lastName, loginData.email, loginData.auth_token);
+    var userLoginData = JSON.parse(localStorage.getItem('user'));
+    var currentUser = new User(userLoginData.firstName,  userLoginData.lastName, userLoginData.email, userLoginData.auth_token);
+    var friendsListLoginData = JSON.parse(localStorage.getItem('friendsList'));
+
+    //Store currentUser so it can be accessed from anywhere in the app
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
     var postGateOpen = true;
     var trackFriendsId;
 
@@ -43,6 +48,11 @@ var Map = function()
 
             if (!uMkr) {
                 console.log("firstLocationFound");
+
+                //Login details for debugging purposes
+                console.log("Logged in as User: " + currentUser.email + ".");
+                console.log("Friends List: " + friendsListLoginData + ".");
+
                 uMkr = L.marker(e.latlng, {icon: userMarker}).bindPopup("<b>You</b><br><p>" + currentUser.email + "</p>").addTo(map);
                 uCir = L.circle(e.latlng, radius).addTo(map);
             }
@@ -117,24 +127,35 @@ var Map = function()
             fMkr = [];
         });
 
-        $("#logout").click(function(event){
-            console.log("Logout");
+        /***
+         * These methods handle events triggered from the friends list menu
+         * */
 
-            $.ajax({type: "GET",
-                dataType: "json",
-                headers: { 'Authorization': 'Token ' + currentUser.auth_token},
-                contentType: "application/json",
-                url: production + "logout/",
-                success: function(data){
-                    console.log("Logout Successful");
-                    localStorage.clear();
-                    window.location.assign("index.html");
-                },
-                error: function(data){
-                    console.log("Logout failed.");
-                }
-            });
+        //This function sets global variable friendEmailId when friend is
+        //clicked on th list view
+        var friendEmailId = "";
+        $(".friendButtonClick").click(function (event){
+            console.log("Setting global friendEmailId variable.");
+
+            var thisId = trimAllWhiteSpace(this.id);
+            friendEmailId = thisId;
         });
+
+        //This button handles the modal button click to confirm
+        //you would like to track the friend
+        $("#friendClickHandler").click(function (event){
+            console.log(friendEmailId);
+
+            trackFriends();
+            friendEmailId = "";
+        });
+
+        function trimAllWhiteSpace(id)
+        {
+            var thisId = id;
+            thisId = thisId.replace(/ /g,'');
+            return thisId;
+        }
     });
 
     var fMkr = [];
@@ -149,9 +170,6 @@ var Map = function()
                 contentType: "application/json",
                 url: production + "rendezvous/users/",
                 success: function(data){
-
-                    console.log(fMkr.length);
-                    console.log(fMkr);
 
                     if (fMkr.length == 0)
                     {
@@ -206,10 +224,10 @@ var Map = function()
 
     function openPostGate()
     {
-        console.log("Post gate closed");
+        console.log("Post gate closed. Location updating to the API disabled for 10 seconds.");
 
         setTimeout(function(){
-            console.log("Post gate re-opened");
+            console.log("Post gate re-opened. Location updating to the API enabled.");
             postGateOpen = true;
         }, 10000);
     }
