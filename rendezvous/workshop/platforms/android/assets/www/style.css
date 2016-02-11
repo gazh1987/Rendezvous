@@ -19,7 +19,7 @@ h3
 	color: #ffffff;
 }
 
-#header
+#header, .modal-header
 {
 	background-color: #0480be;
 }
@@ -41,4 +41,8 @@ h3
     border: 0px;
 }
 
+.modal-backdrop
+{
+    opacity:0.5 !important;
+}
 

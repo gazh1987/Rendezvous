@@ -1,8 +1,16 @@
+var localHost = "http://localhost:8000/";
+var production = "http://rendezvous-704e3pxx.cloudapp.net/";
+
 var Map = function()
 {
     //Create a new User from login details
-    var loginData = JSON.parse(localStorage.getItem('user'));
-    var currentUser = new User(loginData.firstName,  loginData.lastName, loginData.email, loginData.auth_token);
+    var userLoginData = JSON.parse(localStorage.getItem('user'));
+    var currentUser = new User(userLoginData.firstName,  userLoginData.lastName, userLoginData.email, userLoginData.auth_token);
+    var friendsListLoginData = JSON.parse(localStorage.getItem('friendsList'));
+
+    //Store currentUser so it can be accessed from anywhere in the app
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
     var postGateOpen = true;
     var trackFriendsId;
 
@@ -40,6 +48,11 @@ var Map = function()
 
             if (!uMkr) {
                 console.log("firstLocationFound");
+
+                //Login details for debugging purposes
+                console.log("Logged in as User: " + currentUser.email + ".");
+                console.log("Friends List: " + friendsListLoginData + ".");
+
                 uMkr = L.marker(e.latlng, {icon: userMarker}).bindPopup("<b>You</b><br><p>" + currentUser.email + "</p>").addTo(map);
                 uCir = L.circle(e.latlng, radius).addTo(map);
             }
@@ -94,14 +107,6 @@ var Map = function()
 
     //JQuery functions
     $(document).ready(function() {
-
-        //GetLastKnownLocation Function
-        $("#getFriend").click(function(event) {
-            console.log("Tracking friends")
-            trackFriends();
-            trackFriendsId = setInterval(trackFriends, 10000);
-        });
-
         $("#untrackFriend").click(function(event){
             console.log("Un-tracking Friends")
             clearInterval(trackFriendsId);
@@ -112,98 +117,136 @@ var Map = function()
             }
 
             fMkr = [];
+            mkrDetails = [];
         });
 
-        $("#logout").click(function(event){
-            console.log("Logout");
+        /***
+         * These methods handle events triggered from the friends list menu
+         * */
+
+        //This function sets global variable friendEmailId when friend is
+        //clicked on th list view
+        var friendEmailId = "";
+        $(".friendButtonClick").click(function (event){
+
+            console.log("Setting global friendEmailId variable.");
+            var thisId = trimAllWhiteSpace(this.id);
+            friendEmailId = thisId;
+        });
+
+        //This button handles the modal button click to confirm
+        //you would like to track the friend
+        $("#friendClickHandler").click(function (event){
+            console.log(friendEmailId);
+
+            //Clears Interval if one already exists.
+            //We do this so as to not have more than one interval running at
+            //once. This would be wasteful as the track friends function
+            //which is attatched to this interval tracks every user in the
+            //fMkr array anyway.
+            if (trackFriendsId) {
+                clearInterval(trackFriendsId);
+            }
+
+            setupFriendMarker(friendEmailId);
+            trackFriendsId = setInterval(trackFriends, 5000);
+            friendEmailId = "";
+            $.mobile.changePage("#main");
+        });
+
+        function trimAllWhiteSpace(id)
+        {
+            var thisId = id;
+            thisId = thisId.replace(/ /g,'');
+            return thisId;
+        }
+    });
+
+    var fMkr = [];
+    var tmpMkr;
+    function setupFriendMarker(fid)
+    {
+        console.log("setupFriendsMarker Function");
+
+        $.ajax({type: "GET",
+            dataType: "json",
+            headers: { 'Authorization': 'Token ' + currentUser.auth_token},
+            contentType: "application/json",
+            url: production + "rendezvous/users/" + fid + "/",
+            success: function(data){
+                console.log("Setting up Marker for user :" + fid);
+                var parsedCoords = parseCoordinates(data.last_known_position);
+
+                //Place marker on map
+                tempMkr = L.marker([parsedCoords.longitude, parsedCoords.latitude], {icon: friendMarker}).bindPopup("<b>" + data.first_name + " "
+                    + data.last_name + "</b><br><p>" + data.email + "</p>").addTo(map);
+
+                //save marker in array
+                fMkr.push({
+                    key: data.email,
+                    value: tempMkr
+                });
+            },
+            error: function(data){
+                console.log("unable to retrieve friends location");
+            }
+        });
+    }
+
+    var mkrDetails = [];
+    function trackFriends()
+    {
+        console.log("trackFriends function");
+
+        for (i = 0; i < fMkr.length; i++)
+        {
+            //Map i to the user in the fMkr array. We do this
+            //so when the AJAX call return we can update the
+            //correct marker for that user
+            mkrDetails.push({
+                key: fMkr[i].key,
+                value: i
+            });
+
+            console.log("Attempting to GET data for user: " + fMkr[i].key);
 
             $.ajax({type: "GET",
                 dataType: "json",
                 headers: { 'Authorization': 'Token ' + currentUser.auth_token},
                 contentType: "application/json",
-                url: "http://rendezvous-704e3pxx.cloudapp.net/logout/",
+                url: production + "rendezvous/users/" + fMkr[i].key + "/",
                 success: function(data){
-                    console.log("Logout Successful");
-                    localStorage.clear();
-                    window.location.assign("index.html");
+
+                    console.log("Recieved data for user: " + data.email);
+
+                    //Loop through mkrDetails to get index of marker
+                    // in fMkr array for this user
+                    for (i = 0; i < mkrDetails.length; i++)
+                    {
+                        if (mkrDetails[i].key == data.email)
+                        {
+                            console.log("Updating Marker for user: " + mkrDetails[i].key);
+                            var index = mkrDetails[i].value;
+                        }
+                    }
+
+                    var parsedCoords = parseCoordinates(data.last_known_position);
+                    fMkr[index].value.setLatLng([parsedCoords.longitude, parsedCoords.latitude]).update();
                 },
                 error: function(data){
-                    console.log("Logout failed.");
+                    console.log("Unable to retrieve friends location");
                 }
             });
-        });
-    });
-
-    var fMkr = [];
-    var tmpMkr;
-    function trackFriends()
-    {
-        console.log("trackFriends Function");
-
-        $.ajax({type: "GET",
-                dataType: "json",
-                headers: { 'Authorization': 'Token ' + currentUser.auth_token},
-                contentType: "application/json",
-                url: "http://rendezvous-704e3pxx.cloudapp.net/rendezvous/users/",
-                success: function(data){
-
-                    console.log(fMkr.length);
-                    console.log(fMkr);
-
-                    if (fMkr.length == 0)
-                    {
-                        console.log("Setup Markers");
-                        for (i = 0; i < data.count; i++)
-                        {
-                            if(data.results[i].email != currentUser.email)
-                            {
-                                console.log(data.results[i].email);
-                                var parsedCoords = parseCoordinates(data.results[i].last_known_position);
-
-                                tempMkr = L.marker([parsedCoords.longitude, parsedCoords.latitude], {icon: friendMarker}).bindPopup("<b>" + data.results[i].first_name + " "
-                                    + data.results[i].last_name + "</b><br><p>" + data.results[i].email + "</p>").addTo(map);
-
-                                fMkr.push({
-                                    key: data.results[i].email,
-                                    value: tempMkr
-                                });
-                            }
-                        }
-                    }
-                    else
-                    {
-                        //Update array marker
-                        console.log("Update Markers");
-                        for (i = 0; i < data.count; i++)
-                        {
-                            if(data.results[i].email != currentUser.email)
-                            {
-                                for (j = 0; j < fMkr.length; j++)
-                                {
-                                    if (data.results[i].email == fMkr[j].key)
-                                    {
-                                        console.log(data.results[i].email + " == " + fMkr[j].key);
-                                        var parsedCoords = parseCoordinates(data.results[i].last_known_position);
-                                        fMkr[j].value.setLatLng([parsedCoords.longitude, parsedCoords.latitude]).update();
-                                        console.log(fMkr[j]);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                error: function(data){
-                    console.log("unable to retrieve friends location");
-                }
-        });
+        }
     }
+
 
     function openPostGate()
     {
-        console.log("Post gate closed");
+        console.log("Post gate closed. Location updating to the API disabled for 10 seconds.");
 
         setTimeout(function(){
-            console.log("Post gate re-opened");
+            console.log("Post gate re-opened. Location updating to the API enabled.");
             postGateOpen = true;
         }, 10000);
     }

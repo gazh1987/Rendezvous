@@ -122,15 +122,15 @@ function getFriends(token, email)
     $.ajax({
         type:"GET",
         dataType: "json",
-        headers: {'Authorization': 'Token '+ token},
+        headers: { 'Authorization': 'Token '+ token },
         contentType: "application/json",
         url: production + "rendezvous/friends/" + email + "/",
         success: function(data) {
             console.log("Creating friends list");
 
             var friendsList = [];
-            for (i = 0; i < data.count; i ++){
-
+            for (i = 0; i < data.count; i ++)
+            {
                 //When using localHost server change "data.results[i].to_friend" to data[i].to_friend
                 friendsList.push(data.results[i].to_friend);
             }

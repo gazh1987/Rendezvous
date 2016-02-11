@@ -41,4 +41,8 @@ h3
     border: 0px;
 }
 
+.modal-backdrop
+{
+    opacity:0.5 !important;
+}
 

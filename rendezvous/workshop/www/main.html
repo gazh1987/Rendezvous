@@ -46,7 +46,6 @@
 
         <div data-role="page" id="friendsList">
             <div data-role="header" id="header">
-
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu
                         <span class="caret"></span></button>
@@ -54,7 +53,6 @@
                             <a href="#main" class="btn btn-default">Map</a>
                         </ul>
                         <h3 style="float:right">Rendezvous</h3>
-
                 </div>
             </div>
 
@@ -75,11 +73,11 @@
                             <h4 class="modal-title" style="color:white"><strong>Friend Options</strong></h4>
                         </div>
 
-                        <div class="modal-body">
+                        <div id="modalBody" class="modal-body">
                             <p>Would you like to track this friend?</p>
                         </div>
 
-                        <div class="modal-footer">
+                        <div id="modalFooter" class="modal-footer">
                             <button type="button" id="friendClickHandler" data-dismiss="modal" style="background-color:#0480be; color:white">Track Friend</button>
                         </div>
                     </div>

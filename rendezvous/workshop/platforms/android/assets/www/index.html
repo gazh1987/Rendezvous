@@ -70,36 +70,5 @@
             </form>
         </div>
     </div>
-
-    <script type="text/javascript" src="\rendezvous\workshop\platforms\android\platform_www\cordova.js"></script>
-    <script>
-
-        document.addEventListener("deviceready", onDeviceReady, false);
-
-        function onDeviceReady()
-        {
-            alert("device ready");
-            console.log("HELLO");
-                console.log("Cordova API's lodaed");
-                console.log(navigator.contacts);
-                navigator.contacts.find(
-                [navigator.contacts.fieldType.displayName],
-                gotContacts,
-                errorHandler);
-        }
-
-        function errorHandler(e) {
-            console.log("errorHandler: "+e);
-        }
-
-        function gotContacts(c) {
-            alert(c.length);
-            console.log("gotContacts, number of results "+c.length);
-            for(var i=0, len=c.length; i<len; i++) {
-                console.dir(c[i]);
-            }
-        }
-
-    </script>
 </body>
 </html>
