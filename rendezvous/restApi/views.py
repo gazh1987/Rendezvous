@@ -2,13 +2,12 @@ from restApi.models import RendezvousUsers, PhoneNumbers, Friends
 from restApi.serializers import UserSerializer, PhoneNumbersSerializer, FriendsSerializer
 from restApi.permissions import IsOwnerOrReadOnly
 
+from rest_framework import mixins
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-
-from django.shortcuts import get_object_or_404
 
 
 class UserList(generics.ListCreateAPIView):
@@ -27,18 +26,33 @@ class UsersDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = ('email')
 
 
-class AddFriendship(generics.ListCreateAPIView):
+class AddFriendship(mixins.ListModelMixin,
+                    mixins.CreateModelMixin,
+                    generics.GenericAPIView):
+    """
+    Add and list friendships
+    """
     queryset = Friends.objects.all()
     serializer_class = FriendsSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        request.DATA["from_friend"] = RendezvousUsers.objects.filter(email=request.DATA["from_friend"]).values_list('pk')
+        request.DATA["to_friend"] = RendezvousUsers.objects.filter(email=request.DATA["to_friend"]).values_list('pk')
+        return self.create(request, *args, **kwargs)
 
 
 class FriendsList(generics.ListCreateAPIView):
+    """
+    Get individual users friendships
+    """
     serializer_class = FriendsSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
 
+    #This function gets the primary key of the email passed in the url
     def get_queryset(self):
-        #Get the primary key of the email passed in the url
         pkey = RendezvousUsers.objects.filter(email=self.args[0]).values_list('pk')
         return Friends.objects.filter(from_friend=pkey)
 

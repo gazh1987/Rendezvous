@@ -40,6 +40,8 @@ var Map = function()
     var uCir;
     function onLocationFound(e)
     {
+        console.log("Token: " + currentUser.auth_token);
+
         if (postGateOpen == true) {
             postGateOpen = false;
             openPostGate();
@@ -47,8 +49,6 @@ var Map = function()
             var radius = e.accuracy / 2;
 
             if (!uMkr) {
-                console.log("firstLocationFound");
-
                 //Login details for debugging purposes
                 console.log("Logged in as User: " + currentUser.email + ".");
                 console.log("Friends List: " + friendsListLoginData + ".");
@@ -172,7 +172,7 @@ var Map = function()
             dataType: "json",
             headers: { 'Authorization': 'Token ' + currentUser.auth_token},
             contentType: "application/json",
-            url: production + "rendezvous/users/" + fid + "/",
+            url: localHost + "rendezvous/users/" + fid + "/",
             success: function(data){
                 console.log("Setting up Marker for user :" + fid);
                 var parsedCoords = parseCoordinates(data.last_known_position);
@@ -214,7 +214,7 @@ var Map = function()
                 dataType: "json",
                 headers: { 'Authorization': 'Token ' + currentUser.auth_token},
                 contentType: "application/json",
-                url: production + "rendezvous/users/" + fMkr[i].key + "/",
+                url: localHost + "rendezvous/users/" + fMkr[i].key + "/",
                 success: function(data){
 
                     console.log("Recieved data for user: " + data.email);
