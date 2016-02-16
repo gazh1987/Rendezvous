@@ -23,7 +23,7 @@ $(document).ready(function() {
             },
             error: function(data){
                 console.log(data);
-                $("#loginFail").text("Unable to login with details provided. Please try again.");
+                alert("Unable to login with details provided. Please try again.")
             }
         });
     });
@@ -35,7 +35,7 @@ $(document).ready(function() {
         //Check if device is online
         if ( isOffline )
         {
-            $("#registerFail").text("Can not register if your device is offline. Please connect to the internet and try again.");
+            alert("Can not register if your device is offline. Please connect to the internet and try again.");
         }
         else
         {
@@ -51,7 +51,7 @@ $(document).ready(function() {
             var pCheck = phoneNumberCheck(phoneNum);
 
             if (vCheck != "PASSED" || pCheck == "200") {
-                $("#registerFail").text("Can not register these details. Please try again.");
+                alert("Can not register these details. Please try again.");
                 return false;
             }
 
@@ -67,7 +67,7 @@ $(document).ready(function() {
 
             if (client.status != "201")
             {
-                $("#registerFail").text("Registration Failed. Please try again.");
+                alert("Registration Failed. Please try again.");
                 return false;
             }
 
@@ -80,13 +80,13 @@ $(document).ready(function() {
                 url: production + "signup/",
                 success: function (data) {
                     //registerPass
-                    $("#registerPass").text("You have succesfully registered your details. Please go to you email and click the link" +
+                    alert("You have succesfully registered your details. Please go to you email and click the link" +
                         " to complete your registration. Then, enter your login details here to use the app. Thank you for registering.");
                     window.location.assign("#login");
                 },
                 error: function (data) {
                     console.log(data);
-                    $("#registerFail").text("Registration Failed. Please try again.");
+                    alert("Registration Failed. Please try again.");
                 }
             });
         }
@@ -112,7 +112,7 @@ function setCurrentUserAndRedirect(token)
         },
         error: function(data){
             console.log(data);
-            $("#loginFail").text("Unable to login with details provided. Please try again.");
+            alert("Unable to login with details provided. Please try again.");
         }
     });
 }
@@ -129,10 +129,12 @@ function getFriends(token, email)
             console.log("Creating friends list");
 
             var friendsList = [];
+
+            //When using production change length to count
             for (i = 0; i < data.count; i ++)
             {
                 //When using localHost server change "data.results[i].to_friend" to data[i].to_friend
-                friendsList.push(data.results[i].to_friend);
+                friendsList.push(data.results[i].to_friend_email);
             }
 
             localStorage.setItem('friendsList', JSON.stringify(friendsList));

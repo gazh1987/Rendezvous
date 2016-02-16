@@ -9,21 +9,21 @@ $(document).ready(function() {
         var email = $("#email").val().toLowerCase();
         var password = $("#password").val();
         var parameters = {email : email, password : password};
-        console.log(localHost);
+        console.log(production);
 
         $.ajax({
             type: "POST",
             data: JSON.stringify(parameters),
             dataType: "json",
             contentType: "application/json",
-            url: localHost + "login/",
+            url: production + "login/",
             success: function(data){
                 console.log(data.token);
                 setCurrentUserAndRedirect(data.token);
             },
             error: function(data){
                 console.log(data);
-                $("#loginFail").text("Unable to login with details provided. Please try again.");
+                alert("Unable to login with details provided. Please try again.")
             }
         });
     });
@@ -35,7 +35,7 @@ $(document).ready(function() {
         //Check if device is online
         if ( isOffline )
         {
-            $("#registerFail").text("Can not register if your device is offline. Please connect to the internet and try again.");
+            alert("Can not register if your device is offline. Please connect to the internet and try again.");
         }
         else
         {
@@ -51,7 +51,7 @@ $(document).ready(function() {
             var pCheck = phoneNumberCheck(phoneNum);
 
             if (vCheck != "PASSED" || pCheck == "200") {
-                $("#registerFail").text("Can not register these details. Please try again.");
+                alert("Can not register these details. Please try again.");
                 return false;
             }
 
@@ -61,13 +61,13 @@ $(document).ready(function() {
             //Post details to phone numbers table, do this synchronously so we can stop the registration process
             //should the POST fail
             var client = new XMLHttpRequest();
-            client.open("POST", localHost + "rendezvous/phoneNumbers/", false);
+            client.open("POST", production + "rendezvous/phoneNumbers/", false);
             client.setRequestHeader("Content-Type", "application/json");
             client.send(JSON.stringify(phoneNumberParameters));
 
             if (client.status != "201")
             {
-                $("#registerFail").text("Registration Failed. Please try again.");
+                alert("Registration Failed. Please try again.");
                 return false;
             }
 
@@ -77,16 +77,16 @@ $(document).ready(function() {
                 data: JSON.stringify(parameters),
                 dataType: "json",
                 contentType: "application/json",
-                url: localHost + "signup/",
+                url: production + "signup/",
                 success: function (data) {
                     //registerPass
-                    $("#registerPass").text("You have succesfully registered your details. Please go to you email and click the link" +
+                    alert("You have succesfully registered your details. Please go to you email and click the link" +
                         " to complete your registration. Then, enter your login details here to use the app. Thank you for registering.");
                     window.location.assign("#login");
                 },
                 error: function (data) {
                     console.log(data);
-                    $("#registerFail").text("Registration Failed. Please try again.");
+                    alert("Registration Failed. Please try again.");
                 }
             });
         }
@@ -100,7 +100,7 @@ function setCurrentUserAndRedirect(token)
         dataType: "json",
         headers: {'Authorization': 'Token ' + token},
         contentType: "application/json",
-        url: localHost + "users/me/",
+        url: production + "users/me/",
         success: function(data){
 
             console.log("Creating User");
@@ -112,7 +112,7 @@ function setCurrentUserAndRedirect(token)
         },
         error: function(data){
             console.log(data);
-            $("#loginFail").text("Unable to login with details provided. Please try again.");
+            alert("Unable to login with details provided. Please try again.");
         }
     });
 }
@@ -124,17 +124,17 @@ function getFriends(token, email)
         dataType: "json",
         headers: { 'Authorization': 'Token '+ token },
         contentType: "application/json",
-        url: localHost + "rendezvous/friends/" + email + "/",
+        url: production + "rendezvous/friends/" + email + "/",
         success: function(data) {
             console.log("Creating friends list");
 
             var friendsList = [];
 
             //When using production change length to count
-            for (i = 0; i < data.length; i ++)
+            for (i = 0; i < data.count; i ++)
             {
                 //When using localHost server change "data.results[i].to_friend" to data[i].to_friend
-                friendsList.push(data[i].to_friend_email);
+                friendsList.push(data.results[i].to_friend_email);
             }
 
             localStorage.setItem('friendsList', JSON.stringify(friendsList));
@@ -151,7 +151,7 @@ function phoneNumberCheck(num)
     //Synchronous call to check if found number exists and return the request status to check if
     //the status code is 200. If the code is 200, the number exists and the registration will fail.
     var request = new XMLHttpRequest();
-    request.open('GET', localHost + 'rendezvous/phoneNumbers/' + num + '/', false);
+    request.open('GET', production + 'rendezvous/phoneNumbers/' + num + '/', false);
     request.send(null);
 
     return request.status;

@@ -27,11 +27,9 @@
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu
                         <span class="caret"></span></button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
-                            <!--<li><input type="button" class="btn btn-default" id="getFriend" value="Track Friends"></li>-->
-                            <li><input type="button" class="btn btn-default" id="untrackFriend" value="Stop Tracking Friends"></li>
 
-                            <li role="separator" class="divider"></li>
                             <a href="#friendsList" class="btn btn-default">Friends List</a>
+                            <li><input type="button" class="btn btn-default" id="untrackFriend" value="Stop Tracking Friends"></li>
 
                             <li role="separator" class="divider"></li>
                             <li><input type="button" class="btn btn-default" id="logout" value="Logout"></li>
@@ -51,6 +49,7 @@
                         <span class="caret"></span></button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
                             <a href="#main" class="btn btn-default">Map</a>
+                            <input type="button" class="btn btn-default" id="logout" value="Create New Friend" data-toggle="modal" data-target="#createNewFriend">
                         </ul>
                         <h3 style="float:right">Rendezvous</h3>
                 </div>
@@ -58,7 +57,6 @@
 
             <div data-role="main" class="ui-content">
                 <ul data-role="listview" data-autodividers="true">
-
                     <script>
                         populateFriendsList();
                     </script>
@@ -79,6 +77,27 @@
 
                         <div id="modalFooter" class="modal-footer">
                             <button type="button" id="friendClickHandler" data-dismiss="modal" style="background-color:#0480be; color:white">Track Friend</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Called when Create new friend button is clicked -->
+            <div id="createNewFriend" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" style="color:white"><strong>Create New Friend</strong></h4>
+                        </div>
+
+                        <div id="modalBody" class="modal-body">
+                            <p>Please type your friends email in the box below and then click the <i>Create</i> button.</p>
+                            <input type="text" name="friendEmailCreationField" id="friendEmailCreationField" placeholder="Enter friends email here...">
+                        </div>
+
+                        <div id="modalFooter" class="modal-footer">
+                            <button type="button" id="createFriendHandler" data-dismiss="modal" style="background-color:#0480be; color:white">Create</button>
                         </div>
                     </div>
 

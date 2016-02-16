@@ -23,6 +23,10 @@
                         {
                             "xml": "<feature name=\"Contacts\"><param name=\"android-package\" value=\"org.apache.cordova.contacts.ContactManager\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Toast\"><param name=\"android-package\" value=\"nl.xservices.plugins.Toast\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -69,6 +73,9 @@
             "PACKAGE_NAME": "com.garyhealy.workshop"
         },
         "cordova-plugin-contacts": {
+            "PACKAGE_NAME": "com.garyhealy.workshop"
+        },
+        "cordova-plugin-x-toast": {
             "PACKAGE_NAME": "com.garyhealy.workshop"
         }
     },

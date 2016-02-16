@@ -15,7 +15,7 @@ User.prototype.PostLastKnownPosition = function(user)
 
     var pointVariableLatLng = "POINT(" + latlng.lng + " " + latlng.lat + ")";
     var parameters = {last_known_position : pointVariableLatLng};
-    var url = localHost + "rendezvous/users/" + email + "/";
+    var url = production + "rendezvous/users/" + email + "/";
 
     $.ajax({
         type: "PATCH",

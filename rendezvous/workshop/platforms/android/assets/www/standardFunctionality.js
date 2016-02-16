@@ -12,7 +12,6 @@ $(document).ready(function() {
 
     //Logout function
     $("#logout").click(function (event) {
-
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
         console.log("Loggin out user: " + currentUser.email);
 
@@ -28,7 +27,35 @@ $(document).ready(function() {
                 window.location.assign("index.html");
             },
             error: function (data) {
+                console.log(data);
                 console.log("Logout failed.");
+            }
+        });
+    });
+
+    $("#createFriendHandler").click(function(event){
+        console.log("Creating Friendship");
+        var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+        var friend = $("#friendEmailCreationField").val();
+        var parameters = {from_friend: currentUser.email, from_friend_email: currentUser.email, to_friend: friend, to_friend_email: friend};
+
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify(parameters),
+            dataType: "json",
+            contentType: "application/json",
+            url: production + "rendezvous/friends/",
+            success: function (data) {
+                //registerPass
+                console.log("Friendship created.");
+                alert("Your created friend " + parameters.to_friend);
+                getFriends(currentUser.auth_token, currentUser.email);
+            },
+            error: function (data) {
+                console.log(data);
+                console.log("Friendship creation failed");
+                alert("Friendship creation failed");
             }
         });
     });

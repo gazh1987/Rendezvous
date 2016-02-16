@@ -172,7 +172,7 @@ var Map = function()
             dataType: "json",
             headers: { 'Authorization': 'Token ' + currentUser.auth_token},
             contentType: "application/json",
-            url: localHost + "rendezvous/users/" + fid + "/",
+            url: production + "rendezvous/users/" + fid + "/",
             success: function(data){
                 console.log("Setting up Marker for user :" + fid);
                 var parsedCoords = parseCoordinates(data.last_known_position);
@@ -214,7 +214,7 @@ var Map = function()
                 dataType: "json",
                 headers: { 'Authorization': 'Token ' + currentUser.auth_token},
                 contentType: "application/json",
-                url: localHost + "rendezvous/users/" + fMkr[i].key + "/",
+                url: production + "rendezvous/users/" + fMkr[i].key + "/",
                 success: function(data){
 
                     console.log("Recieved data for user: " + data.email);

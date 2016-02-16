@@ -16,9 +16,8 @@ class PhoneNumbersSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class FriendsSerializer(serializers.ModelSerializer):
-    from_friend = serializers.EmailField()
-    to_friend = serializers.EmailField()
+    #from_friend = serializers.EmailField()
+    #to_friend = serializers.EmailField()
 
     class Meta:
         model = Friends
-       #fields = ('from_friend', 'to_friend')
