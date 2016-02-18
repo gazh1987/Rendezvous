@@ -14,7 +14,7 @@ var Map = function()
     var postGateOpen = true;
     var trackFriendsId;
 
-    var map = L.map('map', { zoomControl:false });
+    var map = L.map('map', { zoomControl:false, attributionControl:false });
 
     var userMarker = L.icon({
         iconUrl: 'userMarker.png',
@@ -235,11 +235,11 @@ var Map = function()
                 },
                 error: function(data){
                     console.log("Unable to retrieve friends location");
+                    alert("Unable to retrieve friends. Check your internet connection.");
                 }
             });
         }
     }
-
 
     function openPostGate()
     {
@@ -251,10 +251,26 @@ var Map = function()
         }, 10000);
     }
 
+    var locateGate = true;
+    $("#toggleLocate").click(function(event){
+        if(locateGate)
+        {
+            locateGate = false;
+            console.log("Disabling Location");
+            location.stopLocate();
+            document.getElementById("toggleLocate").src = "locate-off.png";
+        }
+        else
+        {
+            console.log("Enabling Location");
+            locateGate = true;
+            map.locate({setView: true, maxZoom: 16, timeout:600000, enableHighAccuracy: true, watch: true});
+            document.getElementById("toggleLocate").src = "locate-on.png";
+        }
+    });
 
-    map.locate({setView: true, zoom: 14, timeout:600000, enableHighAccuracy: true, watch: true});
-    map.on('locationfound', onLocationFound);
+    map.locate({setView: true, maxZoom: 16, timeout:600000, enableHighAccuracy: true, watch: true});
+    var location = map.on('locationfound', onLocationFound);
     map.on('locationerror', onLocationError);
     map.on('click', onMapClick);
-
 }

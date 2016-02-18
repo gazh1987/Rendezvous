@@ -13,7 +13,7 @@ $(document).ready(function() {
     //Logout function
     $("#logout").click(function (event) {
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        console.log("Loggin out user: " + currentUser.email);
+        console.log("Logging out user: " + currentUser.email);
 
         $.ajax({
             type: "GET",
@@ -38,6 +38,7 @@ $(document).ready(function() {
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
         var friend = $("#friendEmailCreationField").val();
+        friend = friend.toLowerCase();
         var parameters = {from_friend: currentUser.email, from_friend_email: currentUser.email, to_friend: friend, to_friend_email: friend};
 
         $.ajax({

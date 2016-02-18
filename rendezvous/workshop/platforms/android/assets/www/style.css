@@ -46,3 +46,12 @@ h3
     opacity:0.5 !important;
 }
 
+div.fixed {
+    position: fixed;
+    bottom: 0px;
+    right: 13px;
+    width: 40px;
+    margin: 15px;
+    border-radius: 10px;
+    background-color: rgba(160, 160, 153, 0.34);
+}

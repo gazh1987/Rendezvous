@@ -13,7 +13,7 @@ $(document).ready(function() {
     //Logout function
     $("#logout").click(function (event) {
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        console.log("Loggin out user: " + currentUser.email);
+        console.log("Logging out user: " + currentUser.email);
 
         $.ajax({
             type: "GET",
