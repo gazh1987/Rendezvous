@@ -66,13 +66,33 @@ function populateFriendsList()
 {
     console.log("Populating friends list");
 
+    var userLoginData = JSON.parse(localStorage.getItem('user'));
     var friendsList = JSON.parse(localStorage.getItem('friendsList'));
+
+    var listOfFriends = document.getElementById('listOfFriends');
+
     for (i = 0; i < friendsList.length; i++)
     {
-        document.write("<li data-icon=\"false\">");
-        document.write("<button id = \" " + friendsList[i] + "\" class=\"friendButtonClick\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#friendClickOptions\">");
-        document.write(friendsList[i]);
-        document.write("</button>");
-        document.write("</li>")
+        $.ajax({type: "GET",
+            dataType: "json",
+            headers: { 'Authorization': 'Token ' + userLoginData.auth_token},
+            contentType: "application/json",
+            url: production + "rendezvous/users/" + friendsList[i] + "/",
+            success: function(data){
+                
+                var newFriend = "<li data-icon=\"true\">" +
+                        "<button id=\"" + data.email + "\" class=\"btn btn-primary friendButtonClick\" data-toggle=\"modal\" data-target=\"#friendClickOptions\">" +
+                        data.first_name + " " + data.last_name + "<br><p>" + data.email + "</p>" +
+                        "</button>" +
+                        "</li>";
+
+                listOfFriends.innerHTML = listOfFriends.innerHTML + newFriend;
+
+            },
+            error: function(data){
+                console.log("Unable to retrieve friends details");
+            }
+        });
     }
 }
+

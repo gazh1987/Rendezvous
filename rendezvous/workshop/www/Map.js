@@ -105,6 +105,16 @@ var Map = function()
         return coords;
     };
 
+    //This function sets global variable friendEmailId when friend is
+    //clicked on th list view
+    var friendEmailId = "";
+    $(document).on('click', '.friendButtonClick', function(){
+        console.log("Setting global friendEmailId variable.");
+        var thisId = trimAllWhiteSpace(this.id);
+        friendEmailId = thisId;
+        console.log(friendEmailId);
+    });
+
     //JQuery functions
     $(document).ready(function() {
         $("#untrackFriend").click(function(event){
@@ -123,21 +133,10 @@ var Map = function()
         /***
          * These methods handle events triggered from the friends list menu
          * */
-
-        //This function sets global variable friendEmailId when friend is
-        //clicked on th list view
-        var friendEmailId = "";
-        $(".friendButtonClick").click(function (event){
-
-            console.log("Setting global friendEmailId variable.");
-            var thisId = trimAllWhiteSpace(this.id);
-            friendEmailId = thisId;
-        });
-
         //This button handles the modal button click to confirm
         //you would like to track the friend
         $("#friendClickHandler").click(function (event){
-            console.log(friendEmailId);
+            console.log("Email=" + friendEmailId);
 
             //Clears Interval if one already exists.
             //We do this so as to not have more than one interval running at
@@ -153,14 +152,14 @@ var Map = function()
             friendEmailId = "";
             $.mobile.changePage("#main");
         });
-
-        function trimAllWhiteSpace(id)
-        {
-            var thisId = id;
-            thisId = thisId.replace(/ /g,'');
-            return thisId;
-        }
     });
+
+    function trimAllWhiteSpace(id)
+    {
+        var thisId = id;
+        thisId = thisId.replace(/ /g,'');
+        return thisId;
+    }
 
     var fMkr = [];
     var tmpMkr;
