@@ -9,14 +9,13 @@ $(document).ready(function() {
         var email = $("#email").val().toLowerCase();
         var password = $("#password").val();
         var parameters = {email : email, password : password};
-        console.log(production);
 
         $.ajax({
             type: "POST",
             data: JSON.stringify(parameters),
             dataType: "json",
             contentType: "application/json",
-            url: production + "login/",
+            url: localHost + "login/",
             success: function(data){
                 console.log(data.token);
                 setCurrentUserAndRedirect(data.token);
@@ -61,7 +60,7 @@ $(document).ready(function() {
             //Post details to phone numbers table, do this synchronously so we can stop the registration process
             //should the POST fail
             var client = new XMLHttpRequest();
-            client.open("POST", production + "rendezvous/phoneNumbers/", false);
+            client.open("POST", localHost + "rendezvous/phoneNumbers/", false);
             client.setRequestHeader("Content-Type", "application/json");
             client.send(JSON.stringify(phoneNumberParameters));
 
@@ -77,7 +76,7 @@ $(document).ready(function() {
                 data: JSON.stringify(parameters),
                 dataType: "json",
                 contentType: "application/json",
-                url: production + "signup/",
+                url: localHost + "signup/",
                 success: function (data) {
                     //registerPass
                     alert("You have succesfully registered your details. Please go to you email and click the link" +
@@ -100,7 +99,7 @@ function setCurrentUserAndRedirect(token)
         dataType: "json",
         headers: {'Authorization': 'Token ' + token},
         contentType: "application/json",
-        url: production + "users/me/",
+        url: localHost + "users/me/",
         success: function(data){
 
             console.log("Creating User");
@@ -124,16 +123,14 @@ function getFriends(token, email)
         dataType: "json",
         headers: { 'Authorization': 'Token '+ token },
         contentType: "application/json",
-        url: production + "rendezvous/friends/" + email + "/",
+        url: localHost + "rendezvous/friends/" + email + "/",
         success: function(data) {
             console.log("Creating friends list");
 
             var friendsList = [];
 
-            //When using production change length to count
             for (i = 0; i < data.count; i ++)
             {
-                //When using localHost server change "data.results[i].to_friend" to data[i].to_friend
                 friendsList.push(data.results[i].to_friend_email);
             }
 
@@ -151,7 +148,7 @@ function phoneNumberCheck(num)
     //Synchronous call to check if found number exists and return the request status to check if
     //the status code is 200. If the code is 200, the number exists and the registration will fail.
     var request = new XMLHttpRequest();
-    request.open('GET', production + 'rendezvous/phoneNumbers/' + num + '/', false);
+    request.open('GET', localHost + 'rendezvous/phoneNumbers/' + num + '/', false);
     request.send(null);
 
     return request.status;

@@ -107,7 +107,7 @@ function setCurrentUserAndRedirect(token)
 
             var user = new User(data.first_name, data.last_name, data.email, token);
             localStorage.setItem('user', JSON.stringify(user));
-
+            console.log(user);
             getFriends(token, data.email);
         },
         error: function(data){
