@@ -13,9 +13,18 @@
     <script src="loginHandler.js"></script>
     <script src="RendezvousUsers.js"></script>
     <script src="User.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+	<script src="pushMessagingHandler.js"></script>
+
+    <script type="text/javascript" charset="utf-8">
+        function onLoad()
+        {
+            document.addEventListener("deviceready", onDeviceReady, false);
+        }
+    </script>
 </head>
 
-<body>
+<body onload="onLoad()">
     <!--Welcome page-->
     <div data-role="page" id="welcome">
         <div data-role="header">
@@ -28,7 +37,7 @@
             <a href="#login" class="ui-btn">Login</a>
             <a href="#register" class="ui-btn">Register</a>
         </div>
-    </div>
+    </div>s
 
     <!--Login page-->
     <div data-role="page" id="login">
