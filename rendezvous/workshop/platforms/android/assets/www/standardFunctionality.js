@@ -20,7 +20,7 @@ $(document).ready(function() {
             dataType: "json",
             headers: {'Authorization': 'Token ' + currentUser.auth_token},
             contentType: "application/json",
-            url: production + "logout/",
+            url: localHost + "logout/",
             success: function (data) {
                 console.log("Logout Successful");
                 localStorage.clear();
@@ -46,7 +46,7 @@ $(document).ready(function() {
             data: JSON.stringify(parameters),
             dataType: "json",
             contentType: "application/json",
-            url: production + "rendezvous/friends/",
+            url: localHost + "rendezvous/friends/",
             success: function (data) {
                 //registerPass
                 console.log("Friendship created.");
@@ -77,7 +77,7 @@ function populateFriendsList()
             dataType: "json",
             headers: { 'Authorization': 'Token ' + userLoginData.auth_token},
             contentType: "application/json",
-            url: production + "rendezvous/users/" + friendsList[i] + "/",
+            url: localHost + "rendezvous/users/" + friendsList[i] + "/",
             success: function(data){
 
                 var newFriend = "<li data-icon=\"true\">" +

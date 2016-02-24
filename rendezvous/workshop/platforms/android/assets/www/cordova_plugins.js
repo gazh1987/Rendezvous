@@ -97,6 +97,13 @@ module.exports = [
     {
         "file": "plugins/cordova-plugin-x-toast/test/tests.js",
         "id": "cordova-plugin-x-toast.tests"
+    },
+    {
+        "file": "plugins/phonegap-plugin-push/www/push.js",
+        "id": "phonegap-plugin-push.PushNotification",
+        "clobbers": [
+            "PushNotification"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -107,7 +114,8 @@ module.exports.metadata =
     "cordova-plugin-console": "1.0.2",
     "cordova-plugin-geolocation": "2.1.0",
     "cordova-plugin-contacts": "2.0.1",
-    "cordova-plugin-x-toast": "2.4.0"
+    "cordova-plugin-x-toast": "2.4.0",
+    "phonegap-plugin-push": "1.5.3"
 }
 // BOTTOM OF METADATA
 });

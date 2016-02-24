@@ -71,6 +71,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'corsheaders',
     'rest_framework.authtoken',
+    'push_notifications',
     'authemail',
     'restApi'
 )
@@ -122,6 +123,9 @@ DATABASES = {
     }
 }
 
+PUSH_NOTIFICATIONS_SETTINGS = {
+    "GCM_API_KEY": "AIzaSyD5r8awxAAQWUf6RbP-K_swnz3Jxkh9yLY",
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
