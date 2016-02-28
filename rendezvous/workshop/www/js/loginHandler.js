@@ -91,11 +91,38 @@ function setCurrentUserAndRedirect(token)
             var user = new User(data.first_name, data.last_name, data.email, token);
             localStorage.setItem('user', JSON.stringify(user));
             console.log(user);
+
+            savePushMessagingRegistrationId(token);
             getFriends(token, data.email);
         },
         error: function(data){
             console.log(data);
             alert("Unable to login with details provided. Please try again.");
+        }
+    });
+}
+
+function savePushMessagingRegistrationId(token)
+{
+    console.log("Token = " + token);
+    var reg_id = JSON.parse(localStorage.getItem('registration_id'));
+    var parameters = {registration_id:reg_id};
+    console.log(reg_id);
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: JSON.stringify(parameters),
+        headers: {'Authorization': 'Token ' + token},
+        contentType: "application/json",
+        url: production + "rendezvous/device/GCM/",
+        success: function(data){
+            console.log("Successfully saved device details");
+            console.log(data);
+        },
+        error: function(data){
+            console.log("Saving device details failed");
+            console.log(data);
         }
     });
 }

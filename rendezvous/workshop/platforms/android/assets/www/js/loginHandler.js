@@ -15,7 +15,7 @@ $(document).ready(function() {
             data: JSON.stringify(parameters),
             dataType: "json",
             contentType: "application/json",
-            url: localHost + "login/",
+            url: production + "login/",
             success: function(data){
                 console.log(data.token);
                 setCurrentUserAndRedirect(data.token);
@@ -34,7 +34,7 @@ $(document).ready(function() {
         //Check if device is online
         if ( isOffline )
         {
-            alert("Can not register if your device is offline. Please connect to the internet and try again.");
+            alert("You can not register if your device is offline. Please connect to the internet and try again.");
         }
         else
         {
@@ -42,33 +42,17 @@ $(document).ready(function() {
             var firstName = $("#firstName").val();
             var lastName = $("#lastName").val();
             var email = $("#regEmail").val().toLowerCase();
-            var phoneNum = $("#regPhoneNumber").val();
             var password = $("#regPassword").val();
             var passwordCheck = $("#passwordCheck").val();
 
-            var vCheck = validityCheck(firstName, lastName, email, phoneNum, password, passwordCheck);
-            var pCheck = phoneNumberCheck(phoneNum);
+            var vCheck = validityCheck(firstName, lastName, email, password, passwordCheck);
 
-            if (vCheck != "PASSED" || pCheck == "200") {
+            if (vCheck != "PASSED") {
                 alert("Can not register these details. Please try again.");
                 return false;
             }
 
             var parameters = {email: email, password: password, first_name: firstName, last_name: lastName};
-            var phoneNumberParameters = {phone_number: phoneNum, email: email};
-
-            //Post details to phone numbers table, do this synchronously so we can stop the registration process
-            //should the POST fail
-            var client = new XMLHttpRequest();
-            client.open("POST", localHost + "rendezvous/phoneNumbers/", false);
-            client.setRequestHeader("Content-Type", "application/json");
-            client.send(JSON.stringify(phoneNumberParameters));
-
-            if (client.status != "201")
-            {
-                alert("Registration Failed. Please try again.");
-                return false;
-            }
 
             //Post details to rendezvous users table
             $.ajax({
@@ -76,7 +60,7 @@ $(document).ready(function() {
                 data: JSON.stringify(parameters),
                 dataType: "json",
                 contentType: "application/json",
-                url: localHost + "signup/",
+                url: production + "signup/",
                 success: function (data) {
                     //registerPass
                     alert("You have succesfully registered your details. Please go to you email and click the link" +
@@ -99,7 +83,7 @@ function setCurrentUserAndRedirect(token)
         dataType: "json",
         headers: {'Authorization': 'Token ' + token},
         contentType: "application/json",
-        url: localHost + "users/me/",
+        url: production + "users/me/",
         success: function(data){
 
             console.log("Creating User");
@@ -107,11 +91,38 @@ function setCurrentUserAndRedirect(token)
             var user = new User(data.first_name, data.last_name, data.email, token);
             localStorage.setItem('user', JSON.stringify(user));
             console.log(user);
+
+            savePushMessagingRegistrationId(token);
             getFriends(token, data.email);
         },
         error: function(data){
             console.log(data);
             alert("Unable to login with details provided. Please try again.");
+        }
+    });
+}
+
+function savePushMessagingRegistrationId(token)
+{
+    console.log("Token = " + token);
+    var reg_id = JSON.parse(localStorage.getItem('registration_id'));
+    var parameters = {registration_id:reg_id};
+    console.log(reg_id);
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: JSON.stringify(parameters),
+        headers: {'Authorization': 'Token ' + token},
+        contentType: "application/json",
+        url: production + "rendezvous/device/GCM/",
+        success: function(data){
+            console.log("Successfully saved device details");
+            console.log(data);
+        },
+        error: function(data){
+            console.log("Saving device details failed");
+            console.log(data);
         }
     });
 }
@@ -123,7 +134,7 @@ function getFriends(token, email)
         dataType: "json",
         headers: { 'Authorization': 'Token '+ token },
         contentType: "application/json",
-        url: localHost + "rendezvous/friends/" + email + "/",
+        url: production + "rendezvous/friends/" + email + "/",
         success: function(data) {
             console.log("Creating friends list");
 
@@ -143,19 +154,7 @@ function getFriends(token, email)
     })
 }
 
-function phoneNumberCheck(num)
-{
-    //Synchronous call to check if found number exists and return the request status to check if
-    //the status code is 200. If the code is 200, the number exists and the registration will fail.
-    var request = new XMLHttpRequest();
-    request.open('GET', localHost + 'rendezvous/phoneNumbers/' + num + '/', false);
-    request.send(null);
-
-    return request.status;
-}
-
-
-function validityCheck(firstName, lastName, email, phoneNum, password, passwordCheck)
+function validityCheck(firstName, lastName, email, password, passwordCheck)
 {
     if (firstName == "" || firstName == null)
     {
@@ -168,10 +167,6 @@ function validityCheck(firstName, lastName, email, phoneNum, password, passwordC
     if (email == "" || email == null)
     {
         return "You did not enter an email address. Please try again";
-    }
-    if (phoneNum == "" || phoneNum == null)
-    {
-        return "You did not enter a phone number. Please try again";
     }
     if (password == "" || password == null)
     {

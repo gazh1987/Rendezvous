@@ -8,7 +8,8 @@ function onDeviceReady()
     });
 
     push.on('registration', function(data) {
-            console.log(data);
+        console.log(data.registrationId);
+        localStorage.setItem('registration_id', JSON.stringify(data.registrationId));
     });
 
     push.on('error', function(e) {

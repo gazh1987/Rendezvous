@@ -17,7 +17,7 @@ var Map = function()
     var map = L.map('map', { zoomControl:false, attributionControl:false });
 
     var userMarker = L.icon({
-        iconUrl: 'userMarker.png',
+        iconUrl: 'images/userMarker.png',
 
         iconSize: [20, 20],
         iconAnchor: [10, 10],
@@ -25,7 +25,7 @@ var Map = function()
     });
 
     var friendMarker = L.icon({
-        iconUrl: 'friendMarker.png',
+        iconUrl: 'images/friendMarker.png',
 
         iconSize: [20, 20],
         iconAnchor: [10, 10],
@@ -53,7 +53,7 @@ var Map = function()
                 console.log("Logged in as User: " + currentUser.email + ".");
                 console.log("Friends List: " + friendsListLoginData + ".");
 
-                uMkr = L.marker(e.latlng, {icon: userMarker}).bindPopup("<b>You</b><br><p>" + currentUser.email + "</p>").addTo(map);
+                uMkr = L.marker(e.latlng).bindPopup("<b>You</b><br><p>" + currentUser.email + "</p>").addTo(map);
                 uCir = L.circle(e.latlng, radius).addTo(map);
             }
 
@@ -124,7 +124,7 @@ var Map = function()
             for (i = 0; i < fMkr.length; i++)
             {
                 map.removeLayer(fMkr[i].value);
-            }
+     local       }
 
             fMkr = [];
             mkrDetails = [];
@@ -171,7 +171,7 @@ var Map = function()
             dataType: "json",
             headers: { 'Authorization': 'Token ' + currentUser.auth_token},
             contentType: "application/json",
-            url: localHost + "rendezvous/users/" + fid + "/",
+            url: production + "rendezvous/users/" + fid + "/",
             success: function(data){
                 console.log("Setting up Marker for user :" + fid);
                 var parsedCoords = parseCoordinates(data.last_known_position);
@@ -180,7 +180,7 @@ var Map = function()
                 tempMkr = L.marker([parsedCoords.longitude, parsedCoords.latitude], {icon: friendMarker}).bindPopup("<b>" + data.first_name + " "
                     + data.last_name + "</b><br><p>" + data.email + "</p>").addTo(map);
 
-                //save marker in array
+                //save marker in dict
                 fMkr.push({
                     key: data.email,
                     value: tempMkr
@@ -213,7 +213,7 @@ var Map = function()
                 dataType: "json",
                 headers: { 'Authorization': 'Token ' + currentUser.auth_token},
                 contentType: "application/json",
-                url: localHost + "rendezvous/users/" + fMkr[i].key + "/",
+                url: production + "rendezvous/users/" + fMkr[i].key + "/",
                 success: function(data){
 
                     console.log("Recieved data for user: " + data.email);
@@ -257,14 +257,14 @@ var Map = function()
             locateGate = false;
             console.log("Disabling Location");
             location.stopLocate();
-            document.getElementById("toggleLocate").src = "locate-off.png";
+            document.getElementById("toggleLocate").src = "images/locate-off.png";
         }
         else
         {
             console.log("Enabling Location");
             locateGate = true;
             map.locate({setView: true, maxZoom: 16, timeout:600000, enableHighAccuracy: true, watch: true});
-            document.getElementById("toggleLocate").src = "locate-on.png";
+            document.getElementById("toggleLocate").src = "images/locate-on.png";
         }
     });
 
