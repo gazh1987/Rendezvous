@@ -1,6 +1,6 @@
 import os
-from restApi.models import RendezvousUsers, PhoneNumbers, Friends
-from restApi.serializers import UserSerializer, PhoneNumbersSerializer, FriendsSerializer
+from restApi.models import RendezvousUsers, Friends
+from restApi.serializers import UserSerializer, FriendsSerializer
 from restApi.permissions import IsOwnerOrReadOnly
 
 from rest_framework import mixins
@@ -60,26 +60,11 @@ class FriendsList(generics.ListCreateAPIView):
         return Friends.objects.filter(from_friend=pkey)
 
 
-class PhoneNumberList(generics.ListCreateAPIView):
-    queryset = PhoneNumbers.objects.all()
-    serializer_class = PhoneNumbersSerializer
-    permission_classes = (permissions.AllowAny,)
-
-
-class PhoneNumberDetail(generics.RetrieveUpdateDestroyAPIView):
-    """
-    Retrieve, update or delete a phoneNumber instance
-    """
-    queryset = PhoneNumbers.objects.all()
-    serializer_class = PhoneNumbersSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
-    lookup_field = ('phone_number')
-
-
 #Api Root
 @api_view(('GET',))
 def api_root(request, format=None):
     return Response({
         'users': reverse('users-list', request=request, format=format),
-        'phone_numbers': reverse('phoneNumbers-list', kwargs={}, request=request, format=format)
+	'friendships': reverse('add-friendship', request=request, format=format),
+  
 })

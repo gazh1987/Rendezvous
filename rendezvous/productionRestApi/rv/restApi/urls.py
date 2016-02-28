@@ -1,6 +1,7 @@
 from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from restApi import views
+from push_notifications.api.rest_framework import GCMDeviceAuthorizedViewSet
 
 # API endpoints
 urlpatterns = format_suffix_patterns([
@@ -27,15 +28,10 @@ urlpatterns = format_suffix_patterns([
         views.FriendsList.as_view(),
         name='friends_list'),
 
-    #/phoneNumbers/
-    url(r'^phoneNumbers/$',
-        views.PhoneNumberList.as_view(),
-        name='phoneNumbers-list'),
-
-    #/phoneNumbers/pk/
-    url(r'^phoneNumbers/(?P<phone_number>.+)/$',
-        views.PhoneNumberDetail.as_view(),
-        name='phoneNumbers-detail')
+    url(r'^device/GCM/?$', 
+	GCMDeviceAuthorizedViewSet.as_view({'post': 'create'}), 
+	name='create_gcm_device'),
+        
 
     #POST /login/
     #GET /users/me

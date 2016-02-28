@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from restApi.models import RendezvousUsers, PhoneNumbers, Friends
+from restApi.models import RendezvousUsers, Friends
 from authemail.serializers import UserSerializer
 
 
@@ -7,12 +7,6 @@ class UserSerializer(UserSerializer,serializers.HyperlinkedModelSerializer):
     class Meta:
         model = RendezvousUsers
         fields = ('id', 'email', 'first_name', 'last_name', 'last_known_position')
-
-
-class PhoneNumbersSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = PhoneNumbers
-        fields = ('phone_number', 'email')
 
 
 class FriendsSerializer(serializers.ModelSerializer):
