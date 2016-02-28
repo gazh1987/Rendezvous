@@ -40,8 +40,8 @@ class AddFriendship(mixins.ListModelMixin,
 
     def post(self, request, *args, **kwargs):
         #Change .DATA to .data (lower case) for production server
-        request.data["from_friend"] = RendezvousUsers.objects.filter(email=request.data["from_friend"]).values_list('pk')
-        request.data["to_friend"] = RendezvousUsers.objects.filter(email=request.data["to_friend"]).values_list('pk')
+        request.DATA["from_friend"] = RendezvousUsers.objects.filter(email=request.DATA["from_friend"]).values_list('pk')
+        request.DATA["to_friend"] = RendezvousUsers.objects.filter(email=request.DATA["to_friend"]).values_list('pk')
         return self.create(request, *args, **kwargs)
 
 
