@@ -10,6 +10,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
+from push_notifications.models import GCMDevice
 
 class UserList(generics.ListCreateAPIView):
     queryset = RendezvousUsers.objects.all()
@@ -80,8 +81,14 @@ class AddNotifications(mixins.ListModelMixin,
         #request.data["to_friend"] = RendezvousUsers.objects.filter(email=request.data["to_friend"]).values_list('pk')
         
         print(request.data)
-        return self.create(request, *args, **kwargs)
+	
+        #Send push notification
+        user = RendezvousUsers.objects.filter(id=request.data["to_friend"])
+        devices = GCMDevice.objects.filter(user=user)
+        devices.send_message(request.data["message"]);        
 
+        return self.create(request, *args, **kwargs)
+	
 
 class NotificationsList(generics.ListCreateAPIView):
     """
@@ -96,12 +103,11 @@ class NotificationsList(generics.ListCreateAPIView):
         return Notifications.objects.filter(from_friend=pkey)
 
 
-
 #Api Root
 @api_view(('GET',))
 def api_root(request, format=None):
     return Response({
         'users': reverse('users-list', request=request, format=format),
 	'friendships': reverse('add-friendship', request=request, format=format),
-  
+  	'notifications': reverse('add-notification', request=request, format=format),
 })
