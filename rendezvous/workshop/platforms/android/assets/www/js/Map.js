@@ -124,7 +124,7 @@ var Map = function()
             for (i = 0; i < fMkr.length; i++)
             {
                 map.removeLayer(fMkr[i].value);
-     local       }
+            }
 
             fMkr = [];
             mkrDetails = [];

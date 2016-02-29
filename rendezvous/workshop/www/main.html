@@ -17,9 +17,18 @@
         <script src="js/User.js"></script>
         <script src="js/Map.js"></script>
         <script src="js/standardFunctionality.js"></script>
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+	    <script src="js/pushMessagingHandler.js"></script>
+
+        <script type="text/javascript" charset="utf-8">
+            function onLoad()
+            {
+                document.addEventListener("deviceready", onDeviceReady, false);
+            }
+        </script>
     </head>
-		
-	<body>
+
+	<body onload="onLoad()">
         <div data-role="page" id="main">
             <div data-role="header" id="header">
                 <div class="dropdown">
@@ -33,6 +42,7 @@
                             <li role="separator" class="divider"></li>
                             <li><input type="button" class="btn btn-default" id="logout" value="Logout"></li>
                         </ul>
+                        <a href="#notifications" class="notification_btn"><span name="alert_not" class="glyphicon glyphicon-bell alert_not" aria-hidden="true"></span></a>
                         <h3 style="float:right">Rendezvous</h3>
                 </div>
             </div>
@@ -42,8 +52,24 @@
             <div class="fixed">
                 <img id="toggleLocate" src="images/locate-on.png" style="width:40px; height:40px">
             </div>
+        </div>
 
+        <div data-role="page" id="notifications">
+            <div data-role="header" id="header">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
 
+                            <a href="#main" class="btn btn-default">Map</a>
+                            <a href="#friendsList" class="btn btn-default">Friends List</a>
+
+                        </ul>
+                        <a href="#notifications" class="notification_btn"><span name="alert_not" class="glyphicon glyphicon-bell alert_not" aria-hidden="true"></span></a>
+                        <h3 style="float:right">Rendezvous</h3>
+                </div>
+
+            </div>
         </div>
 
         <div data-role="page" id="friendsList">
@@ -57,6 +83,7 @@
                             <li><input type="button" class="btn btn-default" id="logout" value="Create New Friend" data-toggle="modal" data-target="#createNewFriend"></li>
 
                         </ul>
+                        <a href="#notifications" class="notification_btn"><span name="alert_not" class="glyphicon glyphicon-bell alert_not" aria-hidden="true"></span></a>
                         <h3 style="float:right">Rendezvous</h3>
                 </div>
             </div>
@@ -120,6 +147,18 @@
                 var m = new Map();
             });
 
+            //Set notification button color if there are new notifications
+            var new_notification = JSON.parse(localStorage.getItem('new_notification'));
+            if (new_notification == true)
+            {
+                var elements = document.getElementsByName("alert_not");
+                var length = elements.length;
+
+                for (var i = 0; i < length; i++)
+                {
+                    elements[i].style.color='limegreen';
+                }
+            }
 		</script>
 	</body>
 </html>

@@ -55,3 +55,14 @@ div.fixed {
     border-radius: 10px;
     background-color: rgba(160, 160, 153, 0.34);
 }
+
+.alert_not
+{
+    top: 9px;
+    margin: 4px;
+    font-size: 1.7em;
+    color: #333333;
+    background: #ededed;
+    padding: 4px;
+    border-radius: 3px;
+}
