@@ -22,17 +22,27 @@ urlpatterns = format_suffix_patterns([
     url(r'^friends/$',
         views.AddFriendship.as_view(),
         name='add-friendship'),
-
+    
     #/friends/pk/
     url(r'^friends/([\w].+)/$',
         views.FriendsList.as_view(),
         name='friends_list'),
-
+	
+    #/device/GCM/
     url(r'^device/GCM/?$', 
 	GCMDeviceAuthorizedViewSet.as_view({'post': 'create'}), 
 	name='create_gcm_device'),
-        
 
+    #/notifications/
+    url(r'^notifications/$',
+        views.AddNotifications.as_view(),
+        name='add-notification'),
+
+    #/notifications/pk/
+    url(r'^notifications/([\w].+)/$',
+        views.NotificationsList.as_view(),
+        name='notifications_list'),
+    
     #POST /login/
     #GET /users/me
     #POST /signup/

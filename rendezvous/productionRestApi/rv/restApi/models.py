@@ -1,6 +1,7 @@
 from authemail.models import EmailUserManager, EmailAbstractUser
 from django.contrib.gis.db import models
-
+import datetime as dt
+from datetime import datetime
 
 class RendezvousUsers(EmailAbstractUser):
     def get_short_name(self):
@@ -21,11 +22,19 @@ class Friends(models.Model):
     to_friend = models.ForeignKey(RendezvousUsers, related_name="to_friend_set")
     from_friend_email = models.EmailField(default="default@email.com", null=True)
     to_friend_email = models.EmailField("defaut@email.com", null=True)
-
+    	
     def __unicode__(self):
         return u'%s, %s' % (self.from_friend.email, self.to_friend.email)
 
     class Meta:
         unique_together=(('to_friend', 'from_friend'), )
 
+
+class Notifications(models.Model):
+    from_friend = models.ForeignKey(RendezvousUsers, related_name="notif_from_friend_set")
+    to_friend = models.ForeignKey(RendezvousUsers, related_name="notif_to_friend_set")
+    from_friend_email = models.EmailField(default="default@email.com", null=True)
+    to_friend_email = models.EmailField("defaut@email.com", null=True)
+    message = models.CharField(max_length=255) 
+    timestamp = models.DateTimeField(auto_now_add=True)
 

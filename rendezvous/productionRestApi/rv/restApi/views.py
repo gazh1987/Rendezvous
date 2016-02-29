@@ -1,6 +1,6 @@
 import os
-from restApi.models import RendezvousUsers, Friends
-from restApi.serializers import UserSerializer, FriendsSerializer
+from restApi.models import RendezvousUsers, Friends, Notifications
+from restApi.serializers import UserSerializer, FriendsSerializer, NotificationsSerializer
 from restApi.permissions import IsOwnerOrReadOnly
 
 from rest_framework import mixins
@@ -58,6 +58,43 @@ class FriendsList(generics.ListCreateAPIView):
     def get_queryset(self):
         pkey = RendezvousUsers.objects.filter(email=self.args[0]).values_list('pk')
         return Friends.objects.filter(from_friend=pkey)
+
+
+class AddNotifications(mixins.ListModelMixin,
+                      mixins.CreateModelMixin,
+                      generics.GenericAPIView):
+    """
+    Add and list all notifications. When Adding new notifications, a Push message is sent to to_Friend
+    """
+    queryset = Notifications.objects.all()
+    serializer_class = NotificationsSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        print(request.data)
+        
+        #Comment out these two lines of code when testing API from Browsable API
+        #request.data["from_friend"] = RendezvousUsers.objects.filter(email=request.data["from_friend"]).values_list('pk')
+        #request.data["to_friend"] = RendezvousUsers.objects.filter(email=request.data["to_friend"]).values_list('pk')
+        
+        print(request.data)
+        return self.create(request, *args, **kwargs)
+
+
+class NotificationsList(generics.ListCreateAPIView):
+    """
+    Get individual users Notifications
+    """
+    serializer_class = NotificationsSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+
+    #This function gets the primary key of the email passed in the url
+    def get_queryset(self):
+        pkey = RendezvousUsers.objects.filter(email=self.args[0]).values_list('pk')
+        return Notifications.objects.filter(from_friend=pkey)
+
 
 
 #Api Root

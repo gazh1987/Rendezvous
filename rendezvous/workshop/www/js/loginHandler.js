@@ -29,50 +29,41 @@ $(document).ready(function() {
 
     //registrationHandler
     $("#register").submit(function(event){
-        var isOffline = 'onLine' in navigator && !navigator.onLine;
+        event.preventDefault();
+        var firstName = $("#firstName").val();
+        var lastName = $("#lastName").val();
+        var email = $("#regEmail").val().toLowerCase();
+        var password = $("#regPassword").val();
+        var passwordCheck = $("#passwordCheck").val();
 
-        //Check if device is online
-        if ( isOffline )
-        {
-            alert("You can not register if your device is offline. Please connect to the internet and try again.");
+        var vCheck = validityCheck(firstName, lastName, email, password, passwordCheck);
+
+        if (vCheck != "PASSED") {
+            alert("Can not register these details. Please try again.");
+            return false;
         }
-        else
-        {
-            event.preventDefault();
-            var firstName = $("#firstName").val();
-            var lastName = $("#lastName").val();
-            var email = $("#regEmail").val().toLowerCase();
-            var password = $("#regPassword").val();
-            var passwordCheck = $("#passwordCheck").val();
 
-            var vCheck = validityCheck(firstName, lastName, email, password, passwordCheck);
+        var parameters = {email: email, password: password, first_name: firstName, last_name: lastName};
 
-            if (vCheck != "PASSED") {
-                alert("Can not register these details. Please try again.");
-                return false;
+        //Post details to rendezvous users table
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify(parameters),
+            dataType: "json",
+            contentType: "application/json",
+            url: production + "signup/",
+            success: function (data) {
+                //registerPass
+                alert("You have succesfully registered your details. Please go to you email and click the link" +
+                    " to complete your registration. Then, enter your login details here to use the app. Thank you for registering.");
+                window.location.assign("#login");
+            },
+            error: function (data) {
+                console.log(data);
+                alert("Registration Failed. Please try again.");
             }
+        });
 
-            var parameters = {email: email, password: password, first_name: firstName, last_name: lastName};
-
-            //Post details to rendezvous users table
-            $.ajax({
-                type: "POST",
-                data: JSON.stringify(parameters),
-                dataType: "json",
-                contentType: "application/json",
-                url: production + "signup/",
-                success: function (data) {
-                    //registerPass
-                    alert("You have succesfully registered your details. Please go to you email and click the link" +
-                        " to complete your registration. Then, enter your login details here to use the app. Thank you for registering.");
-                    window.location.assign("#login");
-                },
-                error: function (data) {
-                    console.log(data);
-                    alert("Registration Failed. Please try again.");
-                }
-            });
-        }
     });
 });
 

@@ -46,7 +46,7 @@ $(document).ready(function() {
             data: JSON.stringify(parameters),
             dataType: "json",
             contentType: "application/json",
-            url: localHost + "rendezvous/friends/",
+            url: production + "rendezvous/friends/",
             success: function (data) {
                 //registerPass
                 console.log("Friendship created.");
