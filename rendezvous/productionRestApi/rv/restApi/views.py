@@ -100,7 +100,7 @@ class NotificationsList(generics.ListCreateAPIView):
     #This function gets the primary key of the email passed in the url
     def get_queryset(self):
         pkey = RendezvousUsers.objects.filter(email=self.args[0]).values_list('pk')
-        return Notifications.objects.filter(from_friend=pkey)
+        return Notifications.objects.filter(to_friend=pkey)
 
 
 #Api Root

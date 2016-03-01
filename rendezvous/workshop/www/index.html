@@ -75,5 +75,12 @@
             </form>
         </div>
     </div>
+
+    <script>
+        //Set up login details for easier login
+        var loginEmail = localStorage.getItem('loginEmail');
+        loginEmail = loginEmail.replace(/\"/g, '');
+        document.getElementById("email").value = loginEmail;
+    </script>
 </body>
 </html>

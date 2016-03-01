@@ -24,6 +24,7 @@ $(document).ready(function() {
             success: function (data) {
                 console.log("Logout Successful");
                 localStorage.clear();
+                localStorage.setItem('loginEmail', JSON.stringify(currentUser.email));
                 window.location.assign("index.html");
             },
             error: function (data) {

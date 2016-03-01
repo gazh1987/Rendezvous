@@ -131,9 +131,9 @@ function getFriends(token, email)
 
             var friendsList = [];
 
-            for (i = 0; i < data.count; i ++)
+            for (i = 0; i < data.length; i ++)
             {
-                friendsList.push(data.results[i].to_friend_email);
+                friendsList.push(data[i].to_friend_email);
             }
 
             localStorage.setItem('friendsList', JSON.stringify(friendsList));
