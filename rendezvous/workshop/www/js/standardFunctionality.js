@@ -42,7 +42,8 @@ $(document).ready(function() {
 
         var friend = $("#friendEmailCreationField").val();
         friend = friend.toLowerCase();
-        var parameters = {from_friend: currentUser.email, from_friend_email: currentUser.email, to_friend: friend, to_friend_email: friend};
+        var lookup = currentUser.email + "" + friend;
+        var parameters = {from_friend: currentUser.email, from_friend_email: currentUser.email, to_friend: friend, to_friend_email: friend, lookupField: lookup};
 
         $.ajax({
             type: "POST",
@@ -82,7 +83,7 @@ function populateFriendsList()
             contentType: "application/json",
             url: production + "rendezvous/users/" + friendsList[i] + "/",
             success: function(data){
-
+                console.log(data);
                 var newFriend = "<li data-icon=\"true\">" +
                         "<button id=\"" + data.email + "\" class=\"btn btn-primary friendButtonClick\" data-toggle=\"modal\" data-target=\"#friendClickOptions\">" +
                         data.first_name + " " + data.last_name + "<br><p>" + data.email + "</p>" +

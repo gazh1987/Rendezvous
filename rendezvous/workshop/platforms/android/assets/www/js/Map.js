@@ -143,6 +143,8 @@ var Map = function()
             //once. This would be wasteful as the track friends function
             //which is attatched to this interval tracks every user in the
             //fMkr array anyway.
+            sendPushMessage(currentUser, friendEmailId);
+
             if (trackFriendsId) {
                 clearInterval(trackFriendsId);
             }
@@ -154,6 +156,32 @@ var Map = function()
         });
     });
 
+    function sendPushMessage(currentUser, friendEmail)
+    {
+        var name = currentUser.firstName + " " + currentUser.lastName;
+        var msg = name + " has sent you a rendezvous request!";
+        var parameters = {from_friend_email: currentUser.email, to_friend_email: friendEmail, from_friend_name: name, message: msg, from_friend: currentUser.email, to_friend: friendEmailId};
+        console.log(parameters);
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify(parameters),
+            headers: {'Authorization': 'Token ' + currentUser.auth_token},
+            contentType: "application/json",
+            url: production + "/rendezvous/notifications/",
+            success: function(data){
+                console.log("Successfully sent push message notification");
+                console.log(data);
+            },
+            error: function(data){
+                console.log("Failed sending push message notification.");
+                console.log(data);
+            }
+        });
+    }
+
+
     function trimAllWhiteSpace(id)
     {
         var thisId = id;
@@ -162,6 +190,7 @@ var Map = function()
     }
 
     var fMkr = [];
+    var tracking_enabled = [];
     var tmpMkr;
     function setupFriendMarker(fid)
     {
@@ -176,14 +205,30 @@ var Map = function()
                 console.log("Setting up Marker for user :" + fid);
                 var parsedCoords = parseCoordinates(data.last_known_position);
 
-                //Place marker on map
+                //Setup marker and store in a dictionary
                 tempMkr = L.marker([parsedCoords.longitude, parsedCoords.latitude], {icon: friendMarker}).bindPopup("<b>" + data.first_name + " "
-                    + data.last_name + "</b><br><p>" + data.email + "</p>").addTo(map);
+                    + data.last_name + "</b><br><p>" + data.email + "</p>");
 
-                //save marker in dict
+                /***
+                 *  fMkr   data structure
+                 *  key:   email of the friend to be tracked
+                 *  value: the marker of the friend
+                 *  onMap: tells the program if the marker has been applied
+                 */
                 fMkr.push({
                     key: data.email,
-                    value: tempMkr
+                    value: tempMkr,
+                    onMap: false
+                });
+
+                /***
+                 *  tracking_enabled    data structure
+                 *  key                 email of the friend being tracked
+                 *  tracking_enabled    boolean flag to
+                 */
+                tracking_enabled.push({
+                    key: data.email,
+                    tracking_enabled: false
                 });
             },
             error: function(data){
@@ -209,36 +254,94 @@ var Map = function()
 
             console.log("Attempting to GET data for user: " + fMkr[i].key);
 
-            $.ajax({type: "GET",
-                dataType: "json",
-                headers: { 'Authorization': 'Token ' + currentUser.auth_token},
-                contentType: "application/json",
-                url: production + "rendezvous/users/" + fMkr[i].key + "/",
-                success: function(data){
+            // First the program checks if the friend we wish to track
+            // has allowed us to track their location by checking the
+            // tracking_enabled variable attatched to the friendship on
+            // the API.
+            // If the tracking_enabled field is true, the tracking_enabled
+            // variable is set to true and the program can now place and update
+            // the friends marker on the map
+            checkIfTrackingEnabled(fMkr[i].key);
 
-                    console.log("Recieved data for user: " + data.email);
-
-                    //Loop through mkrDetails to get index of marker
-                    // in fMkr array for this user
-                    for (i = 0; i < mkrDetails.length; i++)
+            for(var j = 0; j < tracking_enabled.length; j++)
+            {
+                if (tracking_enabled[j].key == fMkr[i].key)
+                {
+                    if(tracking_enabled[j].tracking_enabled == true)
                     {
-                        if (mkrDetails[i].key == data.email)
-                        {
-                            console.log("Updating Marker for user: " + mkrDetails[i].key);
-                            var index = mkrDetails[i].value;
-                        }
-                    }
+                        console.log("Getting Data for user: " + fMkr[i].key);
 
-                    var parsedCoords = parseCoordinates(data.last_known_position);
-                    fMkr[index].value.setLatLng([parsedCoords.longitude, parsedCoords.latitude]).update();
-                },
-                error: function(data){
-                    console.log("Unable to retrieve friends location");
-                    alert("Unable to retrieve friends. Check your internet connection.");
+                        $.ajax({type: "GET",
+                            dataType: "json",
+                            headers: { 'Authorization': 'Token ' + currentUser.auth_token},
+                            contentType: "application/json",
+                            url: production + "rendezvous/users/" + fMkr[i].key + "/",
+                            success: function(data){
+
+                                console.log("Recieved data for user: " + data.email);
+
+                                //Loop through mkrDetails to get index of marker
+                                // in fMkr array for this user
+                                for (i = 0; i < mkrDetails.length; i++)
+                                {
+                                    if (mkrDetails[i].key == data.email)
+                                    {
+                                        console.log("Updating Marker for user: " + mkrDetails[i].key);
+                                        var index = mkrDetails[i].value;
+                                    }
+                                }
+
+                                //add marker to the map if it doesnt already exist on the map
+                                if (fMkr[index].onMap == false)
+                                {
+                                    fMkr[index].onMap = true;
+                                    fMkr[index].value.addTo(map);
+                                }
+
+                                //update the marker
+                                var parsedCoords = parseCoordinates(data.last_known_position);
+                                fMkr[index].value.setLatLng([parsedCoords.longitude, parsedCoords.latitude]).update();
+                            },
+                            error: function(data){
+                                console.log("Unable to retrieve friends location");
+                                alert("Unable to retrieve friends. Check your internet connection.");
+                            }
+                        });
+                    }
                 }
-            });
+            }
         }
     }
+
+
+    function checkIfTrackingEnabled(friend)
+    {
+        console.log("Checking if tracking is enabled for friend: " + friend);
+
+        $.ajax({type: "GET",
+            dataType: "json",
+            headers: { 'Authorization': 'Token ' + currentUser.auth_token},
+            contentType: "application/json",
+            url: production + "rendezvous/friendTracking/" + currentUser.email + "/" + friend + "/",
+            success: function(data){
+                console.log("Recieved friend tracking data for user " + data[0].to_friend_email);
+
+                for (i = 0; i < tracking_enabled.length; i++)
+                {
+                    if (tracking_enabled[i].key == data[0].to_friend_email)
+                    {
+                        //Update tracking enabled field in dictionary
+                        tracking_enabled[i].tracking_enabled = data[0].tracking_enabled;
+                    }
+                }
+            },
+            error: function(data){
+                console.log(data);
+                console.log("Friend Tracking Data not recieved");
+            }
+        });
+    }
+
 
     function openPostGate()
     {

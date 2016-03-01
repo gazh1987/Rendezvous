@@ -72,6 +72,18 @@ class FriendTracking(generics.ListCreateAPIView):
         userpkey = RendezvousUsers.objects.filter(email=self.args[0]).values_list('pk')
         friendpkey = RendezvousUsers.objects.filter(email=self.args[1]).values_list('pk')
         return Friends.objects.filter(from_friend=userpkey).filter(to_friend=friendpkey)
+
+
+class UpdateFriendTracking(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Updates the tracking_enabled field
+    """
+    serializer_class = FriendsSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    lookup_field = ('lookupField')
+
+    def get_queryset(self):      
+        return Friends.objects.all()
       
 
 class AddNotifications(mixins.ListModelMixin,
@@ -90,8 +102,8 @@ class AddNotifications(mixins.ListModelMixin,
         print(request.data)
         
         #Comment out these two lines of code when testing API from Browsable API
-        #request.data["from_friend"] = RendezvousUsers.objects.filter(email=request.data["from_friend"]).values_list('pk')
-        #request.data["to_friend"] = RendezvousUsers.objects.filter(email=request.data["to_friend"]).values_list('pk')
+        request.data["from_friend"] = RendezvousUsers.objects.filter(email=request.data["from_friend"]).values_list('pk')
+        request.data["to_friend"] = RendezvousUsers.objects.filter(email=request.data["to_friend"]).values_list('pk')
         
         print(request.data)
 	

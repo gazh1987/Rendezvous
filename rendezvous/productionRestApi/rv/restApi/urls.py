@@ -32,6 +32,11 @@ urlpatterns = format_suffix_patterns([
     url(r'^friendTracking/([\w].+)/([\w].+)/$',
         views.FriendTracking.as_view(),
         name='friend_tracking'),
+
+    #/updateFriendTracking/id/
+    url(r'^updateFriendTracking/(?P<lookupField>.+)/$',
+        views.UpdateFriendTracking.as_view(),
+        name='update_friend_tracking'),
 	
     #/device/GCM/
     url(r'^device/GCM/?$', 

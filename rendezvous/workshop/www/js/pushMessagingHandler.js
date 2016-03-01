@@ -73,18 +73,6 @@ $(document).ready(function(){
             url: production + "rendezvous/notifications/" + currentUser.email + "/",
             success: function (data) {
                 populateNotificationsList();
-                /*console.log(data);
-                var notificationsArray = data;
-                var not_list = document.getElementById('notificationsList');
-
-                for(var i = notificationsArray.results.length - 1; i >= 0; i--)
-                {
-                    var newNotification = "<li data-icon=\"true\">" +
-                        notificationsArray.results[i] +
-                        "</li>";
-
-                    not_list.innerHTML = not_list.innerHTML + newNotification;
-                }*/
             },
             error: function (data) {
                 console.log(data);
@@ -111,14 +99,26 @@ function populateNotificationsList()
             not_list.innerHTML = "";
 
             var background = "white";
+            var btn;
 
+            console.log("not array" + notificationsArray[0]);
             for(var i = notificationsArray.length - 1; i >= 0; i--)
             {
-                var newNotification = "<li style=\"background-color:" + background + "\"\" data-icon=\"true\">" +
-                    notificationsArray[i].timestamp +
+                var tStamp = parseTimestamp(notificationsArray[i].timestamp);
+                console.log(notificationsArray[i]);
+
+                var newNotification = "<li style=\"padding: 10px; background-color:" + background + "\"\" data-icon=\"true\">" +
+                    tStamp + "<br>" +
+                    "<strong>Sender: </strong>" + notificationsArray[i].from_friend_name + "<br>" +
+                    "<strong>Message: </strong>" + notificationsArray[i].message + "<br><br>" +
+                    "<button name=\"acceptRendezvouRequest\" class=\"btn\" id=\"temp_id\" onClick=\"acceptRendezvousRequest(this.id)\">Accept Rendezvous Request</button>" +
                     "</li>";
 
                 not_list.innerHTML = not_list.innerHTML + newNotification;
+
+                //Dynamically set id of the button
+                btn = document.getElementById("temp_id");
+                btn.setAttribute("id", notificationsArray[i].from_friend_email);
 
                 //Alternate background color
                 if (background == "white")
@@ -136,3 +136,39 @@ function populateNotificationsList()
         }
     });
 }
+
+function acceptRendezvousRequest(id)
+{
+    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    console.log("Accepting Rendezvous request. Enabling tracking for friend " + id);
+
+    var endPoint = id + "" + currentUser.email;
+    var parameters = { "tracking_enabled": "true" };
+
+    $.ajax({
+        type: "PATCH",
+        data: JSON.stringify(parameters),
+        headers: {'Authorization': 'token ' + currentUser.auth_token},
+        dataType: "json",
+        contentType: "application/json",
+        url: production + "rendezvous/updateFriendTracking/" + endPoint + "/",
+        success: function (data) {
+            console.log("Successfully updated enabled tracking field");
+            console.log(id + "is now tracking your location");
+            console.log(data);
+        },
+        error: function (data) {
+            console.log("Updating field failed");
+            console.log(data);
+        }
+    });
+}
+
+function parseTimestamp(t)
+{
+    var date = t.substring(0, t.indexOf("T"));
+    var time = t.substring(t.indexOf("T") + 1, t.indexOf(":", t.indexOf(":") + 1));
+    var datetime = "<strong>Time recieved: </strong>" + time + "<br><strong>Date Received: </strong>" + date;
+    return datetime;
+}
+

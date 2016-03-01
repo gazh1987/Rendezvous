@@ -23,6 +23,7 @@ class Friends(models.Model):
     from_friend_email = models.EmailField(default="default@email.com", null=True)
     to_friend_email = models.EmailField("defaut@email.com", null=True)
     tracking_enabled = models.BooleanField(default=False)    
+    lookupField = models.CharField(max_length=255, default="default_field")
     	
     def __unicode__(self):
         return u'%s, %s' % (self.from_friend.email, self.to_friend.email)
@@ -36,6 +37,7 @@ class Notifications(models.Model):
     to_friend = models.ForeignKey(RendezvousUsers, related_name="notif_to_friend_set")
     from_friend_email = models.EmailField(default="default@email.com", null=True)
     to_friend_email = models.EmailField("defaut@email.com", null=True)
+    from_friend_name = models.CharField(max_length=255)
     message = models.CharField(max_length=255) 
     timestamp = models.DateTimeField(auto_now_add=True)
 

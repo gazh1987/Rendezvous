@@ -143,6 +143,8 @@ var Map = function()
             //once. This would be wasteful as the track friends function
             //which is attatched to this interval tracks every user in the
             //fMkr array anyway.
+            sendPushMessage(currentUser, friendEmailId);
+
             if (trackFriendsId) {
                 clearInterval(trackFriendsId);
             }
@@ -153,6 +155,32 @@ var Map = function()
             $.mobile.changePage("#main");
         });
     });
+
+    function sendPushMessage(currentUser, friendEmail)
+    {
+        var name = currentUser.firstName + " " + currentUser.lastName;
+        var msg = name + " has sent you a rendezvous request!";
+        var parameters = {from_friend_email: currentUser.email, to_friend_email: friendEmail, from_friend_name: name, message: msg, from_friend: currentUser.email, to_friend: friendEmailId};
+        console.log(parameters);
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify(parameters),
+            headers: {'Authorization': 'Token ' + currentUser.auth_token},
+            contentType: "application/json",
+            url: production + "/rendezvous/notifications/",
+            success: function(data){
+                console.log("Successfully sent push message notification");
+                console.log(data);
+            },
+            error: function(data){
+                console.log("Failed sending push message notification.");
+                console.log(data);
+            }
+        });
+    }
+
 
     function trimAllWhiteSpace(id)
     {
@@ -284,6 +312,7 @@ var Map = function()
             }
         }
     }
+
 
     function checkIfTrackingEnabled(friend)
     {
