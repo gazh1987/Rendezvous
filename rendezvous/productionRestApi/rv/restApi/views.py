@@ -61,6 +61,19 @@ class FriendsList(generics.ListCreateAPIView):
         return Friends.objects.filter(from_friend=pkey)
 
 
+class FriendTracking(generics.ListCreateAPIView):
+    """
+    Returns the friendship between User and friend to check if tracking is enabled
+    """
+    serializer_class = FriendsSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+        
+    def get_queryset(self):
+        userpkey = RendezvousUsers.objects.filter(email=self.args[0]).values_list('pk')
+        friendpkey = RendezvousUsers.objects.filter(email=self.args[1]).values_list('pk')
+        return Friends.objects.filter(from_friend=userpkey).filter(to_friend=friendpkey)
+      
+
 class AddNotifications(mixins.ListModelMixin,
                       mixins.CreateModelMixin,
                       generics.GenericAPIView):

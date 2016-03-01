@@ -27,6 +27,11 @@ urlpatterns = format_suffix_patterns([
     url(r'^friends/([\w].+)/$',
         views.FriendsList.as_view(),
         name='friends_list'),
+
+    #/friendsTracking/pk/pk/
+    url(r'^friendTracking/([\w].+)/([\w].+)/$',
+        views.FriendTracking.as_view(),
+        name='friend_tracking'),
 	
     #/device/GCM/
     url(r'^device/GCM/?$', 
