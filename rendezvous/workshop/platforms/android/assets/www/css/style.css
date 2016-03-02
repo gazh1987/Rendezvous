@@ -35,10 +35,11 @@ h3
     margin-right: auto;
 }
 
-.btn-default
+.btn
 {
     width: 100%;
     border: 0px;
+    margin: 1px;
 }
 
 .modal-backdrop

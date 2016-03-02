@@ -27,7 +27,7 @@ function onDeviceReady()
         var length = elements.length;
         for (var i = 0; i < length; i++)
         {
-            elements[i].style.color='green';
+            elements[i].style.color='red';
         }
 
         console.log(data.message);
@@ -45,7 +45,7 @@ $(document).ready(function(){
         var length = elements.length;
 
         //Get new notifications if they exist
-        if (elements[0].style.color == "green")
+        if (elements[0].style.color == "red")
         {
             getNewNotifications();
         }
@@ -81,6 +81,7 @@ $(document).ready(function(){
     }
 });
 
+
 function populateNotificationsList()
 {
     console.log("Clicked_not");
@@ -106,25 +107,36 @@ function populateNotificationsList()
             {
                 var tStamp = parseTimestamp(notificationsArray[i].timestamp);
 
+                console.log(notificationsArray[i].type);
+                var deleteButton = "<li style=\"padding: 10px; background-color:" + background + "\"\" data-icon=\"true\">" +
+                        tStamp + "<br>" +
+                        "<strong>Sender: </strong>" + notificationsArray[i].from_friend_name + "<br>" +
+                        "<strong>Message: </strong>" + notificationsArray[i].message + "<br><br>" +
+                        "<button name=\"deleteRendezvouRequest\" class=\"btn\" id=\"del_id\" onClick=\"deleteRendezvousRequest(this.id)\">Delete Rendezvous Request</button>" +
+                        "</li>";
+
                 //If request accepted, dont show the accept rendezvous request button
                 if (notificationsArray[i].accepted == false)
                 {
-                    var newNotification = "<li style=\"padding: 10px; background-color:" + background + "\"\" data-icon=\"true\">" +
+                    if(notificationsArray[i].type == "response")
+                    {
+                        var newNotification = deleteButton;
+                    }
+                    else
+                    {
+                        var newNotification = "<li style=\"padding: 10px; background-color:" + background + "\"\" data-icon=\"true\">" +
                         tStamp + "<br>" +
                         "<strong>Sender: </strong>" + notificationsArray[i].from_friend_name + "<br>" +
                         "<strong>Message: </strong>" + notificationsArray[i].message + "<br><br>" +
-                        "<button name=\"acceptRendezvouRequest\" class=\"btn btn-primary\" id=\"temp_id\" data-id=\"timestamp_id\" onClick=\"acceptRendezvousRequest(this.id, this.dataset.id)\">Accept Rendezvous Request</button><br>" +
-                        "<button name=\"deleteRendezvouRequest\" class=\"btn btn-danger\" id=\"del_id\" onClick=\"deleteRendezvousRequest(this.id)\">Delete Rendezvous Request</button>" +
+                        "<button name=\"acceptRendezvouRequest\" class=\"btn\" id=\"temp_id\" data-id=\"timestamp_id\" onClick=\"acceptRendezvousRequest(this.id, this.dataset.id)\">Accept Rendezvous Request</button><br>" +
+                        "<button name=\"deleteRendezvouRequest\" class=\"btn\" id=\"del_id\" onClick=\"deleteRendezvousRequest(this.id)\">Delete Rendezvous Request</button>" +
                         "</li>";
+                    }
+
                 }
                 else
                 {
-                    var newNotification = "<li style=\"padding: 10px; background-color:" + background + "\"\" data-icon=\"true\">" +
-                        tStamp + "<br>" +
-                        "<strong>Sender: </strong>" + notificationsArray[i].from_friend_name + "<br>" +
-                        "<strong>Message: </strong>" + notificationsArray[i].message + "<br><br>" +
-                        "<button name=\"deleteRendezvouRequest\" class=\"btn btn-danger\" id=\"del_id\" onClick=\"deleteRendezvousRequest(this.id)\">Delete Rendezvous Request</button>" +
-                        "</li>";
+                    var newNotification = deleteButton;
                 }
 
                 not_list.innerHTML = not_list.innerHTML + newNotification;
@@ -177,10 +189,10 @@ function acceptRendezvousRequest(id, timestamp)
         success: function (data) {
             alert("User " +  id + " is now tracking your location");
             console.log(id + "is now tracking your location");
-            var parameters2 = { "accepted": "true" };
 
             //Then update the accepted notification field so the accept button will not show on the
             //senders app anymore
+            var parameters2 = { "accepted": "true" };
             $.ajax({
                 type: "PATCH",
                 data: JSON.stringify(parameters2),
@@ -196,8 +208,40 @@ function acceptRendezvousRequest(id, timestamp)
 
                     //Then send a new push message to the sender telling them X is now tracking
                     //their location
+                    var name = currentUser.firstName + " " + currentUser.lastName;
+                    var msg = name + " accepted your rendezvous request!";
+                    var t = "response";
+                    var parameters = {
+                                        accepted:true,
+                                        type:t,
+                                        from_friend_email: currentUser.email,
+                                        to_friend_email: id,
+                                        from_friend_name: name,
+                                        message: msg,
+                                        from_friend: currentUser.email,
+                                        to_friend: id
+                    };
+                    console.log(parameters);
+
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        data: JSON.stringify(parameters),
+                        headers: {'Authorization': 'Token ' + currentUser.auth_token},
+                        contentType: "application/json",
+                        url: production + "/rendezvous/notifications/",
+                        success: function(data){
+                            console.log("Successfully sent push message notification");
+                            console.log(data);
+                        },
+                        error: function(data){
+                            console.log("Failed sending push message notification.");
+                            console.log(data);
+                        }
+                    });
                 },
                 error: function (data) {
+                    alert("This notification is not valid anymore.");
                     console.log("Updating field failed");
                     console.log(data);
                 }
@@ -205,6 +249,7 @@ function acceptRendezvousRequest(id, timestamp)
         },
         error: function (data) {
             console.log("Updating field failed");
+            alert("This notification is not valid anymore.")
             console.log(data);
         }
     });

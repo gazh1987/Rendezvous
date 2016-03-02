@@ -37,7 +37,7 @@ urlpatterns = format_suffix_patterns([
     url(r'^updateFriendTracking/(?P<lookupField>.+)/$',
         views.UpdateFriendTracking.as_view(),
         name='update_friend_tracking'),
-	
+		
     #/device/GCM/
     url(r'^device/GCM/?$', 
 	GCMDeviceAuthorizedViewSet.as_view({'post': 'create'}), 

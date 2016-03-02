@@ -1,10 +1,3 @@
-/**
- * This javascript file handles any standard app functionality.
- *  - Logging out.
- *  - Setting up the friends list.
- *  - Handling click events from friends list.
- */
-
 var localHost = "http://localhost:8000/";
 var production = "http://rendezvous-704e3pxx.cloudapp.net/";
 
@@ -65,6 +58,7 @@ $(document).ready(function() {
         });
     });
 });
+
 
 function populateFriendsList()
 {

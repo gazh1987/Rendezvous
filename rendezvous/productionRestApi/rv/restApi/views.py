@@ -12,6 +12,7 @@ from rest_framework.reverse import reverse
 
 from push_notifications.models import GCMDevice
 
+
 class UserList(generics.ListCreateAPIView):
     queryset = RendezvousUsers.objects.all()
     serializer_class = UserSerializer

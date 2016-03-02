@@ -25,6 +25,8 @@ $(document).ready(function() {
                 console.log("Logout Successful");
                 localStorage.clear();
 
+                stopAllowingTracking();
+
                 //Store email for easier login
                 localStorage.setItem('loginEmail', JSON.stringify(currentUser.email));
                 window.location.assign("index.html");
@@ -65,6 +67,12 @@ $(document).ready(function() {
         });
     });
 });
+
+function stopAllowingTracking()
+{
+    var friendsTrackingUser = JSON.parse(localStorage.getItem('friendsTrackingUser'));
+    console.log("FriendsTracking User at Logout: " + friendsTrackingUser);
+}
 
 function populateFriendsList()
 {

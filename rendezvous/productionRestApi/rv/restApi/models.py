@@ -41,4 +41,5 @@ class Notifications(models.Model):
     message = models.CharField(max_length=255) 
     timestamp = models.DateTimeField(auto_now_add=True)
     accepted = models.BooleanField(default=False)
+    type = models.CharField(max_length=10, default="request")
 

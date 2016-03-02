@@ -150,7 +150,7 @@ var Map = function()
             }
 
             setupFriendMarker(friendEmailId);
-            trackFriendsId = setInterval(trackFriends, 5000);
+            trackFriendsId = setInterval(trackFriends, 10000);
             friendEmailId = "";
             $.mobile.changePage("#main");
         });
@@ -160,7 +160,8 @@ var Map = function()
     {
         var name = currentUser.firstName + " " + currentUser.lastName;
         var msg = name + " has sent you a rendezvous request!";
-        var parameters = {from_friend_email: currentUser.email, to_friend_email: friendEmail, from_friend_name: name, message: msg, from_friend: currentUser.email, to_friend: friendEmailId};
+        var t = "request";
+        var parameters = {type:t, from_friend_email: currentUser.email, to_friend_email: friendEmail, from_friend_name: name, message: msg, from_friend: currentUser.email, to_friend: friendEmailId};
         console.log(parameters);
 
         $.ajax({
@@ -308,6 +309,11 @@ var Map = function()
                             }
                         });
                     }
+                    else
+                    {
+                        map.removeLayer(fMkr[i].value);
+                    }
+
                 }
             }
         }
