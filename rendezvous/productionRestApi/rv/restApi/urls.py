@@ -52,7 +52,12 @@ urlpatterns = format_suffix_patterns([
     url(r'^notifications/([\w].+)/$',
         views.NotificationsList.as_view(),
         name='notifications_list'),
-    
+
+    #/notifications/timestamp/
+    url(r'^notifications_update_delete/(?P<timestamp>.+)/$',
+        views.NotificationsUpdateDelete.as_view(),
+        name='notifications_update_delete'),
+
     #POST /login/
     #GET /users/me
     #POST /signup/

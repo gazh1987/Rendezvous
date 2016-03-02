@@ -100,25 +100,45 @@ function populateNotificationsList()
 
             var background = "white";
             var btn;
+            var del_btn;
 
-            console.log("not array" + notificationsArray[0]);
             for(var i = notificationsArray.length - 1; i >= 0; i--)
             {
                 var tStamp = parseTimestamp(notificationsArray[i].timestamp);
-                console.log(notificationsArray[i]);
 
-                var newNotification = "<li style=\"padding: 10px; background-color:" + background + "\"\" data-icon=\"true\">" +
-                    tStamp + "<br>" +
-                    "<strong>Sender: </strong>" + notificationsArray[i].from_friend_name + "<br>" +
-                    "<strong>Message: </strong>" + notificationsArray[i].message + "<br><br>" +
-                    "<button name=\"acceptRendezvouRequest\" class=\"btn\" id=\"temp_id\" onClick=\"acceptRendezvousRequest(this.id)\">Accept Rendezvous Request</button>" +
-                    "</li>";
+                //If request accepted, dont show the accept rendezvous request button
+                if (notificationsArray[i].accepted == false)
+                {
+                    var newNotification = "<li style=\"padding: 10px; background-color:" + background + "\"\" data-icon=\"true\">" +
+                        tStamp + "<br>" +
+                        "<strong>Sender: </strong>" + notificationsArray[i].from_friend_name + "<br>" +
+                        "<strong>Message: </strong>" + notificationsArray[i].message + "<br><br>" +
+                        "<button name=\"acceptRendezvouRequest\" class=\"btn btn-primary\" id=\"temp_id\" data-id=\"timestamp_id\" onClick=\"acceptRendezvousRequest(this.id, this.dataset.id)\">Accept Rendezvous Request</button><br>" +
+                        "<button name=\"deleteRendezvouRequest\" class=\"btn btn-danger\" id=\"del_id\" onClick=\"deleteRendezvousRequest(this.id)\">Delete Rendezvous Request</button>" +
+                        "</li>";
+                }
+                else
+                {
+                    var newNotification = "<li style=\"padding: 10px; background-color:" + background + "\"\" data-icon=\"true\">" +
+                        tStamp + "<br>" +
+                        "<strong>Sender: </strong>" + notificationsArray[i].from_friend_name + "<br>" +
+                        "<strong>Message: </strong>" + notificationsArray[i].message + "<br><br>" +
+                        "<button name=\"deleteRendezvouRequest\" class=\"btn btn-danger\" id=\"del_id\" onClick=\"deleteRendezvousRequest(this.id)\">Delete Rendezvous Request</button>" +
+                        "</li>";
+                }
 
                 not_list.innerHTML = not_list.innerHTML + newNotification;
 
-                //Dynamically set id of the button
-                btn = document.getElementById("temp_id");
-                btn.setAttribute("id", notificationsArray[i].from_friend_email);
+                if (notificationsArray[i].accepted == false)
+                {
+                    //Dynamically set id of the button
+                    btn = document.getElementById("temp_id");
+                    btn.setAttribute("id", notificationsArray[i].from_friend_email);
+                    btn.setAttribute("data-id", notificationsArray[i].timestamp);
+                }
+
+                del_btn = document.getElementById("del_id");
+                del_btn.setAttribute("id", notificationsArray[i].timestamp);
 
                 //Alternate background color
                 if (background == "white")
@@ -137,14 +157,16 @@ function populateNotificationsList()
     });
 }
 
-function acceptRendezvousRequest(id)
+function acceptRendezvousRequest(id, timestamp)
 {
+    btn = document.getElementById("temp_id");
     var currentUser = JSON.parse(localStorage.getItem('currentUser'));
     console.log("Accepting Rendezvous request. Enabling tracking for friend " + id);
 
     var endPoint = id + "" + currentUser.email;
     var parameters = { "tracking_enabled": "true" };
 
+    //First update the tracking_enabled
     $.ajax({
         type: "PATCH",
         data: JSON.stringify(parameters),
@@ -153,12 +175,59 @@ function acceptRendezvousRequest(id)
         contentType: "application/json",
         url: production + "rendezvous/updateFriendTracking/" + endPoint + "/",
         success: function (data) {
-            console.log("Successfully updated enabled tracking field");
+            alert("User " +  id + " is now tracking your location");
             console.log(id + "is now tracking your location");
-            console.log(data);
+            var parameters2 = { "accepted": "true" };
+
+            //Then update the accepted notification field so the accept button will not show on the
+            //senders app anymore
+            $.ajax({
+                type: "PATCH",
+                data: JSON.stringify(parameters2),
+                headers: {'Authorization': 'token ' + currentUser.auth_token},
+                dataType: "json",
+                contentType: "application/json",
+                url: production + "rendezvous/notifications_update_delete/" + timestamp + "/",
+                success: function (data) {
+                    console.log("Update notification accepted field");
+
+                    //Update the notifications list
+                    populateNotificationsList();
+
+                    //Then send a new push message to the sender telling them X is now tracking
+                    //their location
+                },
+                error: function (data) {
+                    console.log("Updating field failed");
+                    console.log(data);
+                }
+            });
         },
         error: function (data) {
             console.log("Updating field failed");
+            console.log(data);
+        }
+    });
+}
+
+function deleteRendezvousRequest(id)
+{
+    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    $.ajax({
+        type: "DELETE",
+        headers: {'Authorization': 'token ' + currentUser.auth_token},
+        dataType: "json",
+        contentType: "application/json",
+        url: production + "rendezvous/notifications_update_delete/" + id + "/",
+        success: function (data) {
+            console.log("Notification Deleted");
+
+            //Update the notifications list
+            populateNotificationsList()
+        },
+        error: function (data) {
+            console.log("Deleting Notification Failed");
             console.log(data);
         }
     });

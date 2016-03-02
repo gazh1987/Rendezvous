@@ -40,4 +40,5 @@ class Notifications(models.Model):
     from_friend_name = models.CharField(max_length=255)
     message = models.CharField(max_length=255) 
     timestamp = models.DateTimeField(auto_now_add=True)
+    accepted = models.BooleanField(default=False)
 

@@ -128,6 +128,18 @@ class NotificationsList(generics.ListCreateAPIView):
         return Notifications.objects.filter(to_friend=pkey)
 
 
+class NotificationsUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Updates the tracking_enabled field
+    """
+    serializer_class = NotificationsSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    lookup_field = ('timestamp')
+
+    def get_queryset(self):      
+        return Notifications.objects.all()
+
+
 #Api Root
 @api_view(('GET',))
 def api_root(request, format=None):
