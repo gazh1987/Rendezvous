@@ -8,7 +8,7 @@ function onDeviceReady()
     });
 
     push.on('registration', function(data) {
-        console.log(data.registrationId);
+        console.log("Device registered");
         localStorage.setItem('registration_id', JSON.stringify(data.registrationId));
     });
 

@@ -1,9 +1,6 @@
 function onDeviceReady()
 {
-    //Tracks the endpoints that need to be disabled when user logs out
-    var friendsTrackingUser = [];
-    localStorage.setItem('friendsTrackingUser', JSON.stringify(friendsTrackingUser));
-
+    console.log("Device is ready");
     var push = PushNotification.init({
         android: {
             senderID: "428341243093"
@@ -12,11 +9,12 @@ function onDeviceReady()
     });
 
     push.on('registration', function(data) {
-        console.log(data.registrationId);
+        console.log("RegID" + data.registrationId);
         localStorage.setItem('registration_id', JSON.stringify(data.registrationId));
     });
 
     push.on('error', function(e) {
+        console.log("Error: " + e);
          console.log(e);
     });
 
@@ -116,7 +114,7 @@ function populateNotificationsList()
                         tStamp + "<br>" +
                         "<strong>Sender: </strong>" + notificationsArray[i].from_friend_name + "<br>" +
                         "<strong>Message: </strong>" + notificationsArray[i].message + "<br><br>" +
-                        "<button name=\"deleteRendezvouRequest\" class=\"btn btn-danger\" id=\"del_id\" onClick=\"deleteRendezvousRequest(this.id)\">Delete Rendezvous Request</button>" +
+                        "<button name=\"deleteRendezvouRequest\" class=\"btn\" id=\"del_id\" onClick=\"deleteRendezvousRequest(this.id)\">Delete Rendezvous Request</button>" +
                         "</li>";
 
                 //If request accepted, dont show the accept rendezvous request button
@@ -132,8 +130,8 @@ function populateNotificationsList()
                         tStamp + "<br>" +
                         "<strong>Sender: </strong>" + notificationsArray[i].from_friend_name + "<br>" +
                         "<strong>Message: </strong>" + notificationsArray[i].message + "<br><br>" +
-                        "<button name=\"acceptRendezvouRequest\" class=\"btn btn-primary\" id=\"temp_id\" data-id=\"timestamp_id\" onClick=\"acceptRendezvousRequest(this.id, this.dataset.id)\">Accept Rendezvous Request</button><br>" +
-                        "<button name=\"deleteRendezvouRequest\" class=\"btn btn-danger\" id=\"del_id\" onClick=\"deleteRendezvousRequest(this.id)\">Delete Rendezvous Request</button>" +
+                        "<button name=\"acceptRendezvouRequest\" class=\"btn\" id=\"temp_id\" data-id=\"timestamp_id\" onClick=\"acceptRendezvousRequest(this.id, this.dataset.id)\">Accept Rendezvous Request</button><br>" +
+                        "<button name=\"deleteRendezvouRequest\" class=\"btn\" id=\"del_id\" onClick=\"deleteRendezvousRequest(this.id)\">Delete Rendezvous Request</button>" +
                         "</li>";
                     }
 
@@ -193,15 +191,10 @@ function acceptRendezvousRequest(id, timestamp)
         success: function (data) {
             alert("User " +  id + " is now tracking your location");
             console.log(id + "is now tracking your location");
-            var parameters2 = { "accepted": "true" };
-
-            var friendsTrackingUser = JSON.parse(localStorage.getItem('friendsTrackingUser'));
-            friendsTrackingUser.push(endPoint);
-            console.log("FriendsTrackingUser = " + friendsTrackingUser);
-            localStorage.setItem('friendsTrackingUser', JSON.stringify(friendsTrackingUser));
 
             //Then update the accepted notification field so the accept button will not show on the
             //senders app anymore
+            var parameters2 = { "accepted": "true" };
             $.ajax({
                 type: "PATCH",
                 data: JSON.stringify(parameters2),
@@ -218,7 +211,7 @@ function acceptRendezvousRequest(id, timestamp)
                     //Then send a new push message to the sender telling them X is now tracking
                     //their location
                     var name = currentUser.firstName + " " + currentUser.lastName;
-                    var msg = name + " is now tracking your location!";
+                    var msg = name + " accepted your rendezvous request!";
                     var t = "response";
                     var parameters = {
                                         accepted:true,

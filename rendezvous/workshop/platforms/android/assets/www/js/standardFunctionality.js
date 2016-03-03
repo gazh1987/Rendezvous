@@ -1,10 +1,3 @@
-/**
- * This javascript file handles any standard app functionality.
- *  - Logging out.
- *  - Setting up the friends list.
- *  - Handling click events from friends list.
- */
-
 var localHost = "http://localhost:8000/";
 var production = "http://rendezvous-704e3pxx.cloudapp.net/";
 
@@ -24,8 +17,6 @@ $(document).ready(function() {
             success: function (data) {
                 console.log("Logout Successful");
                 localStorage.clear();
-
-                stopAllowingTracking();
 
                 //Store email for easier login
                 localStorage.setItem('loginEmail', JSON.stringify(currentUser.email));
@@ -68,11 +59,6 @@ $(document).ready(function() {
     });
 });
 
-function stopAllowingTracking()
-{
-    var friendsTrackingUser = JSON.parse(localStorage.getItem('friendsTrackingUser'));
-    console.log("FriendsTracking User at Logout: " + friendsTrackingUser);
-}
 
 function populateFriendsList()
 {
