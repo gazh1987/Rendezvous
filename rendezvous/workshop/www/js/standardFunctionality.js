@@ -94,3 +94,107 @@ function populateFriendsList()
     }
 }
 
+function populateTrackersList()
+{
+    console.log("Populating trackers list");
+
+    var userLoginData = JSON.parse(localStorage.getItem('user'));
+    var trackersList = JSON.parse(localStorage.getItem('trackersList'));
+
+    var listOfTrackers = document.getElementById('listOfTrackers');
+    listOfTrackers.innerHTML = "";
+
+    for (i = 0; i < trackersList.length; i++)
+    {
+        $.ajax({type: "GET",
+            dataType: "json",
+            headers: { 'Authorization': 'Token ' + userLoginData.auth_token},
+            contentType: "application/json",
+            url: production + "rendezvous/users/" + trackersList[i] + "/",
+            success: function(data){
+                console.log(data);
+
+                var newTracker = "<li style=\"padding: 10px;\" data-icon=\"true\">" +
+                    "<strong>Tracker: </strong>" + data.first_name + " " + data.last_name + "<br>" +
+                    "<strong>Email:   </strong>" + data.email + "<br><br>" +
+                    "<button name=\"stopAllowingTracking\" class=\"btn\" id=\"temp_tracker_id\" data-id=\"to_friend_email\" onClick=\"stopAllowingTracking(this.id, this.dataset.id)\">Stop Allowing This User to Track Your Location</button><br>" +
+                    "</li><hr>";
+
+                listOfTrackers.innerHTML = listOfTrackers.innerHTML + newTracker;
+
+                stop_btn = document.getElementById("temp_tracker_id");
+                stop_btn.setAttribute("id", data.email + "" + userLoginData.email);
+                stop_btn.setAttribute("data-id", data.email);
+            },
+            error: function(data){
+                console.log("Unable to retrieve trackers details");
+            }
+        });
+    }
+}
+
+function stopAllowingTracking(endpoint, id)
+{
+    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    console.log("\"stopAllowingTracking\" function called.");
+    var parameters = {  "tracking_enabled" : "false" };
+
+    //Update tracking_enabled field
+    $.ajax({
+        type: "PATCH",
+        data: JSON.stringify(parameters),
+        headers: {'Authorization': 'token ' + currentUser.auth_token},
+        dataType: "json",
+        contentType: "application/json",
+        url: production + "rendezvous/updateFriendTracking/" + endpoint + "/",
+        success: function (data) {
+            console.log(data);
+
+            //send a notification to friend to let him know user has stopped allowing to track location
+            var name = currentUser.firstName + " " + currentUser.lastName;
+            var msg = name + " has stopped allowing you to track him/her.";
+            var t = "response";
+            var parameters = {
+                accepted:true,
+                type:t,
+                from_friend_email: currentUser.email,
+                to_friend_email: id,
+                from_friend_name: name,
+                message: msg,
+                from_friend: currentUser.email,
+                to_friend: id
+            };
+            console.log(parameters);
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: JSON.stringify(parameters),
+                headers: {'Authorization': 'Token ' + currentUser.auth_token},
+                contentType: "application/json",
+                url: production + "/rendezvous/notifications/",
+                success: function(data){
+                    console.log("Successfully sent push message notification");
+                    console.log(data);
+                    var trackersList = JSON.parse(localStorage.getItem('trackersList'));
+
+                    var index = trackersList.indexOf(id);
+                    if (index > -1)
+                    {
+                        trackersList.splice(index, 1);
+                    }
+
+                    localStorage.setItem('trackersList', JSON.stringify(trackersList));
+                    populateTrackersList();
+                },
+                error: function(data){
+                    console.log("Failed sending push message notification.");
+                    console.log(data);
+                }
+            });
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+}

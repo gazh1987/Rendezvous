@@ -1,6 +1,5 @@
 function onDeviceReady()
 {
-    console.log("Device is ready");
     var push = PushNotification.init({
         android: {
             senderID: "428341243093"
@@ -9,12 +8,11 @@ function onDeviceReady()
     });
 
     push.on('registration', function(data) {
-        console.log("RegID" + data.registrationId);
+        console.log("Device registered");
         localStorage.setItem('registration_id', JSON.stringify(data.registrationId));
     });
 
     push.on('error', function(e) {
-        console.log("Error: " + e);
          console.log(e);
     });
 
@@ -180,7 +178,7 @@ function acceptRendezvousRequest(id, timestamp)
     var endPoint = id + "" + currentUser.email;
     var parameters = { "tracking_enabled": "true" };
 
-    //First update the tracking_enabled
+    //First update the tracking_enabled field
     $.ajax({
         type: "PATCH",
         data: JSON.stringify(parameters),
@@ -207,6 +205,12 @@ function acceptRendezvousRequest(id, timestamp)
 
                     //Update the notifications list
                     populateNotificationsList();
+
+                    //Update the trackers List to list the user request that was just accepted
+                    var trackersList = JSON.parse(localStorage.getItem('trackersList'));
+                    trackersList.push(id);
+                    localStorage.setItem('trackersList', JSON.stringify(trackersList));
+                    populateTrackersList();
 
                     //Then send a new push message to the sender telling them X is now tracking
                     //their location

@@ -85,6 +85,7 @@ function setCurrentUserAndRedirect(token)
 
             savePushMessagingRegistrationId(token);
             getFriends(token, data.email);
+            getTrackers(token, data.email);
         },
         error: function(data){
             console.log(data);
@@ -137,6 +138,32 @@ function getFriends(token, email)
             }
 
             localStorage.setItem('friendsList', JSON.stringify(friendsList));
+        },
+        error: function(data){
+            console.log(data);
+        }
+    })
+}
+
+function getTrackers(token, email)
+{
+    $.ajax({
+        type:"GET",
+        dataType: "json",
+        headers: { 'Authorization': 'Token '+ token },
+        contentType: "application/json",
+        url: production + "rendezvous/friendTrackingList/" + email + "/",
+        success: function(data) {
+            console.log("Creating tracking list");
+            console.log(data);
+            var trackersList = [];
+
+            for (i = 0; i < data.length; i ++)
+            {
+                trackersList.push(data[i].from_friend_email);
+            }
+
+            localStorage.setItem('trackersList', JSON.stringify(trackersList));
             window.location.assign("main.html");
         },
         error: function(data){

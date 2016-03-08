@@ -62,6 +62,18 @@ class FriendsList(generics.ListCreateAPIView):
         return Friends.objects.filter(from_friend=pkey)
 
 
+class FriendTrackingList(generics.ListCreateAPIView):
+    """
+    Returns all friends that are tracking a user
+    """
+    serializer_class = FriendsSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+        
+    def get_queryset(self):
+        userpkey = RendezvousUsers.objects.filter(email=self.args[0]).values_list('pk')
+        return Friends.objects.filter(to_friend=userpkey).filter(tracking_enabled=True)
+
+
 class FriendTracking(generics.ListCreateAPIView):
     """
     Returns the friendship between User and friend to check if tracking is enabled
