@@ -117,7 +117,7 @@ function populateTrackersList()
                 var newTracker = "<li style=\"padding: 10px;\" data-icon=\"true\">" +
                     "<strong>Tracker: </strong>" + data.first_name + " " + data.last_name + "<br>" +
                     "<strong>Email:   </strong>" + data.email + "<br><br>" +
-                    "<button name=\"stopAllowingTracking\" class=\"btn\" id=\"temp_tracker_id\" data-id=\"to_friend_email\" onClick=\"stopAllowingTracking(this.id, this.dataset.id)\">Stop Allowing This User to Track Your Location</button><br>" +
+                    "<button name=\"stopAllowingTracking\" class=\"btn\" id=\"temp_tracker_id\" data-id=\"to_friend_email\" onClick=\"stopAllowingTracking(this.id, this.dataset.id)\">Stop Tracking</button><br>" +
                     "</li><hr>";
 
                 listOfTrackers.innerHTML = listOfTrackers.innerHTML + newTracker;
