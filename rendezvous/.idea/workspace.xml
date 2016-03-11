@@ -2,7 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e4e92491-4b01-441c-ae37-1faa6994d980" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/js/standardFunctionality.js" afterPath="$PROJECT_DIR$/workshop/www/js/standardFunctionality.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/.gradle/2.2.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/workshop/platforms/android/.gradle/2.2.1/taskArtifacts/cache.properties.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/.gradle/2.2.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/workshop/platforms/android/.gradle/2.2.1/taskArtifacts/fileHashes.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/workshop/platforms/android/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/workshop/platforms/android/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/Map.js" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/Map.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/js/Map.js" afterPath="$PROJECT_DIR$/workshop/www/js/Map.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/User.js" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/User.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/js/User.js" afterPath="$PROJECT_DIR$/workshop/www/js/User.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/index.html" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/index.html" afterPath="$PROJECT_DIR$/workshop/www/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/loginHandler.js" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/loginHandler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/js/loginHandler.js" afterPath="$PROJECT_DIR$/workshop/www/js/loginHandler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/main.html" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/main.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/main.html" afterPath="$PROJECT_DIR$/workshop/www/main.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/pushMessagingHandler.js" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/pushMessagingHandler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/js/pushMessagingHandler.js" afterPath="$PROJECT_DIR$/workshop/www/js/pushMessagingHandler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/standardFunctionality.js" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/standardFunctionality.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/css/style.css" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/css/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/css/style.css" afterPath="$PROJECT_DIR$/workshop/www/css/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="rendezvous.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,21 +52,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="pushMessagingHandler.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/workshop/www/js/pushMessagingHandler.js">
+      <file leaf-file-name="Map.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/workshop/www/js/Map.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.137931">
-              <caret line="212" column="32" selection-start-line="212" selection-start-column="32" selection-end-line="212" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.9357278">
+              <caret line="394" column="13" selection-start-line="394" selection-start-column="13" selection-end-line="394" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="standardFunctionality.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="standardFunctionality.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/workshop/www/js/standardFunctionality.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.096408315">
-              <caret line="77" column="58" selection-start-line="77" selection-start-column="58" selection-end-line="77" selection-end-column="58" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="161" column="39" selection-start-line="161" selection-start-column="39" selection-end-line="161" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pushMessagingHandler.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/workshop/www/js/pushMessagingHandler.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="273" column="10" selection-start-line="273" selection-start-column="10" selection-end-line="273" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -56,25 +85,9 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/workshop/www/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.3846154">
-              <caret line="3" column="44" selection-start-line="3" selection-start-column="44" selection-end-line="3" selection-end-column="44" />
+            <state vertical-scroll-proportion="-0.65384614">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/workshop/www/main.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.3076923">
-              <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
-              <folding>
-                <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -83,7 +96,17 @@
         <entry file="file://$PROJECT_DIR$/workshop/www/js/loginHandler.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="151" column="25" selection-start-line="151" selection-start-column="25" selection-end-line="151" selection-end-column="25" />
+              <caret line="176" column="34" selection-start-line="176" selection-start-column="34" selection-end-line="176" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/workshop/www/main.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-2.8727272">
+              <caret line="106" column="40" selection-start-line="106" selection-start-column="40" selection-end-line="106" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -102,7 +125,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="dummy://restClient/response107.json" root0="SKIP_INSPECTION" />
+    <setting file="dummy://restClient/response149.json" root0="SKIP_INSPECTION" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -115,17 +138,18 @@
         <option value="$PROJECT_DIR$/workshop/www/pushMessaging.js" />
         <option value="$PROJECT_DIR$/workshop/www/pushMessagingHandler.js" />
         <option value="$PROJECT_DIR$/env/Lib/site-packages/authemail/views.py" />
-        <option value="$PROJECT_DIR$/workshop/www/js/User.js" />
         <option value="$PROJECT_DIR$/rendezvous/settings.py" />
         <option value="$PROJECT_DIR$/restApi/urls.py" />
         <option value="$PROJECT_DIR$/restApi/views.py" />
         <option value="$PROJECT_DIR$/workshop/www/css/style.css" />
-        <option value="$PROJECT_DIR$/workshop/www/js/Map.js" />
+        <option value="$PROJECT_DIR$/workshop/www/js/eventHandler.js" />
         <option value="$PROJECT_DIR$/workshop/www/index.html" />
-        <option value="$PROJECT_DIR$/workshop/www/js/loginHandler.js" />
-        <option value="$PROJECT_DIR$/workshop/www/js/pushMessagingHandler.js" />
         <option value="$PROJECT_DIR$/workshop/www/main.html" />
+        <option value="$PROJECT_DIR$/workshop/www/js/User.js" />
         <option value="$PROJECT_DIR$/workshop/www/js/standardFunctionality.js" />
+        <option value="$PROJECT_DIR$/workshop/www/js/pushMessagingHandler.js" />
+        <option value="$PROJECT_DIR$/workshop/www/js/loginHandler.js" />
+        <option value="$PROJECT_DIR$/workshop/www/js/Map.js" />
       </list>
     </option>
   </component>
@@ -238,42 +262,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rendezvous" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rendezvous" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="workshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="www" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rendezvous" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rendezvous" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rendezvous" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -298,6 +286,297 @@
   <component name="RestClientSettings">
     <option name="REQUEST_HISTORY">
       <list>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
+          <option name="urlPath" value="rendezvous/get_user_events/gary.healy2@student.dit.ie/" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Authorization" />
+                <option name="value" value="token 8fb46c9ad04e1b07d7f4440c4c02236d26a9dadc" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="{  &quot;event_creator&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;event_creator_email&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;coordinates&quot;:&quot;POINT(-6.256713865937513 53.354636874124616)&quot; } " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
+          <option name="urlPath" value="rendezvous/get_user_events/gary.healy2@student.dit.ie/" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Authorization" />
+                <option name="value" value="token 2c126ea7a32138005006b3cdb1ed17e67b39d60d" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="{  &quot;event_creator&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;event_creator_email&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;coordinates&quot;:&quot;POINT(-6.256713865937513 53.354636874124616)&quot; } " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="DELETE" />
+          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
+          <option name="urlPath" value="rendezvous/update_delete_event/gary.healy2@student.dit.ieLatLng(53.39254,%20-6.26839)/" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Authorization" />
+                <option name="value" value="token 2c126ea7a32138005006b3cdb1ed17e67b39d60d" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="{  &quot;event_creator&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;event_creator_email&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;coordinates&quot;:&quot;POINT(-6.256713865937513 53.354636874124616)&quot; } " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
+          <option name="urlPath" value="rendezvous/update_delete_event/gary.healy2@student.dit.ieLatLng(53.39254,%20-6.26839)/" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Authorization" />
+                <option name="value" value="token 2c126ea7a32138005006b3cdb1ed17e67b39d60d" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="{  &quot;event_creator&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;event_creator_email&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;coordinates&quot;:&quot;POINT(-6.256713865937513 53.354636874124616)&quot; } " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="DELETE" />
+          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
+          <option name="urlPath" value="rendezvous/update_delete_event/gary.healy2@student.dit.ieLatLng(53.39254, -6.26839)/" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Authorization" />
+                <option name="value" value="token 2c126ea7a32138005006b3cdb1ed17e67b39d60d" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="{  &quot;event_creator&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;event_creator_email&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;coordinates&quot;:&quot;POINT(-6.256713865937513 53.354636874124616)&quot; } " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
+          <option name="urlPath" value="rendezvous/update_delete_event/gary.healy2@student.dit.ieLatLng(53.39254, -6.26839)/" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Authorization" />
+                <option name="value" value="token 2c126ea7a32138005006b3cdb1ed17e67b39d60d" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="{  &quot;event_creator&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;event_creator_email&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;coordinates&quot;:&quot;POINT(-6.256713865937513 53.354636874124616)&quot; } " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="DELETE" />
+          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
+          <option name="urlPath" value="rendezvous/update_delete_event/gary.healy2@student.dit.ieLatLng(53.39254,%20-6.26839)/" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Authorization" />
+                <option name="value" value="token f2fb9b7679f1b3ff08b68073be9822974c426a25" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="{  &quot;event_creator&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;event_creator_email&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;coordinates&quot;:&quot;POINT(-6.256713865937513 53.354636874124616)&quot; } " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="DELETE" />
+          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
+          <option name="urlPath" value="update_delete_event/gary.healy2@student.dit.ieLatLng(53.39254, -6.26839)/" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Authorization" />
+                <option name="value" value="token f2fb9b7679f1b3ff08b68073be9822974c426a25" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="{  &quot;event_creator&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;event_creator_email&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;coordinates&quot;:&quot;POINT(-6.256713865937513 53.354636874124616)&quot; } " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="DELETE" />
+          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
+          <option name="urlPath" value="update_delete_event/gary.healy2@student.dit.ieLatLng(53.39254,%20-6.26839)/" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Authorization" />
+                <option name="value" value="token f2fb9b7679f1b3ff08b68073be9822974c426a25" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="{  &quot;event_creator&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;event_creator_email&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;coordinates&quot;:&quot;POINT(-6.256713865937513 53.354636874124616)&quot; } " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
+          <option name="urlPath" value="rendezvous/add_event/" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Authorization" />
+                <option name="value" value="token f2fb9b7679f1b3ff08b68073be9822974c426a25" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="haveTextToSend" value="true" />
+          <option name="textToSend" value="{  &quot;event_creator&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;event_creator_email&quot;:&quot;gazmelian1987@gmail.com&quot;, &quot;coordinates&quot;:&quot;POINT(-6.256713865937513 53.354636874124616)&quot; } " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
+          <option name="urlPath" value="rendezvous/add_event/" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Authorization" />
+                <option name="value" value="token f2fb9b7679f1b3ff08b68073be9822974c426a25" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="haveTextToSend" value="true" />
+          <option name="textToSend" value="{  &quot;event_creator&quot;:&quot;gazh1987@gmail.com&quot;, &quot;event_creator_email&quot;:&quot;gazh1987@gmail.com&quot;, &quot;coordinates&quot;:&quot;POINT(-6.256713865937513 53.354636874124616)&quot; } " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
+          <option name="urlPath" value="rendezvous/add_event/" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Authorization" />
+                <option name="value" value="token eebfdb076606de441f969407ab464e9098f32302" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="haveTextToSend" value="true" />
+          <option name="textToSend" value="{  &quot;event_creator&quot;:&quot;gazh1987@gmail.com&quot;, &quot;event_creator_email&quot;:&quot;gazh1987@gmail.com&quot;, &quot;coordinates&quot;:&quot;POINT(-6.256713865937513 53.354636874124616)&quot; } " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
         <RestClientRequest>
           <option name="httpMethod" value="PATCH" />
           <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
@@ -1267,280 +1546,6 @@
           <option name="textToSend" value="{ &quot;tracking_enabled&quot;: &quot;true&quot; }" />
           <option name="filesToSend" value="$USER_HOME$/Desktop/GCMDeviceJSON.json" />
         </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="PUT" />
-          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
-          <option name="urlPath" value="rendezvous/updateFriendTracking/7/" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Authorization" />
-                <option name="value" value="token 7c18424326ea1ce54ac4f189d71df70039378379" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="haveTextToSend" value="true" />
-          <option name="textToSend" value="{ &quot;tracking_enabled&quot;: &quot;true&quot; }" />
-          <option name="filesToSend" value="$USER_HOME$/Desktop/GCMDeviceJSON.json" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="PATCH" />
-          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
-          <option name="urlPath" value="/rendezvous/friendTracking/gary.healy2@student.dit.ie/gazh1987@gmail.com/" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Authorization" />
-                <option name="value" value="token 7c18424326ea1ce54ac4f189d71df70039378379" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="haveTextToSend" value="true" />
-          <option name="textToSend" value="{ &quot;tracking_enabled&quot;: &quot;true&quot; }" />
-          <option name="filesToSend" value="$USER_HOME$/Desktop/GCMDeviceJSON.json" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="PUT" />
-          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
-          <option name="urlPath" value="/rendezvous/friendTracking/gary.healy2@student.dit.ie/gazh1987@gmail.com/" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Authorization" />
-                <option name="value" value="token 7c18424326ea1ce54ac4f189d71df70039378379" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="haveTextToSend" value="true" />
-          <option name="textToSend" value="{ &quot;tracking_enabled&quot;: &quot;true&quot; }" />
-          <option name="filesToSend" value="$USER_HOME$/Desktop/GCMDeviceJSON.json" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="POST" />
-          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
-          <option name="urlPath" value="/rendezvous/friendTracking/gary.healy2@student.dit.ie/gazh1987@gmail.com/" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Authorization" />
-                <option name="value" value="token 7c18424326ea1ce54ac4f189d71df70039378379" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="haveTextToSend" value="true" />
-          <option name="textToSend" value="{ &quot;tracking_enabled&quot;: &quot;true&quot; }" />
-          <option name="filesToSend" value="$USER_HOME$/Desktop/GCMDeviceJSON.json" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="PUT" />
-          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
-          <option name="urlPath" value="/rendezvous/friendTracking/gary.healy2@student.dit.ie/gazh1987@gmail.com/" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Authorization" />
-                <option name="value" value="token 964e26f628a602a6882ae9e4513493983ca102fa" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="haveTextToSend" value="true" />
-          <option name="textToSend" value="{ &quot;tracking_enabled&quot;: &quot;true&quot; }" />
-          <option name="filesToSend" value="$USER_HOME$/Desktop/GCMDeviceJSON.json" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="POST" />
-          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
-          <option name="urlPath" value="/rendezvous/friendTracking/gary.healy2@student.dit.ie/gazh1987@gmail.com/" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Authorization" />
-                <option name="value" value="token 964e26f628a602a6882ae9e4513493983ca102fa" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="haveTextToSend" value="true" />
-          <option name="textToSend" value="{ &quot;tracking_enabled&quot;: &quot;true&quot; }" />
-          <option name="filesToSend" value="$USER_HOME$/Desktop/GCMDeviceJSON.json" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="POST" />
-          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
-          <option name="urlPath" value="/rendezvous/device/GCM/" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Authorization" />
-                <option name="value" value="token 964e26f628a602a6882ae9e4513493983ca102fa" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="haveFileToSend" value="true" />
-          <option name="textToSend" value="{ &quot;&quot;: &quot;&quot;, &quot;&quot;: &quot;&quot; }" />
-          <option name="filesToSend" value="$USER_HOME$/Desktop/GCMDeviceJSON.json" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="POST" />
-          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
-          <option name="urlPath" value="/rendezvous/device/GCM/" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Authorization" />
-                <option name="value" value="token 9df29c14b6cf2fcb2f68e61ac4769ee134beee63" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="haveFileToSend" value="true" />
-          <option name="textToSend" value="{ &quot;&quot;: &quot;&quot;, &quot;&quot;: &quot;&quot; }" />
-          <option name="filesToSend" value="$USER_HOME$/Desktop/GCMDeviceJSON.json" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="POST" />
-          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
-          <option name="urlPath" value="/rendezvous/device/GCM/" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Authorization" />
-                <option name="value" value="token 9df29c14b6cf2fcb2f68e61ac4769ee134beee63" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="haveFileToSend" value="true" />
-          <option name="isFileUpload" value="true" />
-          <option name="textToSend" value="{ &quot;&quot;: &quot;&quot;, &quot;&quot;: &quot;&quot; }" />
-          <option name="filesToSend" value="$USER_HOME$/Desktop/GCMDeviceJSON.json" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="POST" />
-          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
-          <option name="urlPath" value="/rendezvous/device/GCM/" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Authorization" />
-                <option name="value" value="token 9df29c14b6cf2fcb2f68e61ac4769ee134beee63" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="textToSend" value="" />
-          <option name="filesToSend" value="" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="POST" />
-          <option name="urlBase" value="http://rendezvous-704e3pxx.cloudapp.net" />
-          <option name="urlPath" value="/rendezvous/device/GCM/" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Authorization" />
-                <option name="value" value="token 30340735d1da5ac7b9b7a8cd5318e45b2c22cfca" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="textToSend" value="" />
-          <option name="filesToSend" value="" />
-        </RestClientRequest>
       </list>
     </option>
   </component>
@@ -1813,12 +1818,12 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3686007" sideWeight="0.50292826" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43515357" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34300342" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36348122" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32764506" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29351535" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18759455" sideWeight="0.49425286" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2883959" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2647504" sideWeight="0.49425286" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1913767" sideWeight="0.50574714" order="2" side_tool="true" content_ui="tabs" />
@@ -1868,7 +1873,19 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="5" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/env/Lib/site-packages/push_notifications/gcm.py</url>
+          <line>171</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/env/Lib/site-packages/push_notifications/gcm.py</url>
+          <line>73</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="9" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -2004,17 +2021,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/env/Lib/site-packages/push_notifications/gcm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="193" column="0" selection-start-line="193" selection-start-column="0" selection-end-line="193" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/env/Lib/site-packages/push_notifications/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.90029323">
           <caret line="53" column="6" selection-start-line="53" selection-start-column="6" selection-end-line="53" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2070,10 +2081,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/workshop/www/js/Map.js">
+    <entry file="file://$PROJECT_DIR$/rendezvous/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7">
+          <caret line="126" column="26" selection-start-line="126" selection-start-column="26" selection-end-line="126" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workshop/www/js/User.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="20" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -2086,72 +2105,143 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/workshop/www/js/User.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7013233">
-          <caret line="28" column="10" selection-start-line="28" selection-start-column="10" selection-end-line="28" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/workshop/www/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="63" column="1" selection-start-line="55" selection-start-column="0" selection-end-line="63" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rendezvous/settings.py">
+    <entry file="file://$PROJECT_DIR$/workshop/plugins/phonegap-plugin-push/www/push.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7">
-          <caret line="126" column="26" selection-start-line="126" selection-start-column="26" selection-end-line="126" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/workshop/www/main.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.3076923">
-          <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+        <state vertical-scroll-proportion="-6.0689654">
+          <caret line="34" column="49" selection-start-line="34" selection-start-column="48" selection-end-line="34" selection-end-column="49" />
           <folding>
-            <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/workshop/www/js/loginHandler.js">
+    <entry file="file://$PROJECT_DIR$/workshop/plugins/phonegap-plugin-push/src/android/com/adobe/phonegap/push/PushPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="151" column="25" selection-start-line="151" selection-start-column="25" selection-end-line="151" selection-end-column="25" />
+        <state vertical-scroll-proportion="-6.0689654">
+          <caret line="142" column="77" selection-start-line="142" selection-start-column="76" selection-end-line="142" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workshop/plugins/phonegap-plugin-push/src/android/com/adobe/phonegap/push/PushInstanceIDListenerService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.862069">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workshop/plugins/phonegap-plugin-push/src/android/com/adobe/phonegap/push/PushHandlerActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.0689654">
+          <caret line="16" column="15" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workshop/plugins/phonegap-plugin-push/src/android/com/adobe/phonegap/push/PermissionUtils.java">
+      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.862069">
+          <caret line="33" column="45" selection-start-line="33" selection-start-column="43" selection-end-line="33" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workshop/plugins/phonegap-plugin-push/src/android/com/adobe/phonegap/push/PushConstants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.0689654">
+          <caret line="12" column="39" selection-start-line="12" selection-start-column="37" selection-end-line="12" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workshop/plugins/phonegap-plugin-push/src/android/com/adobe/phonegap/push/GCMIntentService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3327032">
+          <caret line="56" column="13" selection-start-line="56" selection-start-column="11" selection-end-line="56" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workshop/plugins/android.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.0363636">
+          <caret line="15" column="53" selection-start-line="15" selection-start-column="52" selection-end-line="15" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workshop/platforms/android/src/com/garyhealy/workshop/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.032136105">
+          <caret line="1" column="59" selection-start-line="1" selection-start-column="58" selection-end-line="1" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/Lib/site-packages/push_notifications/gcm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.90555555">
+          <caret line="76" column="4" selection-start-line="76" selection-start-column="4" selection-end-line="76" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/workshop/www/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.3846154">
-          <caret line="3" column="44" selection-start-line="3" selection-start-column="44" selection-end-line="3" selection-end-column="44" />
+        <state vertical-scroll-proportion="-0.65384614">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/workshop/www/js/pushMessagingHandler.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.137931">
-          <caret line="212" column="32" selection-start-line="212" selection-start-column="32" selection-end-line="212" selection-end-column="32" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="273" column="10" selection-start-line="273" selection-start-column="10" selection-end-line="273" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workshop/www/main.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.8727272">
+          <caret line="106" column="40" selection-start-line="106" selection-start-column="40" selection-end-line="106" selection-end-column="40" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/workshop/www/js/standardFunctionality.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.096408315">
-          <caret line="77" column="58" selection-start-line="77" selection-start-column="58" selection-end-line="77" selection-end-column="58" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="161" column="39" selection-start-line="161" selection-start-column="39" selection-end-line="161" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workshop/www/js/loginHandler.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="176" column="34" selection-start-line="176" selection-start-column="34" selection-end-line="176" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workshop/www/js/Map.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.9357278">
+          <caret line="394" column="13" selection-start-line="394" selection-start-column="13" selection-end-line="394" selection-end-column="13" />
           <folding />
         </state>
       </provider>

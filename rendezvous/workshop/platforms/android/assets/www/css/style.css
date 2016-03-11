@@ -42,6 +42,12 @@ h3
     margin: 1px;
 }
 
+.btn-primary
+{
+    border-radius: 10px;
+    width: 100%;
+}
+
 .modal-backdrop
 {
     opacity:0.5 !important;

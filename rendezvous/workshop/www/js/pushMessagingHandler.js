@@ -1,3 +1,6 @@
+/**
+ * Scripts that handle all push messaging related interactions
+ */
 function onDeviceReady()
 {
     var push = PushNotification.init({
@@ -81,7 +84,6 @@ $(document).ready(function(){
     }
 });
 
-
 function populateNotificationsList()
 {
     console.log("Clicked_not");
@@ -98,7 +100,6 @@ function populateNotificationsList()
             var notificationsArray = data;
             var not_list= document.getElementById('notificationsList');
             not_list.innerHTML = "";
-
             var background = "white";
             var btn;
             var del_btn;
@@ -106,7 +107,6 @@ function populateNotificationsList()
             for(var i = notificationsArray.length - 1; i >= 0; i--)
             {
                 var tStamp = parseTimestamp(notificationsArray[i].timestamp);
-
                 console.log(notificationsArray[i].type);
                 var deleteButton = "<li style=\"padding: 10px; background-color:" + background + "\"\" data-icon=\"true\">" +
                         tStamp + "<br>" +
@@ -132,7 +132,6 @@ function populateNotificationsList()
                         "<button name=\"deleteRendezvouRequest\" class=\"btn\" id=\"del_id\" onClick=\"deleteRendezvousRequest(this.id)\">Delete Rendezvous Request</button>" +
                         "</li>";
                     }
-
                 }
                 else
                 {
@@ -148,7 +147,6 @@ function populateNotificationsList()
                     btn.setAttribute("id", notificationsArray[i].from_friend_email);
                     btn.setAttribute("data-id", notificationsArray[i].timestamp);
                 }
-
                 del_btn = document.getElementById("del_id");
                 del_btn.setAttribute("id", notificationsArray[i].timestamp);
 
@@ -174,7 +172,6 @@ function acceptRendezvousRequest(id, timestamp)
     btn = document.getElementById("temp_id");
     var currentUser = JSON.parse(localStorage.getItem('currentUser'));
     console.log("Accepting Rendezvous request. Enabling tracking for friend " + id);
-
     var endPoint = id + "" + currentUser.email;
     var parameters = { "tracking_enabled": "true" };
 
@@ -201,9 +198,8 @@ function acceptRendezvousRequest(id, timestamp)
                 contentType: "application/json",
                 url: production + "rendezvous/notifications_update_delete/" + timestamp + "/",
                 success: function (data) {
-                    console.log("Update notification accepted field");
-
                     //Update the notifications list
+                    console.log("Update notification accepted field");
                     populateNotificationsList();
 
                     //Update the trackers List to list the user request that was just accepted
@@ -218,14 +214,14 @@ function acceptRendezvousRequest(id, timestamp)
                     var msg = name + " accepted your rendezvous request!";
                     var t = "response";
                     var parameters = {
-                                        accepted:true,
-                                        type:t,
-                                        from_friend_email: currentUser.email,
-                                        to_friend_email: id,
-                                        from_friend_name: name,
-                                        message: msg,
-                                        from_friend: currentUser.email,
-                                        to_friend: id
+                        accepted:true,
+                        type:t,
+                        from_friend_email: currentUser.email,
+                        to_friend_email: id,
+                        from_friend_name: name,
+                        message: msg,
+                        from_friend: currentUser.email,
+                        to_friend: id
                     };
                     console.log(parameters);
 
@@ -272,9 +268,8 @@ function deleteRendezvousRequest(id)
         contentType: "application/json",
         url: production + "rendezvous/notifications_update_delete/" + id + "/",
         success: function (data) {
-            console.log("Notification Deleted");
 
-            //Update the notifications list
+            console.log("Notification Deleted");
             populateNotificationsList()
         },
         error: function (data) {

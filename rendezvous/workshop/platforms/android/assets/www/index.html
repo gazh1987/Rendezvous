@@ -1,86 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Rendezvous Friend Locator</title>
+    <head>
+        <title>Rendezvous Friend Locator</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <script src="js/loginHandler.js"></script>
+        <script src="js/RendezvousUsers.js"></script>
+        <script src="js/User.js"></script>
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+        <script src="js/pushMessagingHandler.js"></script>
+        <script type="text/javascript" charset="utf-8">
+            function onLoad()
+            {
+                document.addEventListener("deviceready", onDeviceReady, false);
+            }
+        </script>
+    </head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-
-    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-    <script src="js/loginHandler.js"></script>
-    <script src="js/RendezvousUsers.js"></script>
-    <script src="js/User.js"></script>
-    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-	<script src="js/pushMessagingHandler.js"></script>
-
-    <script type="text/javascript" charset="utf-8">
-        function onLoad()
-        {
-            document.addEventListener("deviceready", onDeviceReady, false);
-        }
-    </script>
-</head>
-
-<body onload="onLoad()">
-    <!--Welcome page-->
-    <div data-role="page" id="welcome">
-        <div data-role="header">
-            <h1>Rendezvous</h1>
+    <body onload="onLoad()">
+        <div data-role="page" id="welcome">
+            <div data-role="header">
+                <h1>Rendezvous</h1>
+            </div>
+            <div data-role="main" class="ui-content">
+                <p style="text-align: center">Welcome to Rendezvous Friend Locator</p>
+                <a href="#login" class="ui-btn">Login</a>
+                <a href="#register" class="ui-btn">Register</a>
+            </div>
         </div>
-
-        <div data-role="main" class="ui-content">
-            <p style="text-align: center">Welcome to Rendezvous Friend Locator</p>
-
-            <a href="#login" class="ui-btn">Login</a>
-            <a href="#register" class="ui-btn">Register</a>
+        <div data-role="page" id="login">
+            <div data-role="header">
+                <h1>Rendezvous</h1>
+            </div>
+            <div data-role="main" class="ui-content">
+                <br>
+                <form id="login">
+                    <label style="text-align: center">Enter your email and password to login</label>
+                    <input type="text" name="email" id="email" placeholder="Email">
+                    <input type="password" name="password" id="password" placeholder="Password">
+                    <input type="submit" value="Login">
+                </form>
+            </div>
         </div>
-    </div>s
-
-    <!--Login page-->
-    <div data-role="page" id="login">
-        <div data-role="header">
-            <h1>Rendezvous</h1>
+        <div data-role="page" id="register">
+            <div data-role="header">
+                <h1>Rendezvous</h1>
+            </div>
+            <div data-role="main" class="ui-content">
+                <br>
+                <form id="register">
+                    <label style="text-align: center">Register your details below</label>
+                    <input type="text" name="firstName" id="firstName" placeholder="First Name">
+                    <input type="text" name="lastName" id="lastName" placeholder="Last Name">
+                    <input type="text" name="regEmail" id="regEmail" placeholder="Email">
+                    <input type="password" name="regPassword" id="regPassword" placeholder="Password">
+                    <input type="password" name="passwordCheck" id="passwordCheck" placeholder="Re-Enter Your Password">
+                    <input type="submit" value="Register">
+                </form>
+            </div>
         </div>
-
-        <div data-role="main" class="ui-content">
-            <br>
-            <form id="login">
-                <label style="text-align: center">Enter your email and password to login</label>
-                <input type="text" name="email" id="email" placeholder="Email">
-                <input type="password" name="password" id="password" placeholder="Password">
-                <input type="submit" value="Login">
-            </form>
-        </div>
-    </div>
-
-    <!--Registration page-->
-    <div data-role="page" id="register">
-        <div data-role="header">
-            <h1>Rendezvous</h1>
-        </div>
-
-        <div data-role="main" class="ui-content">
-            <br>
-            <form id="register">
-                <label style="text-align: center">Register your details below</label>
-                <input type="text" name="firstName" id="firstName" placeholder="First Name">
-                <input type="text" name="lastName" id="lastName" placeholder="Last Name">
-                <input type="text" name="regEmail" id="regEmail" placeholder="Email">
-                <input type="password" name="regPassword" id="regPassword" placeholder="Password">
-                <input type="password" name="passwordCheck" id="passwordCheck" placeholder="Re-Enter Your Password">
-                <input type="submit" value="Register">
-            </form>
-        </div>
-    </div>
-
-    <script>
-        //Set up login details for easier login
-        var loginEmail = localStorage.getItem('loginEmail');
-        loginEmail = loginEmail.replace(/\"/g, '');
-        document.getElementById("email").value = loginEmail;
-    </script>
-</body>
+        <script>
+            //Set up login details for easier login
+            var loginEmail = localStorage.getItem('loginEmail');
+            loginEmail = loginEmail.replace(/\"/g, '');
+            document.getElementById("email").value = loginEmail;
+        </script>
+    </body>
 </html>

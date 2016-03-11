@@ -2,12 +2,10 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
         <link rel="stylesheet" href="css/style.css"/>
-
         <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
         <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
@@ -19,7 +17,6 @@
         <script src="js/standardFunctionality.js"></script>
         <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 	    <script src="js/pushMessagingHandler.js"></script>
-
         <script type="text/javascript" charset="utf-8">
             function onLoad()
             {
@@ -32,46 +29,36 @@
         <div data-role="page" id="main">
             <div data-role="header" id="header">
                 <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu
-                        <span class="caret"></span></button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
-
-                            <a href="#friendsList" class="btn btn-default">Friends List</a>
-                            <a href="#trackersList" class="btn btn-default">Trackers List</a>
-                            <!--<li><input type="button" class="btn btn-default" id="untrackFriend" value="Stop Tracking Friends"></li>
-                            -->
-                            <li role="separator" class="divider"></li>
-                            <li><input type="button" class="btn btn-default" id="logout" value="Logout"></li>
-                        </ul>
-                        <a href="#notifications" class="notification_btn"><span name="alert_not" class="glyphicon glyphicon-bell alert_not" aria-hidden="true"></span></a>
-                        <h3 style="float:right">Rendezvous</h3>
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu<span class="caret"></span></button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
+                        <a href="#friendsList" class="btn btn-default">Friends List</a>
+                        <a href="#trackersList" class="btn btn-default">Trackers List</a>
+                        <li role="separator" class="divider"></li>
+                        <li><input type="button" class="btn btn-default" id="logout" value="Logout"></li>
+                    </ul>
+                    <a href="#notifications" class="notification_btn"><span name="alert_not" class="glyphicon glyphicon-bell alert_not" aria-hidden="true"></span></a>
+                    <h3 style="float:right">Rendezvous</h3>
                 </div>
             </div>
-
             <div id="map" data-role="content">
             </div>
             <div class="fixed">
                 <img id="toggleLocate" src="images/locate-on.png" style="width:40px; height:40px">
             </div>
         </div>
-
         <div data-role="page" id="notifications">
             <div data-role="header" id="header">
                 <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu
-                        <span class="caret"></span></button>
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu<span class="caret"></span></button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
-
                             <a href="#main" class="btn btn-default">Map</a>
                             <a href="#friendsList" class="btn btn-default">Friends List</a>
                             <a href="#trackersList" class="btn btn-default">Trackers List</a>
-
                         </ul>
                         <a href="#notifications" class="notification_btn"><span name="alert_not" class="glyphicon glyphicon-bell alert_not" aria-hidden="true"></span></a>
                         <h3 style="float:right">Notifications</h3>
                 </div>
             </div>
-
             <div data-role="main" class="ui-content">
                 <ul data-role="listview" data-autodividers="false" id="notificationsList">
                     <script>
@@ -80,25 +67,18 @@
                 </ul>
             </div>
         </div>
-
-
-
         <div data-role="page" id="trackersList">
             <div data-role="header" id="header">
                 <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu
-                        <span class="caret"></span></button>
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu<span class="caret"></span></button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
-
                             <a href="#main" class="btn btn-default">Map</a>
                             <a href="#friendsList" class="btn btn-default">Friends List</a>
-
                         </ul>
                         <a href="#notifications" class="notification_btn"><span name="alert_not" class="glyphicon glyphicon-bell alert_not" aria-hidden="true"></span></a>
                         <h3 style="float:right">Trackers</h3>
                 </div>
             </div>
-
             <div data-role="main" class="ui-content">
                 <ul data-role="listview" data-autodividers="false" id="listOfTrackers">
                     <script>
@@ -107,28 +87,20 @@
                 </ul>
             </div>
         </div>
-
-
         <div data-role="page" id="friendsList">
             <div data-role="header" id="header">
                 <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu
-                        <span class="caret"></span></button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
-
-                            <a href="#main" class="btn btn-default">Map</a>
-                            <a href="#trackersList" class="btn btn-default">Trackers List</a>
-
-                            <li role="separator" class="divider"></li>
-
-                            <li><input type="button" class="btn btn-default" id="logout" value="Create New Friend" data-toggle="modal" data-target="#createNewFriend"></li>
-
-                        </ul>
-                        <a href="#notifications" class="notification_btn"><span name="alert_not" class="glyphicon glyphicon-bell alert_not" aria-hidden="true"></span></a>
-                        <h3 style="float:right">Friends</h3>
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu<span class="caret"></span></button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
+                        <a href="#main" class="btn btn-default">Map</a>
+                        <a href="#trackersList" class="btn btn-default">Trackers List</a>
+                        <li role="separator" class="divider"></li>
+                        <li><input type="button" class="btn btn-default" id="logout" value="Create New Friend" data-toggle="modal" data-target="#createNewFriend"></li>
+                    </ul>
+                    <a href="#notifications" class="notification_btn"><span name="alert_not" class="glyphicon glyphicon-bell alert_not" aria-hidden="true"></span></a>
+                    <h3 style="float:right">Friends</h3>
                 </div>
             </div>
-
             <div data-role="main" class="ui-content">
                 <ul data-role="listview" data-autodividers="false" id="listOfFriends">
                     <script>
@@ -136,77 +108,56 @@
                     </script>
                 </ul>
             </div>
-
-
-
-            <!--Modal Called when friendsList button clicked-->
+            <!--Modals-->
             <div id="friendClickOptions" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" style="color:white"><strong>Friend Options</strong></h4>
                         </div>
-
                         <div id="modalBody" class="modal-body">
                             <p>Would you like to send this friend a Rendezvous Request?</p>
                         </div>
-
                         <div id="modalFooter" class="modal-footer">
                             <button type="button" id="friendClickHandler" data-dismiss="modal" style="background-color:#0480be; color:white">Send Rendezvous Request</button>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
-            <!-- Modal Called when Create new friend button is clicked -->
             <div id="createNewFriend" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" style="color:white"><strong>Create New Friend</strong></h4>
                         </div>
-
                         <div id="modalBody" class="modal-body">
                             <p>Please type your friends email in the box below and then click the <i>Create</i> button.</p>
                             <input type="text" name="friendEmailCreationField" id="friendEmailCreationField" placeholder="Enter friends email here...">
                         </div>
-
                         <div id="modalFooter" class="modal-footer">
                             <button type="button" id="createFriendHandler" data-dismiss="modal" style="background-color:#0480be; color:white">Create</button>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-
-
-
 		<script>
-
             $(document).ready(function()
             {
                 console.log("Device ready");
-
-                //Create a new map
                 var m = new Map();
             });
 
-            //Set notification button color if there are new notifications
             var new_notification = JSON.parse(localStorage.getItem('new_notification'));
             if (new_notification == true)
             {
                 var elements = document.getElementsByName("alert_not");
                 var length = elements.length;
-
                 for (var i = 0; i < length; i++)
                 {
                     elements[i].style.color='red';
                 }
             }
-
 		</script>
 	</body>
 </html>

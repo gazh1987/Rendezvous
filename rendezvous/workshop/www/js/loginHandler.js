@@ -2,8 +2,6 @@ var localHost = "http://localhost:8000/";
 var production = "http://rendezvous-704e3pxx.cloudapp.net/";
 
 $(document).ready(function() {
-
-    //Login handler
     $("#login").submit(function(event){
         event.preventDefault();
         var email = $("#email").val().toLowerCase();
@@ -27,25 +25,22 @@ $(document).ready(function() {
         });
     });
 
-    //registrationHandler
-    $("#register").submit(function(event){
+    $("#register").submit(function(event)
+    {
         event.preventDefault();
         var firstName = $("#firstName").val();
         var lastName = $("#lastName").val();
         var email = $("#regEmail").val().toLowerCase();
         var password = $("#regPassword").val();
         var passwordCheck = $("#passwordCheck").val();
-
         var vCheck = validityCheck(firstName, lastName, email, password, passwordCheck);
-
-        if (vCheck != "PASSED") {
+        if (vCheck != "PASSED")
+        {
             alert("Can not register these details. Please try again.");
             return false;
         }
-
         var parameters = {email: email, password: password, first_name: firstName, last_name: lastName};
 
-        //Post details to rendezvous users table
         $.ajax({
             type: "POST",
             data: JSON.stringify(parameters),
@@ -53,8 +48,8 @@ $(document).ready(function() {
             contentType: "application/json",
             url: production + "signup/",
             success: function (data) {
-                //registerPass
-                alert("You have succesfully registered your details. Please go to you email and click the link" +
+                //TODO: put verification URL here
+                alert("You have succesfully registered your details. Please go to your email and click the link" +
                     " to complete your registration. Then, enter your login details here to use the app. Thank you for registering.");
                 window.location.assign("#login");
             },
@@ -63,7 +58,6 @@ $(document).ready(function() {
                 alert("Registration Failed. Please try again.");
             }
         });
-
     });
 });
 
@@ -76,16 +70,14 @@ function setCurrentUserAndRedirect(token)
         contentType: "application/json",
         url: production + "users/me/",
         success: function(data){
-
             console.log("Creating User");
-
             var user = new User(data.first_name, data.last_name, data.email, token);
             localStorage.setItem('user', JSON.stringify(user));
             console.log(user);
-
             savePushMessagingRegistrationId(token);
-            getFriends(token, data.email);
             getTrackers(token, data.email);
+            getEvents(token, data.email);
+            getFriends(token, data.email);
         },
         error: function(data){
             console.log(data);
@@ -129,15 +121,13 @@ function getFriends(token, email)
         url: production + "rendezvous/friends/" + email + "/",
         success: function(data) {
             console.log("Creating friends list");
-
             var friendsList = [];
-
             for (i = 0; i < data.length; i ++)
             {
                 friendsList.push(data[i].to_friend_email);
             }
-
             localStorage.setItem('friendsList', JSON.stringify(friendsList));
+            window.location.assign("main.html");
         },
         error: function(data){
             console.log(data);
@@ -147,6 +137,7 @@ function getFriends(token, email)
 
 function getTrackers(token, email)
 {
+    //Get friends tracking user
     $.ajax({
         type:"GET",
         dataType: "json",
@@ -157,14 +148,55 @@ function getTrackers(token, email)
             console.log("Creating tracking list");
             console.log(data);
             var trackersList = [];
-
             for (i = 0; i < data.length; i ++)
             {
                 trackersList.push(data[i].from_friend_email);
             }
-
             localStorage.setItem('trackersList', JSON.stringify(trackersList));
-            window.location.assign("main.html");
+        },
+        error: function(data){
+            console.log(data);
+        }
+    })
+
+    //Get friends user is tracking
+    $.ajax({
+        type:"GET",
+        dataType: "json",
+        headers: { 'Authorization': 'Token '+ token },
+        contentType: "application/json",
+        url: production + "rendezvous/userTrackingList/" + email + "/",
+        success: function(data) {
+            console.log("Creating userTrackingList");
+            console.log(data);
+            var userTrackersList = [];
+            for (var i = 0; i < data.length; i ++)
+            {
+                userTrackersList.push(data[i].to_friend_email);
+            }
+            localStorage.setItem('userTrackersList', JSON.stringify(userTrackersList));
+        },
+        error: function(data){
+            console.log(data);
+        }
+    })
+}
+
+function getEvents(token, email)
+{
+    $.ajax({
+        type:"GET",
+        dataType: "json",
+        headers: { 'Authorization': 'Token '+ token },
+        contentType: "application/json",
+        url: production + "rendezvous/get_user_events/" + email + "/",
+        success: function(data) {
+            console.log("Creating events list");
+            console.log(data);
+            var userEvents = [];
+            userEvents.push(data);
+
+            localStorage.setItem('userEvents', JSON.stringify(userEvents));
         },
         error: function(data){
             console.log(data);
@@ -198,6 +230,5 @@ function validityCheck(firstName, lastName, email, password, passwordCheck)
     {
         return "Your password and password check does not match. Please try again";
     }
-
     return "PASSED";
 }

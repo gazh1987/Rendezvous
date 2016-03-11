@@ -7,13 +7,11 @@ var Map = function()
     var userLoginData = JSON.parse(localStorage.getItem('user'));
     var currentUser = new User(userLoginData.firstName,  userLoginData.lastName, userLoginData.email, userLoginData.auth_token);
     var friendsListLoginData = JSON.parse(localStorage.getItem('friendsList'));
-
-    //Store currentUser so it can be accessed from anywhere in the app
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-
+    localStorage.setItem('currentUser', JSON.stringify(currentUser)); //Store currentUser so it can be accessed from anywhere in the app
     var postGateOpen = true;
     var trackFriendsId;
-
+    var userEventsInitialised = false;
+    var reInitialisedFriends = false;
     var map = L.map('map', { zoomControl:false, attributionControl:false });
 
     var userMarker = L.icon({
@@ -41,27 +39,76 @@ var Map = function()
     function onLocationFound(e)
     {
         console.log("Token: " + currentUser.auth_token);
-
-        if (postGateOpen == true) {
+        if (postGateOpen == true)
+        {
             postGateOpen = false;
             openPostGate();
-
             var radius = e.accuracy / 2;
 
-            if (!uMkr) {
+            if (!uMkr)
+            {
                 //Login details for debugging purposes
                 console.log("Logged in as User: " + currentUser.email + ".");
                 console.log("Friends List: " + friendsListLoginData + ".");
-
                 uMkr = L.marker(e.latlng).bindPopup("<b>You</b><br><p>" + currentUser.email + "</p>").addTo(map);
                 uCir = L.circle(e.latlng, radius).addTo(map);
             }
 
             uMkr.setLatLng(e.latlng).update();
             uCir.setLatLng(e.latlng);
-
             currentUser.latlng = e.latlng;
             currentUser.PostLastKnownPosition(currentUser);
+        }
+
+        //Code to be ran once after login.
+        //Places event and friend markers on the map
+        if (userEventsInitialised == false)
+        {
+            userEventsInitialised = true;
+            var userEvents = JSON.parse(localStorage.getItem('userEvents'));
+
+            if (userEvents != null) {
+                var events = userEvents[0];
+
+                for (var i = 0; i < events.length; i++) {
+                    var coords = parseCoordinates(events[i].coordinates);
+                    var geojsonFeature = {
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [coords.latitude, coords.longitude]
+                        }
+                    }
+
+                    var marker;
+                    L.geoJson(geojsonFeature, {
+                        pointToLayer: function (feature, latlng) {
+                            marker = L.marker(latlng, {
+                                icon: friendMarker,
+                                riseOnHover: true,
+                                draggable: true,
+                            }).bindPopup("<input type='button' value='Invite Friend' class='marker-invite-button btn-primary'/><br><br>" +
+                                "<input type='button' value='Delete this marker' class='marker-delete-button btn-primary'/><br>");
+
+                            marker.on("popupopen", onPopupOpen);
+                            return marker;
+                        }
+                    }).addTo(map);
+                }
+            }
+        }
+
+        if (reInitialisedFriends == false)
+        {
+            reInitialisedFriends = true;
+            var friendsToTrack = JSON.parse(localStorage.getItem('userTrackersList'));
+
+            for (var i = 0; i < friendsToTrack.length; i++)
+            {
+                setupFriendMarker(friendsToTrack[i]);
+                trackFriendsId = setInterval(trackFriends, 10000);
+            }
         }
     }
 
@@ -74,10 +121,90 @@ var Map = function()
     var popup = L.popup();
     function onMapClick(e)
     {
-        popup
-            .setLatLng(e.latlng)
-            .setContent("You clicked the map at " + e.latlng.toString())
-            .openOn(map);
+        //TODO: change the name of friendMarker to something more appropriate, eg: eventMarker
+        var geojsonFeature = {
+        "type": "Feature",
+            "properties": {},
+            "geometry": {
+                "type": "Point",
+                "coordinates": [e.latlng.lat, e.latlng.lng]
+            }
+        }
+
+        var marker;
+        L.geoJson(geojsonFeature, {
+            pointToLayer: function(feature, latlng){
+                marker = L.marker(e.latlng, {
+                    icon: friendMarker,
+                    riseOnHover: true,
+                    draggable: true,
+                }).bindPopup("<input type='button' value='Invite Friend' class='marker-invite-button btn-primary'/><br><br>" +
+                             "<input type='button' value='Delete this marker' class='marker-delete-button btn-primary'/><br>");
+
+                marker.on("popupopen", onPopupOpen);
+                return marker;
+            }
+        }).addTo(map);
+        saveEvent(e.latlng);
+    }
+
+    function onPopupOpen()
+    {
+        var marker = this;
+        $(".marker-invite-button:visible").click(function () {
+
+        });
+
+        $(".marker-delete-button:visible").click(function () {
+            map.removeLayer(marker);
+            deleteEvent(marker);
+        });
+    }
+
+    function saveEvent(latlng)
+    {
+        var pointVariableLatLng = "POINT(" + latlng.lng + " " + latlng.lat + ")";
+        //TODO:Add this to the api, create destroy view, implement delete AJAX call, set up events at login, setup tracking friends at login
+        //TODO: Implement inviting freinds to event (will maybe require new model)
+        var lookup = currentUser.email + latlng;
+        var parameters = {event_creator:currentUser.email, event_creator_email:currentUser.email, coordinates:pointVariableLatLng, lookup_field:lookup};
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify(parameters),
+            headers: {'Authorization': 'Token ' + currentUser.auth_token},
+            contentType: "application/json",
+            url: production + "rendezvous/add_event/",
+            success: function(data){
+                console.log("Successfully added event");
+                console.log(data);
+            },
+            error: function(data){
+                console.log("Failed to add event.");
+                console.log(data);
+            }
+        });
+    }
+
+    function deleteEvent(marker)
+    {
+        var lookup = currentUser.email + marker._latlng;
+
+        $.ajax({
+            type: "DELETE",
+            headers: {'Authorization': 'token ' + currentUser.auth_token},
+            dataType: "json",
+            contentType: "application/json",
+            url: production + "rendezvous/delete_event/" + lookup + "/",
+            success: function (data) {
+                console.log("Event Deleted");
+            },
+            error: function (data) {
+                console.log("Deleting Event Failed");
+                console.log(data);
+            }
+        });
     }
 
     function onDeviceReady()
@@ -89,11 +216,9 @@ var Map = function()
     var parseCoordinates = function (c)
     {
         var point = c.toString();
-
         var latIndexStart = point.indexOf("(");
         var latIndexEnd = point.indexOf(" ", point.indexOf(" ") + 1); //Get the second occourence of " "
         var lat = point.substring(latIndexStart + 1, latIndexEnd);
-
         var lonIndexStart = point.indexOf(" ", point.indexOf(" ") + 1);
         var lonIndexEnd = point.indexOf(")"); //Get the second occourence of " "
         var lon = point.substring(lonIndexStart + 1, lonIndexEnd);
@@ -137,15 +262,15 @@ var Map = function()
         //you would like to track the friend
         $("#friendClickHandler").click(function (event){
             console.log("Email=" + friendEmailId);
+            sendPushMessage(currentUser, friendEmailId);
 
             //Clears Interval if one already exists.
             //We do this so as to not have more than one interval running at
             //once. This would be wasteful as the track friends function
             //which is attatched to this interval tracks every user in the
             //fMkr array anyway.
-            sendPushMessage(currentUser, friendEmailId);
-
-            if (trackFriendsId) {
+            if (trackFriendsId)
+            {
                 clearInterval(trackFriendsId);
             }
 
@@ -182,7 +307,6 @@ var Map = function()
         });
     }
 
-
     function trimAllWhiteSpace(id)
     {
         var thisId = id;
@@ -207,11 +331,11 @@ var Map = function()
                 var parsedCoords = parseCoordinates(data.last_known_position);
 
                 //Setup marker and store in a dictionary
-                tempMkr = L.marker([parsedCoords.longitude, parsedCoords.latitude], {icon: friendMarker}).bindPopup("<b>" + data.first_name + " "
+                tempMkr = L.marker([parsedCoords.longitude, parsedCoords.latitude], {icon: userMarker}).bindPopup("<b>" + data.first_name + " "
                     + data.last_name + "</b><br><p>" + data.email + "</p>");
 
                 /***
-                 *  fMkr   data structure
+                 *  fMkr data structure
                  *  key:   email of the friend to be tracked
                  *  value: the marker of the friend
                  *  onMap: tells the program if the marker has been applied
@@ -223,7 +347,7 @@ var Map = function()
                 });
 
                 /***
-                 *  tracking_enabled    data structure
+                 *  tracking_enabled data structure
                  *  key                 email of the friend being tracked
                  *  tracking_enabled    boolean flag to
                  */
@@ -253,8 +377,6 @@ var Map = function()
                 value: i
             });
 
-            console.log("Attempting to GET data for user: " + fMkr[i].key);
-
             // First the program checks if the friend we wish to track
             // has allowed us to track their location by checking the
             // tracking_enabled variable attatched to the friendship on
@@ -262,6 +384,7 @@ var Map = function()
             // If the tracking_enabled field is true, the tracking_enabled
             // variable is set to true and the program can now place and update
             // the friends marker on the map
+            console.log("Attempting to GET data for user: " + fMkr[i].key);
             checkIfTrackingEnabled(fMkr[i].key);
 
             for(var j = 0; j < tracking_enabled.length; j++)
@@ -278,11 +401,9 @@ var Map = function()
                             contentType: "application/json",
                             url: production + "rendezvous/users/" + fMkr[i].key + "/",
                             success: function(data){
-
-                                console.log("Recieved data for user: " + data.email);
-
                                 //Loop through mkrDetails to get index of marker
                                 // in fMkr array for this user
+                                console.log("Recieved data for user: " + data.email);
                                 for (i = 0; i < mkrDetails.length; i++)
                                 {
                                     if (mkrDetails[i].key == data.email)
@@ -313,7 +434,6 @@ var Map = function()
                     {
                         map.removeLayer(fMkr[i].value);
                     }
-
                 }
             }
         }
@@ -331,7 +451,6 @@ var Map = function()
             url: production + "rendezvous/friendTracking/" + currentUser.email + "/" + friend + "/",
             success: function(data){
                 console.log("Recieved friend tracking data for user " + data[0].to_friend_email);
-
                 for (i = 0; i < tracking_enabled.length; i++)
                 {
                     if (tracking_enabled[i].key == data[0].to_friend_email)
@@ -352,7 +471,6 @@ var Map = function()
     function openPostGate()
     {
         console.log("Post gate closed. Location updating to the API disabled for 10 seconds.");
-
         setTimeout(function(){
             console.log("Post gate re-opened. Location updating to the API enabled.");
             postGateOpen = true;
