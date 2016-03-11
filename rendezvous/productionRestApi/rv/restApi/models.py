@@ -43,3 +43,9 @@ class Notifications(models.Model):
     accepted = models.BooleanField(default=False)
     type = models.CharField(max_length=10, default="request")
 
+
+class Events(models.Model):
+    event_creator = models.ForeignKey(RendezvousUsers, related_name="creator")
+    event_creator_email = models.EmailField(null=True)
+    coordinates = models.PointField()
+    lookup_field = models.CharField(null=True, max_length=255)

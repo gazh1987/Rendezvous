@@ -1,6 +1,6 @@
 import os
-from restApi.models import RendezvousUsers, Friends, Notifications
-from restApi.serializers import UserSerializer, FriendsSerializer, NotificationsSerializer
+from restApi.models import RendezvousUsers, Friends, Notifications, Events
+from restApi.serializers import UserSerializer, FriendsSerializer, NotificationsSerializer, EventsSerializer
 from restApi.permissions import IsOwnerOrReadOnly
 
 from rest_framework import mixins
@@ -12,12 +12,10 @@ from rest_framework.reverse import reverse
 
 from push_notifications.models import GCMDevice
 
-
 class UserList(generics.ListCreateAPIView):
     queryset = RendezvousUsers.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
-
 
 class UsersDetail(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -27,7 +25,6 @@ class UsersDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     lookup_field = ('email')
-
 
 class AddFriendship(mixins.ListModelMixin,
                     mixins.CreateModelMixin,
@@ -48,7 +45,6 @@ class AddFriendship(mixins.ListModelMixin,
         print(request.data)
         return self.create(request, *args, **kwargs)
 
-
 class FriendsList(generics.ListCreateAPIView):
     """
     Get individual users friendships
@@ -61,7 +57,6 @@ class FriendsList(generics.ListCreateAPIView):
         pkey = RendezvousUsers.objects.filter(email=self.args[0]).values_list('pk')
         return Friends.objects.filter(from_friend=pkey)
 
-
 class FriendTrackingList(generics.ListCreateAPIView):
     """
     Returns all friends that are tracking a user
@@ -73,6 +68,16 @@ class FriendTrackingList(generics.ListCreateAPIView):
         userpkey = RendezvousUsers.objects.filter(email=self.args[0]).values_list('pk')
         return Friends.objects.filter(to_friend=userpkey).filter(tracking_enabled=True)
 
+class UserTrackingList(generics.ListCreateAPIView):
+    """
+    Returns all friends that a user is tracking
+    """
+    serializer_class = FriendsSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+        
+    def get_queryset(self):
+        userpkey = RendezvousUsers.objects.filter(email=self.args[0]).values_list('pk')
+        return Friends.objects.filter(from_friend=userpkey).filter(tracking_enabled=True)
 
 class FriendTracking(generics.ListCreateAPIView):
     """
@@ -86,7 +91,6 @@ class FriendTracking(generics.ListCreateAPIView):
         friendpkey = RendezvousUsers.objects.filter(email=self.args[1]).values_list('pk')
         return Friends.objects.filter(from_friend=userpkey).filter(to_friend=friendpkey)
 
-
 class UpdateFriendTracking(generics.RetrieveUpdateDestroyAPIView):
     """
     Updates the tracking_enabled field
@@ -98,7 +102,6 @@ class UpdateFriendTracking(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):      
         return Friends.objects.all()
       
-
 class AddNotifications(mixins.ListModelMixin,
                       mixins.CreateModelMixin,
                       generics.GenericAPIView):
@@ -112,14 +115,9 @@ class AddNotifications(mixins.ListModelMixin,
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        print(request.data)
-        
-        #Comment out these two lines of code when testing API from Browsable API
         request.data["from_friend"] = RendezvousUsers.objects.filter(email=request.data["from_friend"]).values_list('pk')
         request.data["to_friend"] = RendezvousUsers.objects.filter(email=request.data["to_friend"]).values_list('pk')
-        
-        print(request.data)
-	
+    
         #Send push notification
         user = RendezvousUsers.objects.filter(id=request.data["to_friend"])
         devices = GCMDevice.objects.filter(user=user)
@@ -127,7 +125,6 @@ class AddNotifications(mixins.ListModelMixin,
 
         return self.create(request, *args, **kwargs)
 	
-
 class NotificationsList(generics.ListCreateAPIView):
     """
     Get individual users Notifications
@@ -140,7 +137,6 @@ class NotificationsList(generics.ListCreateAPIView):
         pkey = RendezvousUsers.objects.filter(email=self.args[0]).values_list('pk')
         return Notifications.objects.filter(to_friend=pkey)
 
-
 class NotificationsUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     """
     Updates the tracking_enabled field
@@ -152,12 +148,44 @@ class NotificationsUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):      
         return Notifications.objects.all()
 
+class AddEvent(generics.ListCreateAPIView):
+    """
+    List all saved Events 
+    """
+    serializer_class = EventsSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+    queryset = Events.objects.all()    
+    
+    def post(self, request, *args, **kwargs):
+        request.data["event_creator"] = RendezvousUsers.objects.filter(email=request.data["event_creator"]).values_list('pk')
+        return self.create(request, *args, **kwargs)
 
+class DeleteEvent(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Delete specified Event 
+    """
+    serializer_class = EventsSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    lookup_field = ('lookup_field')    
+    queryset = Events.objects.all()
+
+class GetUserEvents(generics.ListCreateAPIView):
+    """
+    Get individual users created Events
+    """
+    serializer_class = EventsSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+
+    def get_queryset(self):
+        pkey = RendezvousUsers.objects.filter(email=self.args[0]).values_list('pk')
+        return Events.objects.filter(event_creator=pkey)
+    
 #Api Root
 @api_view(('GET',))
 def api_root(request, format=None):
     return Response({
-        'users': reverse('users-list', request=request, format=format),
+         'users': reverse('users-list', request=request, format=format),
 	'friendships': reverse('add-friendship', request=request, format=format),
   	'notifications': reverse('add-notification', request=request, format=format),
+         'events': reverse('add-event', request=request, format=format),
 })

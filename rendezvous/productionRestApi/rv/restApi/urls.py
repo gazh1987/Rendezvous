@@ -3,8 +3,8 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from restApi import views
 from push_notifications.api.rest_framework import GCMDeviceAuthorizedViewSet
 
-# API endpoints
 urlpatterns = format_suffix_patterns([
+    
     #Api root
     url(r'^$', views.api_root),
 
@@ -27,6 +27,10 @@ urlpatterns = format_suffix_patterns([
     url(r'^friendTrackingList/([\w].+)/$',
         views.FriendTrackingList.as_view(),
         name='friend_tracking_list'),
+
+    url(r'^userTrackingList/([\w].+)/$',
+        views.UserTrackingList.as_view(),
+        name='user_tracking_list'),
 
     url(r'^friendTracking/([\w].+)/([\w].+)/$',
         views.FriendTracking.as_view(),
@@ -52,8 +56,15 @@ urlpatterns = format_suffix_patterns([
         views.NotificationsUpdateDelete.as_view(),
         name='notifications_update_delete'),
 
-    #POST /login/
-    #GET /users/me
-    #POST /signup/
-    #PATCH /rendezvous/users/[pk]/
+    url(r'^add_event/$',
+        views.AddEvent.as_view(),
+        name='add-event'),
+
+    url(r'^delete_event/(?P<lookup_field>.+)/$',
+        views.DeleteEvent.as_view(),
+        name='delete-event'),
+
+    url(r'^get_user_events/([\w].+)/$',
+        views.GetUserEvents.as_view(),
+        name='get-user-event'),
 ])

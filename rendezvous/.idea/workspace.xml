@@ -1,28 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e4e92491-4b01-441c-ae37-1faa6994d980" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/.gradle/2.2.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/workshop/platforms/android/.gradle/2.2.1/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/.gradle/2.2.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/workshop/platforms/android/.gradle/2.2.1/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/workshop/platforms/android/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/workshop/platforms/android/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/Map.js" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/Map.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/js/Map.js" afterPath="$PROJECT_DIR$/workshop/www/js/Map.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/User.js" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/User.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/js/User.js" afterPath="$PROJECT_DIR$/workshop/www/js/User.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/index.html" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/index.html" afterPath="$PROJECT_DIR$/workshop/www/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/loginHandler.js" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/loginHandler.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/js/loginHandler.js" afterPath="$PROJECT_DIR$/workshop/www/js/loginHandler.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/main.html" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/main.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/main.html" afterPath="$PROJECT_DIR$/workshop/www/main.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/pushMessagingHandler.js" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/pushMessagingHandler.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/js/pushMessagingHandler.js" afterPath="$PROJECT_DIR$/workshop/www/js/pushMessagingHandler.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/standardFunctionality.js" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/js/standardFunctionality.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/platforms/android/assets/www/css/style.css" afterPath="$PROJECT_DIR$/workshop/platforms/android/assets/www/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workshop/www/css/style.css" afterPath="$PROJECT_DIR$/workshop/www/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="e4e92491-4b01-441c-ae37-1faa6994d980" name="Default" comment="" />
     <ignored path="rendezvous.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -1812,7 +1791,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
