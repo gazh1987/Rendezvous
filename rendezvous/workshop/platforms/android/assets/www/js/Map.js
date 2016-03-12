@@ -89,9 +89,9 @@ var Map = function()
                                 riseOnHover: true,
                                 draggable: true,
                             }).bindPopup("<input type='button' value='Invite Friend' class='marker-invite-button btn-primary'/><br><br>" +
-                                "<input type='button' value='Delete this marker' class='marker-delete-button btn-primary'/><br>");
+                                "<input type='button' value='Delete this marker' class='marker-delete-button btn-danger'/><br>");
 
-                            marker.on("popupopen", onPopupOpen);
+                            marker.on("popupopen", onEventPopupOpen);
                             return marker;
                         }
                     }).addTo(map);
@@ -107,7 +107,7 @@ var Map = function()
             for (var i = 0; i < friendsToTrack.length; i++)
             {
                 setupFriendMarker(friendsToTrack[i]);
-                trackFriendsId = setInterval(trackFriends, 10000);
+                trackFriendsId = setInterval(trackFriends, 2000);
             }
         }
     }
@@ -139,20 +139,20 @@ var Map = function()
                     riseOnHover: true,
                     draggable: true,
                 }).bindPopup("<input type='button' value='Invite Friend' class='marker-invite-button btn-primary'/><br><br>" +
-                             "<input type='button' value='Delete this marker' class='marker-delete-button btn-primary'/><br>");
+                             "<input type='button' value='Delete this marker' class='marker-delete-button btn-danger'/><br>");
 
-                marker.on("popupopen", onPopupOpen);
+                marker.on("popupopen", onEventPopupOpen);
                 return marker;
             }
         }).addTo(map);
         saveEvent(e.latlng);
     }
 
-    function onPopupOpen()
+    function onEventPopupOpen()
     {
         var marker = this;
         $(".marker-invite-button:visible").click(function () {
-
+            //implement invite friends here
         });
 
         $(".marker-delete-button:visible").click(function () {
@@ -242,6 +242,7 @@ var Map = function()
 
     //JQuery functions
     $(document).ready(function() {
+        //Refactor this function to delete individual friends from the map
         $("#untrackFriend").click(function(event){
             console.log("Un-tracking Friends")
             clearInterval(trackFriendsId);
@@ -332,8 +333,11 @@ var Map = function()
 
                 //Setup marker and store in a dictionary
                 tempMkr = L.marker([parsedCoords.longitude, parsedCoords.latitude], {icon: userMarker}).bindPopup("<b>" + data.first_name + " "
-                    + data.last_name + "</b><br><p>" + data.email + "</p>");
+                    + data.last_name + "</b><br><p>" + data.email + "</p>" +
+                    "<input type='button' id='" + data.email + "'value='Stop tracking' class='friend-delete-button btn-danger'/>");
+                //" + data.email +  "\
 
+                tempMkr.on("popupopen", onFriendPopupOpen);
                 /***
                  *  fMkr data structure
                  *  key:   email of the friend to be tracked
@@ -360,6 +364,68 @@ var Map = function()
                 console.log("unable to retrieve friends location");
             }
         });
+    }
+
+    function onFriendPopupOpen()
+    {
+        var marker = this;
+
+        $(".friend-delete-button:visible").click(function () {
+            var endpoint = currentUser.email + this.id;
+            var to_friend_email = this.id;
+
+            var parameters = {  "tracking_enabled" : "false" };
+
+            //Update tracking_enabled field
+            $.ajax({
+                type: "PATCH",
+                data: JSON.stringify(parameters),
+                headers: {'Authorization': 'token ' + currentUser.auth_token},
+                dataType: "json",
+                contentType: "application/json",
+                url: production + "rendezvous/updateFriendTracking/" + endpoint + "/",
+                success: function (data) {
+                    console.log("Successfully updated tracking enabled field");
+                    map.removeLayer(marker);
+
+                    //Send a push message to notify friend user has stopped tracking them
+                    var name = currentUser.firstName + " " + currentUser.lastName;
+                    var msg = name + " has stopped tracking your location";
+                    var t = "response";
+                    var parameters = {
+                        accepted:true,
+                        type:t,
+                        from_friend_email: currentUser.email,
+                        to_friend_email: to_friend_email,
+                        from_friend_name: name,
+                        message: msg,
+                        from_friend: currentUser.email,
+                        to_friend: to_friend_email
+                    };
+                    console.log(parameters);
+
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        data: JSON.stringify(parameters),
+                        headers: {'Authorization': 'Token ' + currentUser.auth_token},
+                        contentType: "application/json",
+                        url: production + "/rendezvous/notifications/",
+                        success: function(data){
+                            console.log("Successfully sent push message notification");
+                            console.log(data);
+                        },
+                        error: function(data){
+                            console.log("Failed sending push message notification.");
+                            console.log(data);
+                        }
+                    });
+                },
+                error: function(data){
+                    console.log("Unable to update tracking enabled field");
+                }
+            });
+        })
     }
 
     var mkrDetails = [];
