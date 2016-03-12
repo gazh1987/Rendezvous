@@ -137,6 +137,7 @@ function getFriends(token, email)
 
 function getTrackers(token, email)
 {
+    //Get friends tracking user
     $.ajax({
         type:"GET",
         dataType: "json",
@@ -152,6 +153,28 @@ function getTrackers(token, email)
                 trackersList.push(data[i].from_friend_email);
             }
             localStorage.setItem('trackersList', JSON.stringify(trackersList));
+        },
+        error: function(data){
+            console.log(data);
+        }
+    })
+
+    //Get friends user is tracking
+    $.ajax({
+        type:"GET",
+        dataType: "json",
+        headers: { 'Authorization': 'Token '+ token },
+        contentType: "application/json",
+        url: production + "rendezvous/userTrackingList/" + email + "/",
+        success: function(data) {
+            console.log("Creating userTrackingList");
+            console.log(data);
+            var userTrackersList = [];
+            for (var i = 0; i < data.length; i ++)
+            {
+                userTrackersList.push(data[i].to_friend_email);
+            }
+            localStorage.setItem('userTrackersList', JSON.stringify(userTrackersList));
         },
         error: function(data){
             console.log(data);

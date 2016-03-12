@@ -2,6 +2,8 @@ var localHost = "http://localhost:8000/";
 var production = "http://rendezvous-704e3pxx.cloudapp.net/";
 
 $(document).ready(function() {
+
+    //Logout function
     $("#logout").click(function (event) {
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
         console.log("Logging out user: " + currentUser.email);

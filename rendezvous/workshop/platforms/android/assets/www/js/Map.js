@@ -11,6 +11,7 @@ var Map = function()
     var postGateOpen = true;
     var trackFriendsId;
     var userEventsInitialised = false;
+    var reInitialisedFriends = false;
     var map = L.map('map', { zoomControl:false, attributionControl:false });
 
     var userMarker = L.icon({
@@ -59,38 +60,54 @@ var Map = function()
             currentUser.PostLastKnownPosition(currentUser);
         }
 
+        //Code to be ran once after login.
+        //Places event and friend markers on the map
         if (userEventsInitialised == false)
         {
             userEventsInitialised = true;
             var userEvents = JSON.parse(localStorage.getItem('userEvents'));
-            var events = userEvents[0];
 
-            for (var i = 0; i < events.length; i++)
-            {
-                var coords = parseCoordinates(events[i].coordinates);
-                var geojsonFeature = {
-                "type": "Feature",
-                    "properties": {},
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [coords.latitude, coords.longitude]
+            if (userEvents != null) {
+                var events = userEvents[0];
+
+                for (var i = 0; i < events.length; i++) {
+                    var coords = parseCoordinates(events[i].coordinates);
+                    var geojsonFeature = {
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [coords.latitude, coords.longitude]
+                        }
                     }
+
+                    var marker;
+                    L.geoJson(geojsonFeature, {
+                        pointToLayer: function (feature, latlng) {
+                            marker = L.marker(latlng, {
+                                icon: friendMarker,
+                                riseOnHover: true,
+                                draggable: true,
+                            }).bindPopup("<input type='button' value='Invite Friend' class='marker-invite-button btn-primary'/><br><br>" +
+                                "<input type='button' value='Delete this marker' class='marker-delete-button btn-primary'/><br>");
+
+                            marker.on("popupopen", onPopupOpen);
+                            return marker;
+                        }
+                    }).addTo(map);
                 }
+            }
+        }
 
-                var marker;
-                L.geoJson(geojsonFeature, {
-                    pointToLayer: function(feature, latlng){
-                        marker = L.marker(latlng, {
-                            icon: friendMarker,
-                            riseOnHover: true,
-                            draggable: true,
-                        }).bindPopup("<input type='button' value='Invite Friend' class='marker-invite-button btn-primary'/><br><br>" +
-                                     "<input type='button' value='Delete this marker' class='marker-delete-button btn-primary'/><br>");
-
-                        marker.on("popupopen", onPopupOpen);
-                        return marker;
-                    }
-                }).addTo(map);
+        if (reInitialisedFriends == false)
+        {
+            reInitialisedFriends = true;
+            var friendsToTrack = JSON.parse(localStorage.getItem('userTrackersList'));
+            console.log("Friends to track length=" + friendsToTrack.length);
+            for (var i = 0; i < friendsToTrack.length; i++)
+            {
+                setupFriendMarker(friendsToTrack[i]);
+                trackFriendsId = setInterval(trackFriends, 10000);
             }
         }
     }
@@ -133,7 +150,6 @@ var Map = function()
 
     function onPopupOpen()
     {
-        //TODO: Implement adding event to API, removing event from API, inviting friend and sending notification
         var marker = this;
         $(".marker-invite-button:visible").click(function () {
 
@@ -246,14 +262,13 @@ var Map = function()
         //you would like to track the friend
         $("#friendClickHandler").click(function (event){
             console.log("Email=" + friendEmailId);
+            sendPushMessage(currentUser, friendEmailId);
 
             //Clears Interval if one already exists.
             //We do this so as to not have more than one interval running at
             //once. This would be wasteful as the track friends function
             //which is attatched to this interval tracks every user in the
             //fMkr array anyway.
-            sendPushMessage(currentUser, friendEmailId);
-
             if (trackFriendsId)
             {
                 clearInterval(trackFriendsId);

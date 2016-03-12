@@ -268,6 +268,7 @@ function deleteRendezvousRequest(id)
         contentType: "application/json",
         url: production + "rendezvous/notifications_update_delete/" + id + "/",
         success: function (data) {
+
             console.log("Notification Deleted");
             populateNotificationsList()
         },
