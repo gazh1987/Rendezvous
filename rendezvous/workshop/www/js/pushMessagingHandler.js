@@ -128,7 +128,7 @@ function populateNotificationsList()
                         tStamp + "<br>" +
                         "<strong>Sender: </strong>" + notificationsArray[i].from_friend_name + "<br>" +
                         "<strong>Message: </strong>" + notificationsArray[i].message + "<br><br>" +
-                        "<button name=\"acceptRendezvouRequest\" class=\"btn\" id=\"temp_id\" data-id=\"timestamp_id\" onClick=\"acceptRendezvousRequest(this.id, this.dataset.id)\">Accept Rendezvous Request</button><br>" +
+                        "<button name=\"acceptRendezvouRequest\" class=\"btn\" id=\"temp_id\" data-id=\"timestamp_id\" onClick=\"acceptRendezvousRequest(this.id, this.dataset.id, this.name)\">Accept Rendezvous Request</button><br>" +
                         "<button name=\"deleteRendezvouRequest\" class=\"btn\" id=\"del_id\" onClick=\"deleteRendezvousRequest(this.id)\">Delete Rendezvous Request</button>" +
                         "</li>";
                     }
@@ -146,6 +146,7 @@ function populateNotificationsList()
                     btn = document.getElementById("temp_id");
                     btn.setAttribute("id", notificationsArray[i].from_friend_email);
                     btn.setAttribute("data-id", notificationsArray[i].timestamp);
+                    btn.setAttribute("name", notificationsArray[i].event_lookup_field);
                 }
                 del_btn = document.getElementById("del_id");
                 del_btn.setAttribute("id", notificationsArray[i].timestamp);
@@ -167,7 +168,7 @@ function populateNotificationsList()
     });
 }
 
-function acceptRendezvousRequest(id, timestamp)
+function acceptRendezvousRequest(id, timestamp, event_lookup_field)
 {
     btn = document.getElementById("temp_id");
     var currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -186,6 +187,13 @@ function acceptRendezvousRequest(id, timestamp)
         success: function (data) {
             alert("User " +  id + " is now tracking your location");
             console.log(id + "is now tracking your location");
+
+            //TODO: If so, update the API to include user in event, and also display all other users associated with that event
+            if (event_lookup_field != "null")
+            {
+                console.log("Invitation accepted")
+                eventAcceptedHandler(id, event_lookup_field, currentUser);
+            }
 
             //Then update the accepted notification field so the accept button will not show on the
             //senders app anymore
@@ -287,3 +295,97 @@ function parseTimestamp(t)
     return datetime;
 }
 
+function eventAcceptedHandler(id, event_lookup_field, currentUser)
+{
+    var parameters = {event:event_lookup_field, user:id};
+
+    //Add user to event
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: JSON.stringify(parameters),
+        headers: {'Authorization': 'Token ' + currentUser.auth_token},
+        contentType: "application/json",
+        url: production + "/rendezvous/add_event_details/",
+        success: function(data){
+            console.log("Successfully added user to event");
+            console.log(data);
+
+            //Place the event coordinates details
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                headers: {'Authorization': 'Token ' + currentUser.auth_token},
+                contentType: "application/json",
+                url: production + "/rendezvous/get_event_details_by_id/" + data.event + "/",
+                success: function(data){
+                    console.log("Successfully retrieved event details");
+                    console.log(data);
+
+                    var friendMarker = L.icon({
+                        iconUrl: 'images/friendMarker.png',
+
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 10],
+                        popupAnchor: [-1, -1]
+                    });
+                    var coords = parseCoordinates(data.coordinates);
+
+                    //Place marker on the map
+                    var geojsonFeature = {
+                    "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [coords.latitude, coords.longitude]
+                        }
+                    }
+
+                    var marker;
+                    L.geoJson(geojsonFeature, {
+                        pointToLayer: function(feature, latlng){
+                            marker = L.marker(latlng, {
+                                icon: friendMarker,
+                                riseOnHover: true,
+                                draggable: true,
+                            }).bindPopup("Event");
+
+                            marker.on("popupopen", onEventPopupOpen);
+                            return marker;
+                        }
+                    }).addTo(map);
+                },
+                error: function(data){
+                    console.log("Failed to get the event details");
+                    console.log(data);
+                }
+            });
+        },
+        error: function(data){
+            console.log("Failed adding user to event.");
+            console.log(data);
+        }
+    });
+}
+
+function onEventPopupOpen()
+{
+
+}
+
+var parseCoordinates = function (c)
+{
+    var point = c.toString();
+    var latIndexStart = point.indexOf("(");
+    var latIndexEnd = point.indexOf(" ", point.indexOf(" ") + 1); //Get the second occourence of " "
+    var lat = point.substring(latIndexStart + 1, latIndexEnd);
+    var lonIndexStart = point.indexOf(" ", point.indexOf(" ") + 1);
+    var lonIndexEnd = point.indexOf(")"); //Get the second occourence of " "
+    var lon = point.substring(lonIndexStart + 1, lonIndexEnd);
+
+    var coords =  {
+        latitude : lat,
+        longitude : lon
+    };
+    return coords;
+};

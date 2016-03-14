@@ -13,7 +13,6 @@ class RendezvousUsers(EmailAbstractUser):
     last_known_position = models.PointField(null=True, blank=True)
     objects = EmailUserManager()
 
-
 """
 REFERENCE: https://www.packtpub.com/books/content/building-friend-networks-django-10
 """
@@ -31,7 +30,6 @@ class Friends(models.Model):
     class Meta:
         unique_together=(('to_friend', 'from_friend'), )
 
-
 class Notifications(models.Model):
     from_friend = models.ForeignKey(RendezvousUsers, related_name="notif_from_friend_set")
     to_friend = models.ForeignKey(RendezvousUsers, related_name="notif_to_friend_set")
@@ -42,10 +40,14 @@ class Notifications(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     accepted = models.BooleanField(default=False)
     type = models.CharField(max_length=10, default="request")
-
+    event_lookup_field = models.CharField(null=True, max_length=255)
 
 class Events(models.Model):
     event_creator = models.ForeignKey(RendezvousUsers, related_name="creator")
     event_creator_email = models.EmailField(null=True)
     coordinates = models.PointField()
     lookup_field = models.CharField(null=True, max_length=255)
+
+class EventDetails(models.Model):
+    event = models.ForeignKey(Events, related_name="source_event", on_delete=models.CASCADE)
+    user = models.CharField(max_length=255)

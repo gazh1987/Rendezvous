@@ -67,4 +67,12 @@ urlpatterns = format_suffix_patterns([
     url(r'^get_user_events/([\w].+)/$',
         views.GetUserEvents.as_view(),
         name='get-user-event'),
+
+    url(r'^add_event_details/$',
+        views.AddEventDetails.as_view(),
+        name='get-event_details'),
+
+    url(r'^get_event_details_by_id/(?P<id>.+)/$',
+        views.GetEventById.as_view(),
+        name='get-event-by-id'),
 ])

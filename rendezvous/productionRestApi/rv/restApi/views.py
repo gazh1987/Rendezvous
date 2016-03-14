@@ -1,6 +1,6 @@
 import os
-from restApi.models import RendezvousUsers, Friends, Notifications, Events
-from restApi.serializers import UserSerializer, FriendsSerializer, NotificationsSerializer, EventsSerializer
+from restApi.models import RendezvousUsers, Friends, Notifications, Events, EventDetails
+from restApi.serializers import UserSerializer, FriendsSerializer, NotificationsSerializer, EventsSerializer, EventDetailsSerializer
 from restApi.permissions import IsOwnerOrReadOnly
 
 from rest_framework import mixins
@@ -179,6 +179,27 @@ class GetUserEvents(generics.ListCreateAPIView):
     def get_queryset(self):
         pkey = RendezvousUsers.objects.filter(email=self.args[0]).values_list('pk')
         return Events.objects.filter(event_creator=pkey)
+
+class AddEventDetails(generics.ListCreateAPIView):
+    """
+    List all saved Events Details
+    """
+    serializer_class = EventDetailsSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+    queryset = EventDetails.objects.all()    
+    
+    def post(self, request, *args, **kwargs):
+        request.data["event"] = Events.objects.filter(lookup_field=request.data["event"]).values_list('pk')
+        return self.create(request, *args, **kwargs)
+
+class GetEventById(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Get Event by the id of the event
+    """
+    serializer_class = EventsSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    lookup_field = ('id')
+    queryset = Events.objects.all()
     
 #Api Root
 @api_view(('GET',))
