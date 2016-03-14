@@ -1,5 +1,6 @@
 var localHost = "http://localhost:8000/";
 var production = "http://rendezvous-704e3pxx.cloudapp.net/";
+var map = null;
 
 var Map = function()
 {
@@ -12,7 +13,7 @@ var Map = function()
     var trackFriendsId;
     var userEventsInitialised = false;
     var reInitialisedFriends = false;
-    var map = L.map('map', { zoomControl:false, attributionControl:false });
+    map = L.map('map', { zoomControl:false, attributionControl:false });
 
     var userMarker = L.icon({
         iconUrl: 'images/userMarker.png',
@@ -88,7 +89,7 @@ var Map = function()
                                 icon: friendMarker,
                                 riseOnHover: true,
                                 draggable: true,
-                            }).bindPopup("<input type='button' value='Invite Friend' class='marker-invite-button btn-primary'/><br><br>" +
+                            }).bindPopup("<a href='#inviteFriendsList' class='marker-invite-button btn btn-primary btn-xs' style='color: white;'>Invite Friends</a><br><br>" +
                                 "<input type='button' value='Delete this marker' class='marker-delete-button btn-danger'/><br>");
 
                             marker.on("popupopen", onEventPopupOpen);
@@ -138,7 +139,7 @@ var Map = function()
                     icon: friendMarker,
                     riseOnHover: true,
                     draggable: true,
-                }).bindPopup("<input type='button' value='Invite Friend' class='marker-invite-button btn-primary'/><br><br>" +
+                }).bindPopup("<a href='#inviteFriendsList' class='marker-invite-button btn btn-primary btn-xs' style='color: white;'>Invite Friends</a><br><br>" +
                              "<input type='button' value='Delete this marker' class='marker-delete-button btn-danger'/><br>");
 
                 marker.on("popupopen", onEventPopupOpen);
@@ -152,7 +153,8 @@ var Map = function()
     {
         var marker = this;
         $(".marker-invite-button:visible").click(function () {
-            //implement invite friends here
+            var event_lookup_field = currentUser.email + marker._latlng;
+             localStorage.setItem('event_lookup_field', JSON.stringify(event_lookup_field));
         });
 
         $(".marker-delete-button:visible").click(function () {
@@ -164,8 +166,6 @@ var Map = function()
     function saveEvent(latlng)
     {
         var pointVariableLatLng = "POINT(" + latlng.lng + " " + latlng.lat + ")";
-        //TODO:Add this to the api, create destroy view, implement delete AJAX call, set up events at login, setup tracking friends at login
-        //TODO: Implement inviting freinds to event (will maybe require new model)
         var lookup = currentUser.email + latlng;
         var parameters = {event_creator:currentUser.email, event_creator_email:currentUser.email, coordinates:pointVariableLatLng, lookup_field:lookup};
 
@@ -279,6 +279,37 @@ var Map = function()
             trackFriendsId = setInterval(trackFriends, 10000);
             friendEmailId = "";
             $.mobile.changePage("#main");
+        });
+
+         $("#inviteClickHandler").click(function (event){
+             var event_lookup_field = JSON.parse(localStorage.getItem('event_lookup_field'));
+             console.log("elf"+event_lookup_field);
+             console.log("Email=" + friendEmailId);
+
+             var name = currentUser.firstName + " " + currentUser.lastName;
+             var msg = name + " has sent you an Event Invitation!";
+             var t = "invite";
+             var elf = event_lookup_field;
+             var parameters = {event_lookup_field:elf, type:t, from_friend_email: currentUser.email, to_friend_email: friendEmailId, from_friend_name: name, message: msg, from_friend: currentUser.email, to_friend: friendEmailId};
+             console.log(parameters);
+
+             $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: JSON.stringify(parameters),
+                headers: {'Authorization': 'Token ' + currentUser.auth_token},
+                contentType: "application/json",
+                url: production + "/rendezvous/notifications/",
+                success: function(data){
+                    console.log("Successfully sent push message notification");
+                    console.log(data);
+                },
+                error: function(data){
+                    console.log("Failed sending push message notification.");
+                    console.log(data);
+                }
+             });
+             $.mobile.changePage("#main");
         });
     });
 

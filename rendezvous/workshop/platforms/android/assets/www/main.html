@@ -88,6 +88,42 @@
                 </ul>
             </div>
         </div>
+        <div data-role="page" id="inviteFriendsList">
+            <div data-role="header" id="header">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu<span class="caret"></span></button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
+                        <a href="#main" class="btn btn-default">Map</a>
+                        <a href="#friendsList" class="btn btn-default">Friends List</a>
+                        <a href="#trackersList" class="btn btn-default">Trackers List</a>
+                    </ul>
+                    <a href="#notifications" class="notification_btn"><span name="alert_not" class="glyphicon glyphicon-bell alert_not" aria-hidden="true"></span></a>
+                    <h3 style="float:right">Invite Friends</h3>
+                </div>
+            </div>
+            <div data-role="main" class="ui-content">
+                <ul data-role="listview" data-autodividers="false" id="listOfInviteFriends">
+                    <script>
+                        populateInviteFriendsList();
+                    </script>
+                </ul>
+            </div>
+            <div id="friendInviteOptions" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" style="color:white"><strong>Invite Friend Options</strong></h4>
+                        </div>
+                        <div id="modalBody" class="modal-body">
+                            <p>Would you like to invite friend to this event?</p>
+                        </div>
+                        <div id="modalFooter" class="modal-footer">
+                            <button type="button" id="inviteClickHandler" data-dismiss="modal" style="background-color:#0480be; color:white">Send Invite Request</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div data-role="page" id="friendsList">
             <div data-role="header" id="header">
                 <div class="dropdown">

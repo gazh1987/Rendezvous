@@ -93,6 +93,39 @@ function populateFriendsList()
     }
 }
 
+function populateInviteFriendsList()
+{
+    console.log("Populating invite friends list");
+
+    var userLoginData = JSON.parse(localStorage.getItem('user'));
+    var friendsList = JSON.parse(localStorage.getItem('friendsList'));
+
+    var listOfFriends = document.getElementById('listOfFriends');
+
+    for (i = 0; i < friendsList.length; i++)
+    {
+        $.ajax({type: "GET",
+            dataType: "json",
+            headers: { 'Authorization': 'Token ' + userLoginData.auth_token},
+            contentType: "application/json",
+            url: production + "rendezvous/users/" + friendsList[i] + "/",
+            success: function(data){
+                console.log(data);
+                var newFriend = "<li data-icon=\"true\">" +
+                        "<button id=\"" + data.email + "\" class=\"btn btn-primary friendButtonClick\" data-toggle=\"modal\" data-target=\"#friendInviteOptions\">" +
+                        data.first_name + " " + data.last_name + "<br><p>" + data.email + "</p>" +
+                        "</button>" +
+                        "</li>";
+
+                listOfInviteFriends.innerHTML = listOfInviteFriends.innerHTML + newFriend;
+            },
+            error: function(data){
+                console.log("Unable to retrieve friends details");
+            }
+        });
+    }
+}
+
 function populateTrackersList()
 {
     console.log("Populating trackers list");

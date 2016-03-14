@@ -354,6 +354,8 @@ function eventAcceptedHandler(id, event_lookup_field, currentUser)
                             return marker;
                         }
                     }).addTo(map);
+
+
                 },
                 error: function(data){
                     console.log("Failed to get the event details");
