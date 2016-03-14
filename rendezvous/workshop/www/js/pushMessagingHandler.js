@@ -11,12 +11,12 @@ function onDeviceReady()
     });
 
     push.on('registration', function(data) {
-        console.log("Device registered");
         localStorage.setItem('registration_id', JSON.stringify(data.registrationId));
     });
 
     push.on('error', function(e) {
-         console.log(e);
+        console.log("Error registering device");
+        console.log(e);
     });
 
     push.on('notification', function(data) {
@@ -32,13 +32,6 @@ function onDeviceReady()
         {
             elements[i].style.color='red';
         }
-
-        console.log(data.message);
-        console.log(data.title);
-        console.log(data.count);
-        console.log(data.sound);
-        console.log(data.image);
-        console.log(data.additionalData);
     });
 }
 
@@ -53,7 +46,7 @@ $(document).ready(function(){
             getNewNotifications();
         }
 
-        console.log("resetting notification button");
+        //Resetting notification button
         for (var i = 0; i < length; i++) {
             elements[i].style.color = '#333333';
         }
@@ -65,7 +58,6 @@ $(document).ready(function(){
 
     function getNewNotifications()
     {
-        console.log("Getting new notifications from the API.")
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
         $.ajax({
@@ -78,6 +70,7 @@ $(document).ready(function(){
                 populateNotificationsList();
             },
             error: function (data) {
+                console.log("Error getting notifications");
                 console.log(data);
             }
         });
@@ -96,7 +89,6 @@ function populateNotificationsList()
         contentType: "application/json",
         url: production + "rendezvous/notifications/" + userLoginData.email + "/",
         success: function (data) {
-            console.log(data);
             var notificationsArray = data;
             var not_list= document.getElementById('notificationsList');
             not_list.innerHTML = "";
@@ -107,7 +99,6 @@ function populateNotificationsList()
             for(var i = notificationsArray.length - 1; i >= 0; i--)
             {
                 var tStamp = parseTimestamp(notificationsArray[i].timestamp);
-                console.log(notificationsArray[i].type);
                 var deleteButton = "<li style=\"padding: 10px; background-color:" + background + "\"\" data-icon=\"true\">" +
                         tStamp + "<br>" +
                         "<strong>Sender: </strong>" + notificationsArray[i].from_friend_name + "<br>" +
@@ -163,6 +154,7 @@ function populateNotificationsList()
             }
         },
         error: function (data) {
+            console.log("Error getting notifications");
             console.log(data);
         }
     });
@@ -172,7 +164,6 @@ function acceptRendezvousRequest(id, timestamp, event_lookup_field)
 {
     btn = document.getElementById("temp_id");
     var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    console.log("Accepting Rendezvous request. Enabling tracking for friend " + id);
     var endPoint = id + "" + currentUser.email;
     var parameters = { "tracking_enabled": "true" };
 
@@ -186,12 +177,10 @@ function acceptRendezvousRequest(id, timestamp, event_lookup_field)
         url: production + "rendezvous/updateFriendTracking/" + endPoint + "/",
         success: function (data) {
             alert("User " +  id + " is now tracking your location");
-            console.log(id + "is now tracking your location");
 
-            //TODO: If so, update the API to include user in event, and also display all other users associated with that event
+            //If the request was an event invitation, pass details to the event handler
             if (event_lookup_field != "null")
             {
-                console.log("Invitation accepted")
                 eventAcceptedHandler(id, event_lookup_field, currentUser);
             }
 
@@ -207,7 +196,6 @@ function acceptRendezvousRequest(id, timestamp, event_lookup_field)
                 url: production + "rendezvous/notifications_update_delete/" + timestamp + "/",
                 success: function (data) {
                     //Update the notifications list
-                    console.log("Update notification accepted field");
                     populateNotificationsList();
 
                     //Update the trackers List to list the user request that was just accepted
@@ -231,7 +219,6 @@ function acceptRendezvousRequest(id, timestamp, event_lookup_field)
                         from_friend: currentUser.email,
                         to_friend: id
                     };
-                    console.log(parameters);
 
                     $.ajax({
                         type: "POST",
@@ -276,8 +263,6 @@ function deleteRendezvousRequest(id)
         contentType: "application/json",
         url: production + "rendezvous/notifications_update_delete/" + id + "/",
         success: function (data) {
-
-            console.log("Notification Deleted");
             populateNotificationsList()
         },
         error: function (data) {
@@ -297,7 +282,8 @@ function parseTimestamp(t)
 
 function eventAcceptedHandler(id, event_lookup_field, currentUser)
 {
-    var parameters = {event:event_lookup_field, user:id};
+    var lup = currentUser.email + event_lookup_field;
+    var parameters = {event:event_lookup_field, user:currentUser.email, lookup_field:lup};
 
     //Add user to event
     $.ajax({
@@ -308,9 +294,6 @@ function eventAcceptedHandler(id, event_lookup_field, currentUser)
         contentType: "application/json",
         url: production + "/rendezvous/add_event_details/",
         success: function(data){
-            console.log("Successfully added user to event");
-            console.log(data);
-
             //Place the event coordinates details
             $.ajax({
                 type: "GET",
@@ -319,9 +302,6 @@ function eventAcceptedHandler(id, event_lookup_field, currentUser)
                 contentType: "application/json",
                 url: production + "/rendezvous/get_event_details_by_id/" + data.event + "/",
                 success: function(data){
-                    console.log("Successfully retrieved event details");
-                    console.log(data);
-
                     var friendMarker = L.icon({
                         iconUrl: 'images/friendMarker.png',
 
@@ -348,14 +328,12 @@ function eventAcceptedHandler(id, event_lookup_field, currentUser)
                                 icon: friendMarker,
                                 riseOnHover: true,
                                 draggable: true,
-                            }).bindPopup("Event");
+                            }).bindPopup("<input type='button' name='" + id + "' id='" + lup + "' value='Leave this event' class='marker-leave-event-button btn-danger'/>");
 
                             marker.on("popupopen", onEventPopupOpen);
                             return marker;
                         }
                     }).addTo(map);
-
-
                 },
                 error: function(data){
                     console.log("Failed to get the event details");
@@ -372,7 +350,77 @@ function eventAcceptedHandler(id, event_lookup_field, currentUser)
 
 function onEventPopupOpen()
 {
+    var marker = this;
 
+    $(".marker-leave-event-button:visible").click(function () {
+        map.removeLayer(marker);
+        var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        var inviters_email = this.name;
+
+        //Remove user from the event
+        $.ajax({
+            type: "DELETE",
+            headers: {'Authorization': 'token ' + currentUser.auth_token},
+            dataType: "json",
+            contentType: "application/json",
+            url: production + "rendezvous/delete_event_details/" + this.id + "/",
+            success: function (data) {
+                var parameters = {"tracking_enabled": "false"};
+                var endpoint = inviters_email + currentUser.email;
+
+                //Update tracking_enabled field
+                $.ajax({
+                    type: "PATCH",
+                    data: JSON.stringify(parameters),
+                    headers: {'Authorization': 'token ' + currentUser.auth_token},
+                    dataType: "json",
+                    contentType: "application/json",
+                    url: production + "rendezvous/updateFriendTracking/" + endpoint + "/",
+                    success: function (data) {
+                        //Send push notification
+                        var name = currentUser.firstName + " " + currentUser.lastName;
+                        var msg = name + " has left the Event!";
+                        var t = "response";
+                        var parameters = {
+                            accepted:true,
+                            type:t,
+                            from_friend_email: currentUser.email,
+                            to_friend_email: inviters_email,
+                            from_friend_name: name,
+                            message: msg,
+                            from_friend: currentUser.email,
+                            to_friend: inviters_email
+                        };
+
+                        $.ajax({
+                            type: "POST",
+                            dataType: "json",
+                            data: JSON.stringify(parameters),
+                            headers: {'Authorization': 'Token ' + currentUser.auth_token},
+                            contentType: "application/json",
+                            url: production + "/rendezvous/notifications/",
+                            success: function(data){
+                                console.log("Successfully sent push message notification");
+                                console.log(data);
+                            },
+                            error: function(data){
+                                console.log("Failed sending push message notification.");
+                                console.log(data);
+                            }
+                        });
+                    },
+                    error: function (data) {
+                        console.log("Error updating tracking_enabled field");
+                        console.log(data);
+                    }
+                });
+            },
+            error: function (data) {
+                console.log("Error removing user from event");
+                console.log(data);
+            }
+        });
+    });
 }
 
 var parseCoordinates = function (c)

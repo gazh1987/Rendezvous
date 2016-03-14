@@ -303,6 +303,9 @@ var Map = function()
                 success: function(data){
                     console.log("Successfully sent push message notification");
                     console.log(data);
+                    setupFriendMarker(friendEmailId);
+                    trackFriendsId = setInterval(trackFriends, 10000);
+                    friendEmailId = "";
                 },
                 error: function(data){
                     console.log("Failed sending push message notification.");
@@ -416,7 +419,6 @@ var Map = function()
                 contentType: "application/json",
                 url: production + "rendezvous/updateFriendTracking/" + endpoint + "/",
                 success: function (data) {
-                    console.log("Successfully updated tracking enabled field");
                     map.removeLayer(marker);
 
                     //Send a push message to notify friend user has stopped tracking them
@@ -433,7 +435,6 @@ var Map = function()
                         from_friend: currentUser.email,
                         to_friend: to_friend_email
                     };
-                    console.log(parameters);
 
                     $.ajax({
                         type: "POST",
@@ -462,8 +463,6 @@ var Map = function()
     var mkrDetails = [];
     function trackFriends()
     {
-        console.log("trackFriends function");
-
         for (i = 0; i < fMkr.length; i++)
         {
             //Map i to the user in the fMkr array. We do this
@@ -481,7 +480,6 @@ var Map = function()
             // If the tracking_enabled field is true, the tracking_enabled
             // variable is set to true and the program can now place and update
             // the friends marker on the map
-            console.log("Attempting to GET data for user: " + fMkr[i].key);
             checkIfTrackingEnabled(fMkr[i].key);
 
             for(var j = 0; j < tracking_enabled.length; j++)
@@ -490,8 +488,6 @@ var Map = function()
                 {
                     if(tracking_enabled[j].tracking_enabled == true)
                     {
-                        console.log("Getting Data for user: " + fMkr[i].key);
-
                         $.ajax({type: "GET",
                             dataType: "json",
                             headers: { 'Authorization': 'Token ' + currentUser.auth_token},
@@ -500,7 +496,7 @@ var Map = function()
                             success: function(data){
                                 //Loop through mkrDetails to get index of marker
                                 // in fMkr array for this user
-                                console.log("Recieved data for user: " + data.email);
+                                console.log("Received data for user: " + data.email);
                                 for (i = 0; i < mkrDetails.length; i++)
                                 {
                                     if (mkrDetails[i].key == data.email)

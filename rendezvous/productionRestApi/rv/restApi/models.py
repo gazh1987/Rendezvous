@@ -51,3 +51,4 @@ class Events(models.Model):
 class EventDetails(models.Model):
     event = models.ForeignKey(Events, related_name="source_event", on_delete=models.CASCADE)
     user = models.CharField(max_length=255)
+    lookup_field = models.CharField(null=True, max_length=255)

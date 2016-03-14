@@ -200,6 +200,15 @@ class GetEventById(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     lookup_field = ('id')
     queryset = Events.objects.all()
+
+class DeleteEventDetails(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Delete user from event
+    """
+    serializer_class = EventDetailsSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    lookup_field = ('lookup_field')    
+    queryset = EventDetails.objects.all()
     
 #Api Root
 @api_view(('GET',))
