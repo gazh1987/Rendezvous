@@ -20,6 +20,7 @@ $(document).ready(function() {
 
                 //Store email for easier login
                 localStorage.setItem('loginEmail', JSON.stringify(currentUser.email));
+
                 window.location.assign("index.html");
             },
             error: function (data) {

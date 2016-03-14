@@ -13,6 +13,7 @@ var Map = function()
     var trackFriendsId;
     var userEventsInitialised = false;
     var reInitialisedFriends = false;
+    var invitedEventsInitialised = false;
     map = L.map('map', { zoomControl:false, attributionControl:false });
 
     var userMarker = L.icon({
@@ -37,17 +38,14 @@ var Map = function()
 
     var uMkr;
     var uCir;
-    function onLocationFound(e)
-    {
+    function onLocationFound(e) {
         console.log("Token: " + currentUser.auth_token);
-        if (postGateOpen == true)
-        {
+        if (postGateOpen == true) {
             postGateOpen = false;
             openPostGate();
             var radius = e.accuracy / 2;
 
-            if (!uMkr)
-            {
+            if (!uMkr) {
                 //Login details for debugging purposes
                 console.log("Logged in as User: " + currentUser.email + ".");
                 console.log("Friends List: " + friendsListLoginData + ".");
@@ -63,8 +61,7 @@ var Map = function()
 
         //Code to be ran once after login.
         //Places event and friend markers on the map
-        if (userEventsInitialised == false)
-        {
+        if (userEventsInitialised == false) {
             userEventsInitialised = true;
             var userEvents = JSON.parse(localStorage.getItem('userEvents'));
 
@@ -100,15 +97,70 @@ var Map = function()
             }
         }
 
-        if (reInitialisedFriends == false)
-        {
+        if (reInitialisedFriends == false) {
             reInitialisedFriends = true;
             var friendsToTrack = JSON.parse(localStorage.getItem('userTrackersList'));
-            console.log("Friends to track length=" + friendsToTrack.length);
-            for (var i = 0; i < friendsToTrack.length; i++)
+
+            if (friendsToTrack != null)
             {
-                setupFriendMarker(friendsToTrack[i]);
-                trackFriendsId = setInterval(trackFriends, 2000);
+                console.log("Friends to track length=" + friendsToTrack.length);
+                for (var i = 0; i < friendsToTrack.length; i++) {
+                    setupFriendMarker(friendsToTrack[i]);
+                    trackFriendsId = setInterval(trackFriends, 2000);
+                }
+            }
+        }
+
+        if (invitedEventsInitialised == false) {
+            invitedEventsInitialised = true;
+            var tempInvitedEvents = JSON.parse(localStorage.getItem('invitedEvents'));
+
+            if (tempInvitedEvents != null)
+            {
+                var invitedEvents = tempInvitedEvents[0];
+
+                for (var i = 0; i < invitedEvents.length; i++) {
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        headers: {'Authorization': 'Token ' + currentUser.auth_token},
+                        contentType: "application/json",
+                        url: production + "/rendezvous/get_event_details_by_id/" + invitedEvents[i].event + "/",
+                        success: function (data) {
+                            //Add event to map
+                            var coords = parseCoordinates(data.coordinates);
+                            var lup = currentUser.email + data.lookup_field;
+
+                            //Place marker on the map
+                            var geojsonFeature = {
+                                "type": "Feature",
+                                "properties": {},
+                                "geometry": {
+                                    "type": "Point",
+                                    "coordinates": [coords.latitude, coords.longitude]
+                                }
+                            }
+
+                            var marker;
+                            L.geoJson(geojsonFeature, {
+                                pointToLayer: function (feature, latlng) {
+                                    marker = L.marker(latlng, {
+                                        icon: friendMarker,
+                                        riseOnHover: true,
+                                        draggable: true,
+                                    }).bindPopup("<input type='button' name='" + data.event_creator_email + "' id='" + lup + "' value='Leave this event' class='marker-leave-event-button btn-danger'/>");
+
+                                    marker.on("popupopen", onEventPopupOpen);
+                                    return marker;
+                                }
+                            }).addTo(map);
+                        },
+                        error: function (data) {
+                            console.log("Failed to add event.");
+                            console.log(data);
+                        }
+                    });
+                }
             }
         }
     }
@@ -160,6 +212,76 @@ var Map = function()
         $(".marker-delete-button:visible").click(function () {
             map.removeLayer(marker);
             deleteEvent(marker);
+        });
+
+        $(".marker-leave-event-button:visible").click(function () {
+            map.removeLayer(marker);
+            var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            var inviters_email = this.name;
+
+            //Remove user from the event
+            $.ajax({
+                type: "DELETE",
+                headers: {'Authorization': 'token ' + currentUser.auth_token},
+                dataType: "json",
+                contentType: "application/json",
+                url: production + "rendezvous/delete_event_details/" + this.id + "/",
+                success: function (data) {
+                    var parameters = {"tracking_enabled": "false"};
+                    var endpoint = inviters_email + currentUser.email;
+
+                    //Update tracking_enabled field
+                    $.ajax({
+                        type: "PATCH",
+                        data: JSON.stringify(parameters),
+                        headers: {'Authorization': 'token ' + currentUser.auth_token},
+                        dataType: "json",
+                        contentType: "application/json",
+                        url: production + "rendezvous/updateFriendTracking/" + endpoint + "/",
+                        success: function (data) {
+                            //Send push notification
+                            var name = currentUser.firstName + " " + currentUser.lastName;
+                            var msg = name + " has left the Event!";
+                            var t = "response";
+                            var parameters = {
+                                accepted:true,
+                                type:t,
+                                from_friend_email: currentUser.email,
+                                to_friend_email: inviters_email,
+                                from_friend_name: name,
+                                message: msg,
+                                from_friend: currentUser.email,
+                                to_friend: inviters_email
+                            };
+
+                            $.ajax({
+                                type: "POST",
+                                dataType: "json",
+                                data: JSON.stringify(parameters),
+                                headers: {'Authorization': 'Token ' + currentUser.auth_token},
+                                contentType: "application/json",
+                                url: production + "/rendezvous/notifications/",
+                                success: function(data){
+                                    console.log("Successfully sent push message notification");
+                                    console.log(data);
+                                },
+                                error: function(data){
+                                    console.log("Failed sending push message notification.");
+                                    console.log(data);
+                                }
+                            });
+                        },
+                        error: function (data) {
+                            console.log("Error updating tracking_enabled field");
+                            console.log(data);
+                        }
+                    });
+                },
+                error: function (data) {
+                    console.log("Error removing user from event");
+                    console.log(data);
+                }
+            });
         });
     }
 

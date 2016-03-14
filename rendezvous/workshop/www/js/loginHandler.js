@@ -77,6 +77,7 @@ function setCurrentUserAndRedirect(token)
             savePushMessagingRegistrationId(token);
             getTrackers(token, data.email);
             getEvents(token, data.email);
+            getInvitedEvents(token, data.email);
             getFriends(token, data.email);
         },
         error: function(data){
@@ -195,8 +196,28 @@ function getEvents(token, email)
             console.log(data);
             var userEvents = [];
             userEvents.push(data);
-
             localStorage.setItem('userEvents', JSON.stringify(userEvents));
+        },
+        error: function(data){
+            console.log(data);
+        }
+    })
+}
+
+function getInvitedEvents(token, email)
+{
+    $.ajax({
+        type:"GET",
+        dataType: "json",
+        headers: { 'Authorization': 'Token '+ token },
+        contentType: "application/json",
+        url: production + "rendezvous/get_attending_events/" + email + "/",
+        success: function(data) {
+            console.log("Creating invited events list");
+            console.log(data);
+            var invitedEvents = [];
+            invitedEvents.push(data);
+            localStorage.setItem('invitedEvents', JSON.stringify(invitedEvents));
         },
         error: function(data){
             console.log(data);

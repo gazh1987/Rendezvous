@@ -79,4 +79,8 @@ urlpatterns = format_suffix_patterns([
     url(r'^delete_event_details/(?P<lookup_field>.+)/$',
         views.DeleteEventDetails.as_view(),
         name='delete-event-details'),
+
+    url(r'^get_attending_events/(?P<user>.+)/$',
+        views.GetAttendingEvents.as_view(),
+        name='get-attending-details')
 ])
