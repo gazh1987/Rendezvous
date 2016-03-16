@@ -137,32 +137,34 @@ function populateTrackersList()
     var listOfTrackers = document.getElementById('listOfTrackers');
     listOfTrackers.innerHTML = "";
 
-    for (i = 0; i < trackersList.length; i++)
-    {
-        $.ajax({type: "GET",
-            dataType: "json",
-            headers: { 'Authorization': 'Token ' + userLoginData.auth_token},
-            contentType: "application/json",
-            url: production + "rendezvous/users/" + trackersList[i] + "/",
-            success: function(data){
-                console.log(data);
+    if(trackersList != null) {
+        for (i = 0; i < trackersList.length; i++) {
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                headers: {'Authorization': 'Token ' + userLoginData.auth_token},
+                contentType: "application/json",
+                url: production + "rendezvous/users/" + trackersList[i] + "/",
+                success: function (data) {
+                    console.log(data);
 
-                var newTracker = "<li style=\"padding: 10px;\" data-icon=\"true\">" +
-                    "<strong>Tracker: </strong>" + data.first_name + " " + data.last_name + "<br>" +
-                    "<strong>Email:   </strong>" + data.email + "<br><br>" +
-                    "<button name=\"stopAllowingTracking\" class=\"btn\" id=\"temp_tracker_id\" data-id=\"to_friend_email\" onClick=\"stopAllowingTracking(this.id, this.dataset.id)\">Stop Tracking</button><br>" +
-                    "</li><hr>";
+                    var newTracker = "<li style=\"padding: 10px;\" data-icon=\"true\">" +
+                        "<strong>Tracker: </strong>" + data.first_name + " " + data.last_name + "<br>" +
+                        "<strong>Email:   </strong>" + data.email + "<br><br>" +
+                        "<button name=\"stopAllowingTracking\" class=\"btn\" id=\"temp_tracker_id\" data-id=\"to_friend_email\" onClick=\"stopAllowingTracking(this.id, this.dataset.id)\">Stop Tracking</button><br>" +
+                        "</li><hr>";
 
-                listOfTrackers.innerHTML = listOfTrackers.innerHTML + newTracker;
+                    listOfTrackers.innerHTML = listOfTrackers.innerHTML + newTracker;
 
-                stop_btn = document.getElementById("temp_tracker_id");
-                stop_btn.setAttribute("id", data.email + "" + userLoginData.email);
-                stop_btn.setAttribute("data-id", data.email);
-            },
-            error: function(data){
-                console.log("Unable to retrieve trackers details");
-            }
-        });
+                    stop_btn = document.getElementById("temp_tracker_id");
+                    stop_btn.setAttribute("id", data.email + "" + userLoginData.email);
+                    stop_btn.setAttribute("data-id", data.email);
+                },
+                error: function (data) {
+                    console.log("Unable to retrieve trackers details");
+                }
+            });
+        }
     }
 }
 

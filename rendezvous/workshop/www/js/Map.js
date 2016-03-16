@@ -40,6 +40,7 @@ var Map = function()
     var uCir;
     function onLocationFound(e) {
         console.log("Token: " + currentUser.auth_token);
+        console.log(e);
         if (postGateOpen == true) {
             postGateOpen = false;
             openPostGate();
@@ -106,7 +107,7 @@ var Map = function()
                 console.log("Friends to track length=" + friendsToTrack.length);
                 for (var i = 0; i < friendsToTrack.length; i++) {
                     setupFriendMarker(friendsToTrack[i]);
-                    trackFriendsId = setInterval(trackFriends, 2000);
+                    trackFriendsId = setInterval(trackFriends, 10000);
                 }
             }
         }
@@ -654,7 +655,6 @@ var Map = function()
         }
     }
 
-
     function checkIfTrackingEnabled(friend)
     {
         console.log("Checking if tracking is enabled for friend: " + friend);
@@ -681,7 +681,6 @@ var Map = function()
             }
         });
     }
-
 
     function openPostGate()
     {

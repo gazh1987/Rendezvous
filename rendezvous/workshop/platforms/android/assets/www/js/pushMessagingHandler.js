@@ -427,7 +427,7 @@ var parseCoordinates = function (c)
 {
     var point = c.toString();
     var latIndexStart = point.indexOf("(");
-    var latIndexEnd = point.indexOf(" ", point.indexOf(" ") + 1); //Get the second occourence of " "
+    var latIndexEnd = point.indexOf(" ", point.indexOf(" ") + 1); //Get the second occurrence of " "
     var lat = point.substring(latIndexStart + 1, latIndexEnd);
     var lonIndexStart = point.indexOf(" ", point.indexOf(" ") + 1);
     var lonIndexEnd = point.indexOf(")"); //Get the second occourence of " "
