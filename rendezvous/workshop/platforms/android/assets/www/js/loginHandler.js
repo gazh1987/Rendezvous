@@ -116,6 +116,7 @@ function getFriends(token, email)
 {
     $.ajax({
         type:"GET",
+        async: false,
         dataType: "json",
         headers: { 'Authorization': 'Token '+ token },
         contentType: "application/json",
@@ -128,6 +129,7 @@ function getFriends(token, email)
                 friendsList.push(data[i].to_friend_email);
             }
             localStorage.setItem('friendsList', JSON.stringify(friendsList));
+            console.log("Friends received");
             window.location.assign("main.html");
         },
         error: function(data){
@@ -141,6 +143,7 @@ function getTrackers(token, email)
     //Get friends tracking user
     $.ajax({
         type:"GET",
+        async: false,
         dataType: "json",
         headers: { 'Authorization': 'Token '+ token },
         contentType: "application/json",
@@ -154,6 +157,7 @@ function getTrackers(token, email)
                 trackersList.push(data[i].from_friend_email);
             }
             localStorage.setItem('trackersList', JSON.stringify(trackersList));
+            console.log("Trackers recieved");
         },
         error: function(data){
             console.log(data);
@@ -187,6 +191,7 @@ function getEvents(token, email)
 {
     $.ajax({
         type:"GET",
+        async: false,
         dataType: "json",
         headers: { 'Authorization': 'Token '+ token },
         contentType: "application/json",
@@ -197,6 +202,7 @@ function getEvents(token, email)
             var userEvents = [];
             userEvents.push(data);
             localStorage.setItem('userEvents', JSON.stringify(userEvents));
+            console.log("Events recieved");
         },
         error: function(data){
             console.log(data);
@@ -208,6 +214,7 @@ function getInvitedEvents(token, email)
 {
     $.ajax({
         type:"GET",
+        async: false,
         dataType: "json",
         headers: { 'Authorization': 'Token '+ token },
         contentType: "application/json",
@@ -218,6 +225,7 @@ function getInvitedEvents(token, email)
             var invitedEvents = [];
             invitedEvents.push(data);
             localStorage.setItem('invitedEvents', JSON.stringify(invitedEvents));
+            console.log("Invited events received");
         },
         error: function(data){
             console.log(data);

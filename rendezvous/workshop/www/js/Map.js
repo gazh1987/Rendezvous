@@ -39,8 +39,11 @@ var Map = function()
     var uMkr;
     var uCir;
     function onLocationFound(e) {
+
+        //Draw the compass
+        draw(e.heading, e.latlng);
+
         console.log("Token: " + currentUser.auth_token);
-        console.log(e);
         if (postGateOpen == true) {
             postGateOpen = false;
             openPostGate();
@@ -87,7 +90,8 @@ var Map = function()
                                 icon: friendMarker,
                                 riseOnHover: true,
                                 draggable: true,
-                            }).bindPopup("<a href='#inviteFriendsList' class='marker-invite-button btn btn-primary btn-xs' style='color: white;'>Invite Friends</a><br><br>" +
+                            }).bindPopup("<input type='button' value='Compass Directions' class='marker-compass-button btn-success'/><br><br>" +
+                                "<a href='#inviteFriendsList' class='marker-invite-button btn btn-primary btn-xs' style='color: white;'>Invite Friends</a><br><br>" +
                                 "<input type='button' value='Delete this marker' class='marker-delete-button btn-danger'/><br>");
 
                             marker.on("popupopen", onEventPopupOpen);
@@ -149,7 +153,8 @@ var Map = function()
                                         icon: friendMarker,
                                         riseOnHover: true,
                                         draggable: true,
-                                    }).bindPopup("<input type='button' name='" + data.event_creator_email + "' id='" + lup + "' value='Leave this event' class='marker-leave-event-button btn-danger'/>");
+                                    }).bindPopup("<input type='button' value='Compass Directions' class='marker-compass-button btn-success'/><br><br>" +
+                                        "<input type='button' name='" + data.event_creator_email + "' id='" + lup + "' value='Leave this event' class='marker-leave-event-button btn-danger'/>");
 
                                     marker.on("popupopen", onEventPopupOpen);
                                     return marker;
@@ -192,7 +197,8 @@ var Map = function()
                     icon: friendMarker,
                     riseOnHover: true,
                     draggable: true,
-                }).bindPopup("<a href='#inviteFriendsList' class='marker-invite-button btn btn-primary btn-xs' style='color: white;'>Invite Friends</a><br><br>" +
+                }).bindPopup("<input type='button' value='Compass Directions' class='marker-compass-button btn-success'/><br><br>" +
+                    "<a href='#inviteFriendsList' class='marker-invite-button btn btn-primary btn-xs' style='color: white;'>Invite Friends</a><br><br>" +
                              "<input type='button' value='Delete this marker' class='marker-delete-button btn-danger'/><br>");
 
                 marker.on("popupopen", onEventPopupOpen);
@@ -205,6 +211,11 @@ var Map = function()
     function onEventPopupOpen()
     {
         var marker = this;
+        $(".marker-compass-button:visible").click(function () {
+            target = marker._latlng;
+            compassInUse = true;
+        });
+
         $(".marker-invite-button:visible").click(function () {
             var event_lookup_field = currentUser.email + marker._latlng;
              localStorage.setItem('event_lookup_field', JSON.stringify(event_lookup_field));
@@ -492,7 +503,6 @@ var Map = function()
                 tempMkr = L.marker([parsedCoords.longitude, parsedCoords.latitude], {icon: userMarker}).bindPopup("<b>" + data.first_name + " "
                     + data.last_name + "</b><br><p>" + data.email + "</p>" +
                     "<input type='button' id='" + data.email + "'value='Stop tracking' class='friend-delete-button btn-danger'/>");
-                //" + data.email +  "\
 
                 tempMkr.on("popupopen", onFriendPopupOpen);
                 /***

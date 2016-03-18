@@ -42,8 +42,9 @@ h3
     margin: 1px;
 }
 
-.btn-primary, .btn-danger
+.btn-primary, .btn-danger, .btn-success
 {
+    border: 0px;
     border-radius: 10px;
     width: 100%;
 }

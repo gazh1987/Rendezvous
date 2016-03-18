@@ -328,7 +328,8 @@ function eventAcceptedHandler(id, event_lookup_field, currentUser)
                                 icon: friendMarker,
                                 riseOnHover: true,
                                 draggable: true,
-                            }).bindPopup("<input type='button' name='" + id + "' id='" + lup + "' value='Leave this event' class='marker-leave-event-button btn-danger'/>");
+                            }).bindPopup("<input type='button' value='Compass Directions' class='marker-compass-button btn-success'/><br><br>" +
+                                "<input type='button' name='" + id + "' id='" + lup + "' value='Leave this event' class='marker-leave-event-button btn-danger'/>");
 
                             marker.on("popupopen", onEventPopupOpen);
                             return marker;
@@ -351,6 +352,10 @@ function eventAcceptedHandler(id, event_lookup_field, currentUser)
 function onEventPopupOpen()
 {
     var marker = this;
+    $(".marker-compass-button:visible").click(function () {
+        target = marker._latlng;
+        compassInUse = true;
+    });
 
     $(".marker-leave-event-button:visible").click(function () {
         map.removeLayer(marker);

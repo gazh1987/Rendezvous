@@ -42,8 +42,9 @@ h3
     margin: 1px;
 }
 
-.btn-primary, .btn-danger
+.btn-primary, .btn-danger, .btn-success
 {
+    border: 0px;
     border-radius: 10px;
     width: 100%;
 }
@@ -61,6 +62,16 @@ div.fixed {
     margin: 15px;
     border-radius: 10px;
     background-color: rgba(160, 160, 153, 0.34);
+}
+
+div.fixed-arrow {
+    position: fixed;
+    bottom: 0px;
+    left: 13px;
+    width: 40px;
+    margin: 15px;
+    border-radius: 10px;
+    background-color: transparent;
 }
 
 .alert_not
