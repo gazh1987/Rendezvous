@@ -7,6 +7,9 @@ var User = function(firstName, lastName, email, token)
     this.auth_token = token;
 }
 
+/**
+ * Summary: Patches the location of the user to the rendezvoususers database table
+ * */
 User.prototype.PostLastKnownPosition = function(user)
 {
     var email = user.email;

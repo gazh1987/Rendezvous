@@ -1,8 +1,13 @@
 /**
  * Scripts that handle all push messaging related interactions
  */
+
+/**
+ * Summary: Fired when all device API's are loaded.
+ */
 function onDeviceReady()
 {
+    //Initialises push notification functionality
     var push = PushNotification.init({
         android: {
             senderID: "428341243093"
@@ -10,15 +15,19 @@ function onDeviceReady()
         windows: {}
     });
 
+    //Gets the devices registration id from Google Cloud Messaging (GCM) API and stores
+    //it in local storage to be accessed later at login.
     push.on('registration', function(data) {
         localStorage.setItem('registration_id', JSON.stringify(data.registrationId));
     });
 
+    //Called when the device can not be registered on GCM
     push.on('error', function(e) {
         console.log("Error registering device");
         console.log(e);
     });
 
+    //Called when the device recieves a new push message
     push.on('notification', function(data) {
         //Set new notification variable
         var new_notification = true;
@@ -35,6 +44,10 @@ function onDeviceReady()
     });
 }
 
+/**
+ * Summary: Called when user clicks the notification button. Gets new notifications from
+ *          the API and resets the colour of the notifu=ication button
+ */
 $(document).ready(function(){
     $(".notification_btn").click(function() {
         var elements = document.getElementsByName("alert_not");
@@ -56,6 +69,10 @@ $(document).ready(function(){
 
     });
 
+    /**
+     * Summary: Sends a GET request to the API to retrieve all notifications
+     *          associated with the current user
+     */
     function getNewNotifications()
     {
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -77,6 +94,10 @@ $(document).ready(function(){
     }
 });
 
+/**
+ * Summary: Sends a GET request to the API to retrieve all notifications
+ *          associated with the current user.
+ */
 function populateNotificationsList()
 {
     console.log("Clicked_not");
@@ -96,6 +117,7 @@ function populateNotificationsList()
             var btn;
             var del_btn;
 
+            //Populates the notifications view
             for(var i = notificationsArray.length - 1; i >= 0; i--)
             {
                 var tStamp = parseTimestamp(notificationsArray[i].timestamp);
@@ -131,6 +153,9 @@ function populateNotificationsList()
 
                 not_list.innerHTML = not_list.innerHTML + newNotification;
 
+                //Sets some attributes for the notifications so when the accept / delete button
+                //is clicked, the correct API calls can be made using the details of the friend
+                //associated with this notification
                 if (notificationsArray[i].accepted == false)
                 {
                     //Dynamically set id of the button
@@ -160,6 +185,9 @@ function populateNotificationsList()
     });
 }
 
+/**
+ * Summary: Called when a user accepts a rendezvous request
+ * */
 function acceptRendezvousRequest(id, timestamp, event_lookup_field)
 {
     btn = document.getElementById("temp_id");
@@ -167,7 +195,8 @@ function acceptRendezvousRequest(id, timestamp, event_lookup_field)
     var endPoint = id + "" + currentUser.email;
     var parameters = { "tracking_enabled": "true" };
 
-    //First update the tracking_enabled field
+    //First update the tracking_enabled field of the friend relationship between The reuest sender
+    //and the user
     $.ajax({
         type: "PATCH",
         data: JSON.stringify(parameters),
@@ -198,7 +227,7 @@ function acceptRendezvousRequest(id, timestamp, event_lookup_field)
                     //Update the notifications list
                     populateNotificationsList();
 
-                    //Update the trackers List to list the user request that was just accepted
+                    //Update the trackers List to show the user who is now tracking your location
                     var trackersList = JSON.parse(localStorage.getItem('trackersList'));
                     trackersList.push(id);
                     localStorage.setItem('trackersList', JSON.stringify(trackersList));
@@ -252,6 +281,9 @@ function acceptRendezvousRequest(id, timestamp, event_lookup_field)
     });
 }
 
+/**
+ * Summary: deletes a notifcation from the database
+ */
 function deleteRendezvousRequest(id)
 {
     var currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -272,6 +304,9 @@ function deleteRendezvousRequest(id)
     });
 }
 
+/**
+ * Takes out unwanted extra date and time information from a timetamp
+ */
 function parseTimestamp(t)
 {
     var date = t.substring(0, t.indexOf("T"));
@@ -280,6 +315,9 @@ function parseTimestamp(t)
     return datetime;
 }
 
+/**
+ * Summary: Called when a user accepts an invitation to an event
+ */
 function eventAcceptedHandler(id, event_lookup_field, currentUser)
 {
     var lup = currentUser.email + event_lookup_field;
@@ -294,7 +332,7 @@ function eventAcceptedHandler(id, event_lookup_field, currentUser)
         contentType: "application/json",
         url: production + "/rendezvous/add_event_details/",
         success: function(data){
-            //Place the event coordinates details
+            //Get the event details
             $.ajax({
                 type: "GET",
                 dataType: "json",
@@ -311,7 +349,7 @@ function eventAcceptedHandler(id, event_lookup_field, currentUser)
                     });
                     var coords = parseCoordinates(data.coordinates);
 
-                    //Place marker on the map
+                    //Place event marker on the map
                     var geojsonFeature = {
                     "type": "Feature",
                         "properties": {},
@@ -349,14 +387,19 @@ function eventAcceptedHandler(id, event_lookup_field, currentUser)
     });
 }
 
+/**
+ *  Summary: Opens a popUp window with various options when the user clicks on a particular event.
+ */
 function onEventPopupOpen()
 {
     var marker = this;
+    //Point compass to this event
     $(".marker-compass-button:visible").click(function () {
         target = marker._latlng;
         compassInUse = true;
     });
 
+    //Leave the event
     $(".marker-leave-event-button:visible").click(function () {
         map.removeLayer(marker);
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));

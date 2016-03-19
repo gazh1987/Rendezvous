@@ -19,13 +19,15 @@
         <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 	    <script src="js/pushMessagingHandler.js"></script>
         <script type="text/javascript" charset="utf-8">
+            /**
+             * Summary: Fired when the page has loaded.
+             */
             function onLoad()
             {
                 document.addEventListener("deviceready", onDeviceReady, false);
                 initCompass();
             }
         </script>
-
     </head>
 
 	<body onload="onLoad()">
@@ -190,6 +192,10 @@
                 var m = new Map();
             });
 
+            /**
+             * Summary: If there is a new notification when the user logs in,
+             *          change the colour of the bell to alert the user.
+             */
             var new_notification = JSON.parse(localStorage.getItem('new_notification'));
             if (new_notification == true)
             {

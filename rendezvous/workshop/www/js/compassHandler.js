@@ -1,7 +1,48 @@
-// Global variable
-var target;
-var compassInUse = false;
+/**
+ * Name:    compassHandler.js
+ * Summary: code for handling all compass functionality
+ */
+
 var img = null, ctx = null;
+var target;
+var targetId;
+var compassInUse = false;
+
+/**
+ * Summary:     Sets up the global variables needed to operate the compass.
+ * Variables
+ *      target:         The target coordinates of where the compass should point
+ *      targetId:       The email address of the user being tracked by the compass.
+ *                      Will be set to "Event" if the compass is pointing to an event.
+ *      compassInUse:   Boolean flag that stores whether or not the comass in in use.
+ */
+function CreateTarget(t, tId)
+{
+    target = t;
+    targetId = tId;
+    compassInUse = true;
+}
+
+/**
+ * Summary: Resets the global variables needed to operate the compass when the compass
+ *          is reset.
+ */
+function RemoveTarget()
+{
+    target = null;
+    targetId = null;
+    compassInUse = false;
+}
+
+/**
+ * Summary:     Update the target coordinate when a friends location change.
+ * Parameters
+ *      t: Object containing latitude and longitude coordinates of friend being tracked.
+ */
+function UpdateTarget(t)
+{
+    target = t;
+}
 
 function clearCanvas() {
 	ctx.clearRect(0, 0, 200, 200);
@@ -9,15 +50,10 @@ function clearCanvas() {
 
 function initCompass()
 {
-    // Grab the compass element
     var canvas = document.getElementById('compass');
-
-    // Make sure canvas is supported
     if(canvas.getContext('2d'))
     {
         ctx = canvas.getContext('2d');
-
-        // Load the arrow image
         arrow = new Image();
         arrow.src = 'images/arrow.png';
     }
@@ -27,6 +63,14 @@ function initCompass()
     }
 }
 
+/**
+ * Summary:     Given the Target location and the users current location and heading,
+ *              this function calculates the direction which the compass should face
+ *              and then draws the compass onto the canvas.
+ * Parameters
+ *      heading:    The current direction that the user is moving, in degrees.
+ *      currentPos: The current latitude and longitude positions of the user
+ * */
 function draw(heading, currentPos)
 {
     clearCanvas();
@@ -42,7 +86,7 @@ function draw(heading, currentPos)
             var brng = bearing(currentPos.lat, currentPos.lng, target.lat, target.lng);
             var directionToTravel = brng - heading;
             if (directionToTravel < 0) {
-                directionToTravel = directionToTravel += 360;
+               directionToTravel = directionToTravel += 360;
             }
             ctx.rotate(directionToTravel * (Math.PI / 180));
         }
@@ -56,6 +100,15 @@ function draw(heading, currentPos)
     ctx.restore();
 }
 
+/**
+ * Summary:     Giving two locations, calculates the bearing between the two point.
+ * Parameters
+ *      lat1:   The users current latitude position
+ *      lng1:   The users current longitude position
+ *      lat2:   The target destination latitude position
+ *      lng2:   The target destination longitude position
+ * Returns:     The bearing between the two points
+ */
 function bearing(lat1,lng1,lat2,lng2)
 {
     var dLon = (lng2-lng1);
@@ -65,19 +118,28 @@ function bearing(lat1,lng1,lat2,lng2)
     return 360 - ((brng + 360) % 360);
 }
 
+/**
+ * Summary: Degrees to Radians function
+ */
 function _toRad(deg)
 {
     return deg * Math.PI / 180;
 }
 
+/**
+ * Summary: Radians to Degrees function
+ */
 function _toDeg(rad)
 {
         return rad * 180 / Math.PI;
 }
 
+/**
+ * Summary: Resets all compass global variables and draws the compass.
+ *          The compass points north when variables are not set.
+ */
 function resetCompass()
 {
-    compassInUse = false;
-    target = null;
+    RemoveTarget();
     draw();
 }

@@ -13,6 +13,10 @@
         <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
         <script src="js/pushMessagingHandler.js"></script>
         <script type="text/javascript" charset="utf-8">
+            /**
+             * Summary: Fired when the page has loaded. It then creates an event listener
+             *          that is fired when the devices API's are loaded.
+             */
             function onLoad()
             {
                 document.addEventListener("deviceready", onDeviceReady, false);
@@ -63,7 +67,9 @@
             </div>
         </div>
         <script>
-            //Set up login details for easier login
+            /**
+             * Summary: Set up login details for easier login
+             */
             var loginEmail = localStorage.getItem('loginEmail');
             loginEmail = loginEmail.replace(/\"/g, '');
             document.getElementById("email").value = loginEmail;

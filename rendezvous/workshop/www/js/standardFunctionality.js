@@ -3,7 +3,9 @@ var production = "http://rendezvous-704e3pxx.cloudapp.net/";
 
 $(document).ready(function() {
 
-    //Logout function
+    /**
+     * Summary: Logs the current user out of the application
+     */
     $("#logout").click(function (event) {
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
         console.log("Logging out user: " + currentUser.email);
@@ -30,6 +32,9 @@ $(document).ready(function() {
         });
     });
 
+    /**
+     * Summary: Creates a new relationship between one user and another
+     */
     $("#createFriendHandler").click(function(event){
         console.log("Creating Friendship");
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -39,6 +44,7 @@ $(document).ready(function() {
         var lookup = currentUser.email + "" + friend;
         var parameters = {from_friend: currentUser.email, from_friend_email: currentUser.email, to_friend: friend, to_friend_email: friend, lookupField: lookup};
 
+        //Post relationship to API
         $.ajax({
             type: "POST",
             data: JSON.stringify(parameters),
@@ -60,13 +66,16 @@ $(document).ready(function() {
     });
 });
 
+/**
+ * Summary: Sends a GET request to retrieve all people who the user is friends with.
+ *          It then populates the friends view with these users.
+ */
 function populateFriendsList()
 {
     console.log("Populating friends list");
 
     var userLoginData = JSON.parse(localStorage.getItem('user'));
     var friendsList = JSON.parse(localStorage.getItem('friendsList'));
-
     var listOfFriends = document.getElementById('listOfFriends');
 
     for (i = 0; i < friendsList.length; i++)
@@ -94,6 +103,10 @@ function populateFriendsList()
     }
 }
 
+/**
+ * Summary: Similar to populateFriendsList function, this view is shown when a user
+ *          is inviting a friend to an event.
+ */
 function populateInviteFriendsList()
 {
     console.log("Populating invite friends list");
@@ -127,13 +140,16 @@ function populateInviteFriendsList()
     }
 }
 
+/**
+ * Summary: Takes all users in the trackersList that was populated at login and send individual GET requests
+ *          to retrive the trackers information. This information is then used to populate the trackers list
+ */
 function populateTrackersList()
 {
     console.log("Populating trackers list");
 
     var userLoginData = JSON.parse(localStorage.getItem('user'));
     var trackersList = JSON.parse(localStorage.getItem('trackersList'));
-
     var listOfTrackers = document.getElementById('listOfTrackers');
     listOfTrackers.innerHTML = "";
 
@@ -168,6 +184,9 @@ function populateTrackersList()
     }
 }
 
+/**
+ * Summary: Send a Patch request to the API that stops a friend from tracking the current user.
+ */
 function stopAllowingTracking(endpoint, id)
 {
     var currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -213,6 +232,7 @@ function stopAllowingTracking(endpoint, id)
                     console.log(data);
                     var trackersList = JSON.parse(localStorage.getItem('trackersList'));
 
+                    //Remove the friend from the trackers list and update it
                     var index = trackersList.indexOf(id);
                     if (index > -1)
                     {

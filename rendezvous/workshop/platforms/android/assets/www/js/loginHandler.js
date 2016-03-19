@@ -2,6 +2,13 @@ var localHost = "http://localhost:8000/";
 var production = "http://rendezvous-704e3pxx.cloudapp.net/";
 
 $(document).ready(function() {
+
+    /**
+     * Summary: Login event handler. POSTS users email and password
+     *          to API and return an token if the credentials are
+     *          accepted. The token gives the user permission to
+     *          access data on the server.
+     */
     $("#login").submit(function(event){
         event.preventDefault();
         var email = $("#email").val().toLowerCase();
@@ -25,6 +32,11 @@ $(document).ready(function() {
         });
     });
 
+    /**
+    * Summary:  Send a HTTP POST request to the API and registers the users
+     *          details. An validation email is sent to the users provided email address.
+     *          Then redirects to the login page.
+    */
     $("#register").submit(function(event)
     {
         event.preventDefault();
@@ -61,6 +73,11 @@ $(document).ready(function() {
     });
 });
 
+/**
+ * Summary:     GETS the users details from the API and creates a User object.
+ * Parameters
+ *      token:  The API access token for the user logging in.
+ */
 function setCurrentUserAndRedirect(token)
 {
     $.ajax({
@@ -87,6 +104,10 @@ function setCurrentUserAndRedirect(token)
     });
 }
 
+/**
+ * Summary: Saves the Google Cloud Messaging device id in the database with a
+ *          relationship with the current User logging in.
+ */
 function savePushMessagingRegistrationId(token)
 {
     console.log("Token = " + token);
@@ -112,6 +133,12 @@ function savePushMessagingRegistrationId(token)
     });
 }
 
+/**
+ * Summary: Sends a HTTP GET request to the API and retrieves all
+ *          users that the user is friends with.
+ *          This list of friends is then stored in localStorage so
+ *          it can be accessed throughout the application.
+ */
 function getFriends(token, email)
 {
     $.ajax({
@@ -138,6 +165,12 @@ function getFriends(token, email)
     })
 }
 
+/**
+ * Summary: Send a HTTP GET request to the API and retrieves all
+ *          friends that are currently tracking the user logging in.
+ *          This list of friends is then stored in localStorage so
+ *          it can be accessed throughout the application.
+ */
 function getTrackers(token, email)
 {
     //Get friends tracking user
@@ -164,7 +197,12 @@ function getTrackers(token, email)
         }
     })
 
-    //Get friends user is tracking
+    /**
+     * Summary: Send a HTTP GET request to the API and retrieves all
+     *          friends that the user is currently tracking.
+     *          This list of friends is then stored in localStorage so
+     *          it can be accessed throughout the application.
+     */
     $.ajax({
         type:"GET",
         dataType: "json",
@@ -187,6 +225,12 @@ function getTrackers(token, email)
     })
 }
 
+/**
+ * Summary: Send a HTTP GET request to the API and retrieves all
+ *          Events that the user created.
+ *          This list of events is then stored in localStorage so
+ *          it can be accessed throughout the application.
+ */
 function getEvents(token, email)
 {
     $.ajax({
@@ -210,6 +254,12 @@ function getEvents(token, email)
     })
 }
 
+/**
+ * Summary: Send a HTTP GET request to the API and retrieves all
+ *          Events that the User is invited to.
+ *          This list of events is then stored in localStorage so
+ *          it can be accessed throughout the application.
+ */
 function getInvitedEvents(token, email)
 {
     $.ajax({
@@ -233,6 +283,9 @@ function getInvitedEvents(token, email)
     })
 }
 
+/**
+ * Summary: Checks that the details entered in the registration screen are valid.
+ */
 function validityCheck(firstName, lastName, email, password, passwordCheck)
 {
     if (firstName == "" || firstName == null)
