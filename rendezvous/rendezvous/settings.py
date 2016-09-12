@@ -52,7 +52,7 @@ DEFAULT_EMAIL_BCC = ''
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'gazh1987@gmail.com'
-EMAIL_HOST_PASSWORD = 'garyanthony' #Add password when registering new users
+EMAIL_HOST_PASSWORD = '' #Add password when registering new users
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 SERVER_EMAIL = 'gazh1987@gmail.com'
@@ -117,7 +117,7 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'rendezvous',
         'USER': 'postgres',
-        'PASSWORD': 'g21031987H',
+        'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
