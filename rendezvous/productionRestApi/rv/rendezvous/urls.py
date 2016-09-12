@@ -7,10 +7,7 @@ urlpatterns = [
 
     url(r'^', include('authemail.urls')),
 
-    #Path to api root
-    #Superuser
-    #Email: gary.healy2@student.dit TODO:create an admin email
-    #password: admin
+
     url(r'^rendezvous/', include('restApi.urls'))
 ]
 
